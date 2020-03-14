@@ -1,0 +1,36 @@
+\subsection{SEIRD}
+\subsubsection{符号表}
+	\begin{table}[H]
+	\centering
+	\label{table:SEIRD模型符号表}
+	\caption{SEIRD模型符号表}
+	\begin{tabular}{llll}
+		\hline
+		符号&含义&符号&含义\\
+		\hline
+		S&健康人数&$\alpha$&病毒传播速率\\
+		E&携带者人数&$\beta_1$&潜伏期患病速率\\
+		D&死亡人数&$\beta_2$&患者致死率\\
+		I&患病人数&$\gamma_1$&患者康复率\\
+		R&康复人数&$\gamma_2$&潜伏期康复率\\
+		\hline
+	\end{tabular}
+	\end{table}
+\subsubsection{模型}
+	SEIR模型可以表示为
+	\begin{align}
+		\dt{S}&=-\alpha S(I+E) \\
+		\dt{E}&=\alpha S(I+E)-(\beta_1+\gamma_2)E \\
+		\dt{I}&=\beta_1E-(\gamma_1+\beta_2)I \\
+		\dt{R}&=\gamma_2E+\gamma_1I \\
+		\dt{D}&=\beta_2I
+	\end{align}
+	\par 式中，$S(t)+E(t)+I(t)+R(t)+D(t)=People_{sum}$
+	疾病最终的未影响人数$S_\infty$，康复人数$R_\infty$和死亡人数$D_\infty$通过数值积分得到。
+\subsubsection{结果}
+	\begin{figure}[H]
+		\centering
+		\includegraphics[scale=0.5]{infect_SEIRD.eps}
+		\caption{SEIRD模型}
+	\end{figure}
+	

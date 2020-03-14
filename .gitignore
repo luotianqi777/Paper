@@ -1,0 +1,12 @@
+/Other
+# LaTeX
+*.aux
+*.bbl
+*.toc
+*.blg
+*.synctex.gz
+*.log
+# Python(Pycharm)
+*.xml
+*.iml
+Python/__*
