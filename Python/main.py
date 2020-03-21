@@ -1,8 +1,7 @@
 import predict
+import SEIR
 
 if __name__ == '__main__':
-    # model = predict.SI()
-    # model.run()
     # model = predict.SIS()
     # model.run()
     # model = predict.SIR()
@@ -11,5 +10,7 @@ if __name__ == '__main__':
     # model.run()
     # model = predict.SEIR()
     # model.run()
-    model = predict.SEIRD()
-    model.run()
+    # model = predict.SEIRD()
+    # model.run()
+    model = SEIR.BaseMode()
+    model.run(100)

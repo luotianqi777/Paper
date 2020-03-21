@@ -1,22 +1,23 @@
 \subsection{SEIR}
-\subsubsection{符号表}
-\begin{table}[H]
-	\centering
-	\caption{SEIR模型符号表}
-	\begin{tabular}{llll}
-		\hline
-		符号&含义&符号&含义\\
-		\hline
-		\hline
-	\end{tabular}
-\end{table}
-\subsubsection{模型}
-	SEIR模型可以表示为
+\par 考虑潜伏期，在$SIR$的基础上加入病毒携带者人群，即为$SEIR$模型：
+\begin{itemize}
+	\item 人群
+	\subitem $S$：易感者
+	\subitem $I$：感染者
+	\subitem $R$：康复者
+	\subitem $E$：携带者
+	\item 感染机制
+	\subitem
 	\begin{align}
+	\TP{S}{E}{SIE}\\
+	\TP{E}{I}{E}\\
+	\TP{I}{R}{I}
 	\end{align}
-\subsubsection{结果}
-	\begin{figure}[H]
-		\centering
-		\includegraphics[scale=0.5]{infect_SEIR.eps}
-		\caption{SEIR模型预测结果}
-	\end{figure}
+	
+\end{itemize}
+%\subsubsection{结果}
+%	\begin{figure}[H]
+%		\centering
+%		\includegraphics[scale=0.5]{infect_SEIR.eps}
+%		\caption{SEIR模型预测结果}
+%	\end{figure}
