@@ -35,10 +35,9 @@ class WebCrawler(object):
             if frame.shape[1] == 1:
                 frame.columns = [key]
             else:
-                frame.columns = [key+'_'+column for column in frame.columns]
+                frame.columns = [key + '_' + column for column in frame.columns]
             result.append(frame)
         data = pd.concat(result, axis=1)
-        data = data.cumsum()
         data.plot()
         plt.show()
 
@@ -64,7 +63,7 @@ class DayList(WebCrawler):
         super().__init__(keys=['date', 'today'])
 
     def getData(self):
-        self.data=self.data['chinaDayList']
+        self.data = self.data['chinaDayList']
 
 
 if __name__ == '__main__':

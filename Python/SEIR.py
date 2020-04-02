@@ -27,7 +27,7 @@ class BaseModel(object):
         # death people
         self.d = 0
         # a2b is probability of a to b
-        self.s2e = 0.3
+        self.s2e = 0.5
         self.e2i = 0.2
         self.s2i = self.s2e
         self.e2r = 0.2
@@ -103,6 +103,8 @@ class SEIRD(BaseModel):
         self.r += e2r + i2r
         self.d += i2d
         return [self.s, self.i, self.r, self.e, self.d]
+        # Derivative
+        # return [s2e, e2i, e2r+i2r, s2e, i2d]
 
 
 class SEIRC(BaseModel):
@@ -116,6 +118,6 @@ class SEIRC(BaseModel):
 
 if __name__ == '__main__':
     model = SEIRD()
-    model.run(100)
+    model.run(70)
     # model = SEIR()
     # model.run(100)
