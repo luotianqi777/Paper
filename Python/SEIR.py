@@ -9,15 +9,15 @@ class BaseModel(object):
         # model name
         self.name = name
         # line color
-        self.color = ['b', 'r', 'g', 'pink', 'grey']
+        self.color = ['b', 'r', 'g', 'pink', 'grey', '']
         # line label
-        self.label = ['susceptible', 'infectious', 'recovered', 'exposed', 'death']
+        self.label = ['susceptible', 'infectious', 'recovered', 'exposed', 'death', '']
         # line style
-        self.style = ['-', ':', '-.', '--', '-']
+        self.style = ['-', ':', '-.', '--', '-', '']
         # all people
-        self.a = 1e3
+        self.a = 1
         # susceptible people
-        self.s = self.a - 10
+        self.s = 0.99
         # exposed people
         self.e = 0
         # infectious people
@@ -27,12 +27,12 @@ class BaseModel(object):
         # death people
         self.d = 0
         # a2b is probability of a to b
-        self.s2e = 0.3/self.a
-        self.e2i = 0.1
-        self.s2i = self.s2e*self.e2i/self.a
+        self.s2e = 0.3
+        self.e2i = 0.2
+        self.s2i = self.s2e
         self.e2r = 0.2
         self.i2r = 0.1
-        self.i2d = 0.1
+        self.i2d = 0.01
 
     def run(self, loop_times=30):
         # save result
@@ -48,7 +48,7 @@ class BaseModel(object):
         # set title
         plt.title(self.name)
         # save figure
-        plt.savefig('../LaTeX/figure/'+self.name+'.eps', format='eps')
+        plt.savefig('../LaTeX/figure/' + self.name + '.eps', format='eps')
         # clear and show figure
         plt.show()
 
@@ -76,7 +76,7 @@ class SEIR(BaseModel):
         super().__init__('SEIR')
 
     def integrate(self, t):
-        s2e = self.s * self.s2e * (self.e+self.i)
+        s2e = self.s * self.s2e * (self.e + self.i)
         e2i = self.e * self.e2i
         i2r = self.i * self.i2r
         self.s += -s2e
@@ -86,6 +86,36 @@ class SEIR(BaseModel):
         return [self.s, self.i, self.r, self.e]
 
 
+class SEIRD(BaseModel):
+
+    def __init__(self):
+        super().__init__('SEIRD')
+
+    def integrate(self, t):
+        s2e = self.s2e * self.s * (self.i + self.e)
+        e2i = self.e2i * self.e
+        e2r = self.e2r * self.e
+        i2r = self.i2r * self.i
+        i2d = self.i2d * self.i
+        self.s += -s2e
+        self.e += s2e - e2i - e2r
+        self.i += e2i - i2r - i2d
+        self.r += e2r + i2r
+        self.d += i2d
+        return [self.s, self.i, self.r, self.e, self.d]
+
+
+class SEIRC(BaseModel):
+
+    def __init__(self):
+        super().__init__('SEIRC')
+
+    def integrate(self, t):
+        pass
+
+
 if __name__ == '__main__':
-    model = SEIR()
+    model = SEIRD()
     model.run(100)
+    # model = SEIR()
+    # model.run(100)
