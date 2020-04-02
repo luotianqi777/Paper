@@ -32,10 +32,7 @@ class WebCrawler(object):
         result = []
         for key in self.keys:
             frame = pd.DataFrame([unit[key] for unit in self.data])
-            if frame.shape[1] == 1:
-                frame.columns = [key]
-            else:
-                frame.columns = [key + '_' + column for column in frame.columns]
+            frame.columns = [key] if frame.shape[1] == 1 else [key + '_' + column for column in frame.columns]
             result.append(frame)
         data = pd.concat(result, axis=1)
         data.plot()
