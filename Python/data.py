@@ -25,6 +25,20 @@ class WebCrawler(object):
         self.data = json.loads(r.text)['data']
         self.keys = keys
         self.savePath = 'data.csv'
+        self.nameDict = {
+            'date': '日期',
+            'today_confirm': '今日确诊',
+            'today_dead': '今日死亡',
+            'today_heal': '今日治愈',
+            'today_severe': '今日重症',
+            'today_storeConfirm': '累计确诊',
+            'today_suspect': '今日疑似',
+            'total_confirm': '累计确诊',
+            'total_dead': '累计死亡',
+            'total_heal': '累计治愈',
+            'total_severe': '累计重症',
+            'total_suspect': '累计疑似'
+        }
 
     def getData(self):
         pass
@@ -36,24 +50,27 @@ class WebCrawler(object):
             frame.columns = [key] if frame.shape[1] == 1 else [key + '_' + column for column in frame.columns]
             result.append(frame)
         data = pd.concat(result, axis=1)
-        data.to_csv(self.savePath, index=None)
+        data['today_storeConfirm'] = data['total_confirm'] - data['total_dead'] - data['total_heal']
+        data['date'] = pd.to_datetime(data['date'])
+        data.set_index('date', inplace=True)
+        data.to_csv(self.savePath)
 
     def run(self):
         if not os.path.exists(self.savePath):
             self.saveData()
         data = pd.read_csv(self.savePath)
-        data['today_storeConfirm'] = data['total_confirm']-data['total_dead']-data['total_heal']
-        data['date'] = pd.to_datetime(data['date'])
-        data.set_index('date', inplace=True)
         print(data.describe())
         print(data.info())
-        data[['today_storeConfirm', 'today_confirm', 'today_heal', 'today_dead', 'total_dead']].plot(marker='o', ms=3)
+        plot_data = data[['today_storeConfirm', 'today_confirm', 'today_heal', 'today_dead', 'total_dead']]
+        # my system not supply chinese
+        # replace columns name from english to chinese, rule is nameDict
+        # plot_data.rename(columns=self.nameDict, inplace=True)
+        plot_data.plot(marker='o', ms=3)
         plt.legend(bbox_to_anchor=[1, 1])
         plt.grid(axis='y')
         plt.ylabel('people')
         plt.box(False)
         plt.show()
-
 
 
 class Province(WebCrawler):
@@ -85,4 +102,3 @@ if __name__ == '__main__':
     crawler = DayList()
     # crawler = Country()
     crawler.run()
-
