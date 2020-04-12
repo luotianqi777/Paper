@@ -1,28 +1,22 @@
-"""
-    author: LTQ
-    time: 20.4.2
-    get COVID-19 data by web crawler
-"""
-import os
 import json
 import requests
 import pandas as pd
-import matplotlib.pyplot as plt
-import pyecharts.options as opts
-import pyecharts.charts as charts
-import pyecharts.faker as faker
 
 
 class WebCrawler(object):
 
     def __init__(self, keys):
+        # 请求头
         self.headers = {
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'
         }
+        # 访问位置：网易的数据
         self.url = 'https://c.m.163.com/ug/api/wuhan/app/data/list-total'
+        # 提取关键字
         self.keys = keys
+        # 结果储存位置
         self.savePath = 'data.csv'
-        self.data = []
+        # 英汉映射
         self.nameDict = {
             'date': '日期',
             'today_confirm': '今日确诊',
@@ -38,48 +32,44 @@ class WebCrawler(object):
             'total_suspect': '累计疑似'
         }
 
+    # 获取数据
     def getData(self):
-        pass
-
-    def saveData(self):
+        # 请求数据
         r = requests.get(url=self.url, headers=self.headers)
+        # 检查是否成功
         if not r.status_code == 200:
             print('request error')
+            return
         else:
             print('request success')
-        self.data = json.loads(r.text)['data']
+            # 返回读取数据
+            return json.loads(r.text)['data']
+
+    # 运行爬虫并保存数据
+    def run(self):
         result = []
+        data = self.getData()
+        # 截取每个关键字
         for key in self.keys:
-            frame = pd.DataFrame([unit[key] for unit in self.getData()])
+            # 提取每个关键字的数据
+            frame = pd.DataFrame([unit[key] for unit in data])
+            # 更改列名
             frame.columns = [key] if frame.shape[1] == 1 else [
                 key + '_' + column for column in frame.columns]
             result.append(frame)
+        # 将数据进行拼接
         data = pd.concat(result, axis=1)
+        # 计算截至今日已确诊人数
         data['today_storeConfirm'] = data['total_confirm'] - \
             data['total_dead'] - data['total_heal']
+        # 将日期列数据类型改为date类
         data['date'] = pd.to_datetime(data['date'])
+        # 将日期设为索引
         data.set_index('date', inplace=True)
+        # 储存数据
         data.to_csv(self.savePath)
-
-    def run(self):
-        if not os.path.exists(self.savePath):
-            self.saveData()
-        data = pd.read_csv(self.savePath)
-        print(data.describe())
-        print(data.info())
-        plot_data = data[['today_storeConfirm', 'today_confirm',
-                          'today_heal', 'today_dead', 'total_dead']]
-        '''
-            my system not supply chinese
-            replace columns name from english to chinese, rule is nameDict
-        '''
-        # plot_data.rename(columns=self.nameDict, inplace=True)
-        plot_data.plot(marker='o', ms=3)
-        plt.legend(bbox_to_anchor=[1, 1])
-        plt.grid(axis='y')
-        plt.ylabel('people')
-        plt.box(False)
-        plt.show()
+        # 输出提示信息
+        print('数据获取完成，保存到'+self.savePath)
 
 
 class Province(WebCrawler):
@@ -87,7 +77,7 @@ class Province(WebCrawler):
         super().__init__(keys=['name', 'total', 'today'])
 
     def getData(self):
-        return self.data['areaTree'][2]['children']
+        return super().getData()['areaTree'][2]['children']
 
 
 class Country(WebCrawler):
@@ -95,7 +85,7 @@ class Country(WebCrawler):
         super().__init__(keys=['name', 'total', 'today'])
 
     def getData(self):
-        return self.data['areaTree']
+        return super().getData()['areaTree']
 
 
 class DayList(WebCrawler):
@@ -103,7 +93,7 @@ class DayList(WebCrawler):
         super().__init__(keys=['date', 'today', 'total'])
 
     def getData(self):
-        return self.data['chinaDayList']
+        return super().getData()['chinaDayList']
 
 
 if __name__ == '__main__':
