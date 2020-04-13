@@ -1,19 +1,18 @@
+import os
 import json
 import requests
 import pandas as pd
 
 
-class WebCrawler(object):
+class dataCrawler(object):
 
-    def __init__(self, keys):
+    def __init__(self):
         # 请求头
         self.headers = {
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'
         }
         # 访问位置：网易的数据
         self.url = 'https://c.m.163.com/ug/api/wuhan/app/data/list-total'
-        # 提取关键字
-        self.keys = keys
         # 结果储存位置
         self.savePath = 'data.csv'
         # 英汉映射
@@ -32,25 +31,20 @@ class WebCrawler(object):
             'total_suspect': '累计疑似'
         }
 
-    # 获取数据
-    def getData(self):
+    def __run__(self):
         # 请求数据
         r = requests.get(url=self.url, headers=self.headers)
         # 检查是否成功
         if not r.status_code == 200:
-            print('request error')
+            print('请求数据失败')
             return
         else:
-            print('request success')
-            # 返回读取数据
-            return json.loads(r.text)['data']
-
-    # 运行爬虫并保存数据
-    def run(self):
+            print('请求数据成功')
+            # 读取读取数据
+            data = json.loads(r.text)['data']['chinaDayList']
         result = []
-        data = self.getData()
         # 截取每个关键字
-        for key in self.keys:
+        for key in ['date', 'today', 'total']:
             # 提取每个关键字的数据
             frame = pd.DataFrame([unit[key] for unit in data])
             # 更改列名
@@ -62,43 +56,24 @@ class WebCrawler(object):
         # 计算截至今日已确诊人数
         data['today_storeConfirm'] = data['total_confirm'] - \
             data['total_dead'] - data['total_heal']
+        # 储存数据
+        data.to_csv(self.savePath, index=False)
+        # 输出提示信息
+        print('数据获取完成，保存到' + self.savePath)
+
+    def getData(self, index=False):
+        # 未找到数据文件则获取数据
+        if not os.path.exists(self.savePath):
+            self.__run__()
+        # 读取数据
+        data = pd.read_csv(self.savePath)
         # 将日期列数据类型改为date类
         data['date'] = pd.to_datetime(data['date'])
         # 将日期设为索引
-        data.set_index('date', inplace=True)
-        # 储存数据
-        data.to_csv(self.savePath)
-        # 输出提示信息
-        print('数据获取完成，保存到'+self.savePath)
-
-
-class Province(WebCrawler):
-    def __init__(self):
-        super().__init__(keys=['name', 'total', 'today'])
-
-    def getData(self):
-        return super().getData()['areaTree'][2]['children']
-
-
-class Country(WebCrawler):
-    def __init__(self):
-        super().__init__(keys=['name', 'total', 'today'])
-
-    def getData(self):
-        return super().getData()['areaTree']
-
-
-class DayList(WebCrawler):
-    def __init__(self):
-        super().__init__(keys=['date', 'today', 'total'])
-
-    def getData(self):
-        return super().getData()['chinaDayList']
+        if index:
+            data.set_index('date', inplace=True)
+        return data
 
 
 if __name__ == '__main__':
-    # crawler = Province()
-    crawler = DayList()
-    # crawler = Country()
-    # crawler.saveData()
-    crawler.run()
+    print(dataCrawler().getData().describe())
