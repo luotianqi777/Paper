@@ -4,7 +4,7 @@ import requests
 import pandas as pd
 
 
-class dataCrawler(object):
+class DataCrawler(object):
 
     def __init__(self):
         # 请求头
@@ -14,7 +14,7 @@ class dataCrawler(object):
         # 访问位置：网易的数据
         self.url = 'https://c.m.163.com/ug/api/wuhan/app/data/list-total'
         # 结果储存位置
-        self.savePath = 'data.csv'
+        self.savePath = 'out/data.csv'
         # 英汉映射
         self.nameDict = {
             'date': '日期',
@@ -61,19 +61,16 @@ class dataCrawler(object):
         # 输出提示信息
         print('数据获取完成，保存到' + self.savePath)
 
-    def getData(self, index=False):
+    def getData(self):
         # 未找到数据文件则获取数据
         if not os.path.exists(self.savePath):
             self.__run__()
         # 读取数据
         data = pd.read_csv(self.savePath)
-        # 将日期列数据类型改为date类
-        data['date'] = pd.to_datetime(data['date'])
         # 将日期设为索引
-        if index:
-            data.set_index('date', inplace=True)
+        data.set_index('date', inplace=True)
         return data
 
 
 if __name__ == '__main__':
-    print(dataCrawler().getData().describe())
+    print(DataCrawler().getData().describe())

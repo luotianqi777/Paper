@@ -1,24 +1,30 @@
 import pandas as pd
-from dataCrawler import dataCrawler
+from dataCrawler import DataCrawler
 from pyecharts.charts import Line
+from pyecharts import options as opts
 from pyecharts.render import make_snapshot
 from snapshot_phantomjs import snapshot
 
 
-class dataAnalysis(object):
+class DataAnalysis(object):
 
     def __init__(self):
+        # 截取数据
         self.keys = ['today_storeConfirm', 'today_confirm',
                      'today_heal', 'today_dead', 'total_dead']
-        self.outfile = 'out.png'
-        self.data = dataCrawler().getData()
+        # 输出文件
+        self.outfile = 'out/analysis.png'
 
     def analysis(self):
-        line = Line().add_xaxis(self.data['date'].values)
-        for key in self.keys:
-            line.add_yaxis(series_name=key, y_axis=self.data[key])
+        data = DataCrawler().getData()
+        line = Line().add_xaxis(data.index.tolist())
+        # for key in self.keys:
+        for key in data.columns:
+            line.add_yaxis(series_name=key,
+                           y_axis=data[key].tolist(),
+                           label_opts=opts.LabelOpts(is_show=False))
         make_snapshot(snapshot, line.render(), self.outfile)
 
 
 if __name__ == "__main__":
-    dataAnalysis().analysis()
+    DataAnalysis().analysis()

@@ -1,4 +1,4 @@
-import SEIR
+import model
 
-if __name__ == '__main__':
-    SEIR.SEIRD().run(100)
+if __name__ == "__main__":
+    model.SEIR().run()
