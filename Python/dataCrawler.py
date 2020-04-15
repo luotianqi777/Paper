@@ -2,11 +2,13 @@ import os
 import json
 import requests
 import pandas as pd
+from baseClass import BaseClass
 
 
-class DataCrawler(object):
+class DataCrawler(BaseClass):
 
     def __init__(self):
+        super().__init__()
         # 请求头
         self.headers = {
             'user-agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36'
@@ -14,7 +16,7 @@ class DataCrawler(object):
         # 访问位置：网易的数据
         self.url = 'https://c.m.163.com/ug/api/wuhan/app/data/list-total'
         # 结果储存位置
-        self.savePath = 'out/data.csv'
+        self.savePath = self.getSavePath('data.csv')
         # 英汉映射
         self.nameDict = {
             'date': '日期',

@@ -20,27 +20,27 @@
 	\label{table:SIR模型符号表}
 	\begin{tabular}{ll}
 		\hline
-		符号&含义\\
+		符号     & 含义                     \\
 		\hline
-		S&易感者\\
-		I&感染者\\
-		R&康复者\\
-		$\alpha$&$S$群体变为$I$群体的概率\\
-		$\beta$&$I$群体变为$R$群体的概率\\
+		S        & 易感者                   \\
+		I        & 感染者                   \\
+		R        & 康复者                   \\
+		$\alpha$ & $S$群体变为$I$群体的概率 \\
+		$\beta$  & $I$群体变为$R$群体的概率 \\
 		\hline
 	\end{tabular}
 \end{table}
 \subsubsection{模型}
 \par 感染机制如下：
 \begin{align}
-S(t)&\xrightarrow \alpha I(t)\\
-I(t)&\xrightarrow \beta R(t)
+	S(t) & \xrightarrow \alpha I(t) \\
+	I(t) & \xrightarrow \beta R(t)
 \end{align}
 可以用积分方程表示为
 \begin{align}
-\dt{S} &= -\alpha SI\\
-\dt{I} &= \alpha SI - \beta I\\
-\dt{R} &= \beta I
+	\dt{S} & = -\alpha SI          \\
+	\dt{I} & = \alpha SI - \beta I \\
+	\dt{R} & = \beta I
 \end{align}
 \subsection{对于模型表述方式的讨论}
 \par 经典SIR模型的表述方式简洁直观，但在扩建模型时会产生一些问题：
@@ -52,13 +52,13 @@ I(t)&\xrightarrow \beta R(t)
 	\caption{新的SIR模型符号表}
 	\begin{tabular}{ll}
 		\hline
-		符号&含义\\
+		符号       & 含义                              \\
 		\hline
-		S&易感者\\
-		I&感染者\\
-		R&康复者\\
-		$\P{a}{b}$&a群体变为b群体的概率\\
-		$\T{a}{b}$&单位时间$t$内a群体变为b群体的人数\\
+		S          & 易感者                            \\
+		I          & 感染者                            \\
+		R          & 康复者                            \\
+		$\P{a}{b}$ & a群体变为b群体的概率              \\
+		$\T{a}{b}$ & 单位时间$t$内a群体变为b群体的人数 \\
 		\hline
 	\end{tabular}
 \end{table}
@@ -66,13 +66,13 @@ I(t)&\xrightarrow \beta R(t)
 \subsubsection{新的模型表述}
 \par 感染机制如下：
 \begin{align}
-S(t)\xrightarrow{\P{S}{I}}I(t) \Rightarrow \TP{S}{I}{SI}\\
-I(t)\xrightarrow{\P{I}{R}}R(t) \Rightarrow \TP{I}{R}{I}
+	S(t)\xrightarrow{\P{S}{I}}I(t) \Rightarrow \TP{S}{I}{SI} \\
+	I(t)\xrightarrow{\P{I}{R}}R(t) \Rightarrow \TP{I}{R}{I}
 \end{align}
 \par 可将其简化为：
 \begin{align}
-\TP{S}{I}{SI}\\
-\TP{I}{R}{I}
+	\TP{S}{I}{SI} \\
+	\TP{I}{R}{I}
 \end{align}
 \par 将所有人群放到一个集合$\mathbb{A}$中，则模型的积分方程为：
 \begin{equation}
@@ -83,20 +83,14 @@ I(t)\xrightarrow{\P{I}{R}}R(t) \Rightarrow \TP{I}{R}{I}
 \par 现在，可以这样方便清晰的来描述$SIR$模型：
 \begin{itemize}
 	\item 人群
-	\subitem $S$：易感者
-	\subitem $I$：感染者
-	\subitem $R$：康复者
+	      \subitem $S$：易感者
+	      \subitem $I$：感染者
+	      \subitem $R$：康复者
 	\item 感染机制
-	\subitem 
-	\begin{align}
-	\TP{S}{I}{SI}\\
-	\TP{I}{R}{I}
-	\end{align}
-	\includegraphics[scale=1]{SIR.eps}
+	      \subitem
+	      \begin{align}
+		      \TP{S}{I}{SI} \\
+		      \TP{I}{R}{I}
+	      \end{align}
+	      \includegraphics[scale=1]{SIR.eps}
 \end{itemize}
-%\subsubsection{结果}
-%	\begin{figure}[H]
-%		\centering
-%		\includegraphics[scale=0.5]{infect_SIR.eps}
-%		\caption{SIR模型预测结果}
-%	\end{figure}

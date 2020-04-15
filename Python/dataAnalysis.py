@@ -1,3 +1,4 @@
+from baseClass import BaseClass
 import pandas as pd
 from dataCrawler import DataCrawler
 from pyecharts.charts import Line
@@ -6,14 +7,15 @@ from pyecharts.render import make_snapshot
 from snapshot_phantomjs import snapshot
 
 
-class DataAnalysis(object):
+class DataAnalysis(BaseClass):
 
     def __init__(self):
+        super().__init__()
         # 截取数据
         self.keys = ['today_storeConfirm', 'today_confirm',
                      'today_heal', 'today_dead', 'total_dead']
         # 输出文件
-        self.outfile = 'out/analysis.png'
+        self.outfile = self.getSavePath('analysis.png')
 
     def analysis(self):
         data = DataCrawler().getData()

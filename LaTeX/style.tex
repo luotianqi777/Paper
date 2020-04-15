@@ -9,11 +9,12 @@
 % 图片宏包
 \usepackage{graphicx}
 % 图片文件夹路径
-\graphicspath{{figure/}}
+\graphicspath{{../Output/}}
 % 文献引用风格
 \usepackage{natbib}
 \usepackage[number]{gbt7714}
-\bibliographystyle{unstr}
+% 解决字体警告
+\usepackage{anyfontsize}
 % 积分算子
 \newcommand{\dt}[1]{\frac{\mathrm{d}#1}{\mathrm{d}t}}
 % 概率

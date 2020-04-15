@@ -1,17 +1,20 @@
 import matplotlib.pyplot as plt
 import numpy as np
+from baseClass import BaseClass
 
 
 # more great design
-class BaseModel(object):
+class BaseModel(BaseClass):
 
     def __init__(self, name):
+        super().__init__()
         # model name
         self.name = name
         # line color
         self.color = ['b', 'r', 'g', 'pink', 'grey', '']
         # line label
-        self.label = ['susceptible', 'infectious', 'recovered', 'exposed', 'death', '']
+        self.label = ['susceptible', 'infectious',
+                      'recovered', 'exposed', 'death', '']
         # line style
         self.style = ['-', ':', '-.', '--', '-', '']
         # all people
@@ -39,7 +42,8 @@ class BaseModel(object):
         data = np.asarray([self.integrate(t) for t in range(loop_times)])
         # draw lines
         for raw in range(data.shape[1]):
-            plt.plot(data[:, raw], color=self.color[raw], linestyle=self.style[raw], label=self.label[raw])
+            plt.plot(data[:, raw], color=self.color[raw],
+                     linestyle=self.style[raw], label=self.label[raw])
         # set axis label
         plt.xlabel('time')
         plt.ylabel('people')
@@ -48,7 +52,7 @@ class BaseModel(object):
         # set title
         plt.title(self.name)
         # save figure
-        plt.savefig('../LaTeX/figure/' + self.name + '.eps', format='eps')
+        plt.savefig(self.getSavePath(self.name+'.eps'), format='eps')
         # clear and show figure
         plt.show()
 
