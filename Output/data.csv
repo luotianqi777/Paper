@@ -1,4 +1,4 @@
-date,today_confirm,today_dead,today_heal,today_severe,today_storeConfirm,today_suspect,total_confirm,total_dead,total_heal,total_severe,total_suspect
+日期,今日确诊,今日死亡,今日治愈,今日重症,累计确诊,今日疑似,累计确诊,累计死亡,累计治愈,累计重症,累计疑似
 2020-01-20,291,6,25,0,260,27,291,6,25,0,54
 2020-01-21,149,3,0,0,406,26,440,9,25,102,37
 2020-01-22,131,8,3,0,526,257,571,17,28,95,393

@@ -10,8 +10,8 @@ class BaseModel(BaseClass):
     def __init__(self, name):
         super().__init__(name)
         # line label
-        self.label = ['susceptible', 'infectious',
-                      'recovered', 'exposed', 'death', '']
+        self.label = ['易感人群', '确诊人群',
+                      '康复人群', '携带未患病', '死亡人数', '']
         # all people
         self.a = 1
         # susceptible people
@@ -24,13 +24,6 @@ class BaseModel(BaseClass):
         self.r = 0
         # death people
         self.d = 0
-        # a2b is probability of a to b
-        self.s2e = 0.5
-        self.e2i = 0.2
-        self.s2i = self.s2e
-        self.e2r = 0.2
-        self.i2r = 0.1
-        self.i2d = 0.01
 
     def run(self, loop_times=30):
         # save result
@@ -43,7 +36,13 @@ class BaseModel(BaseClass):
         self.saveImage(line.render())
 
     def integrate(self, t):
-        pass
+        # a2b is probability of a to b
+        self.s2e = 0.5
+        self.e2i = 0.2
+        self.s2i = self.s2e
+        self.e2r = 0.2
+        self.i2r = 0.1
+        self.i2d = 0.01
 
 
 class SIR(BaseModel):
@@ -52,6 +51,7 @@ class SIR(BaseModel):
         super().__init__('SIR')
 
     def integrate(self, t):
+        super().integrate(t)
         s2i = self.i * self.s * self.s2i
         i2r = self.i * self.i2r
         self.s += -s2i
@@ -66,6 +66,7 @@ class SEIR(BaseModel):
         super().__init__('SEIR')
 
     def integrate(self, t):
+        super().integrate(t)
         s2e = self.s * self.s2e * (self.e + self.i)
         e2i = self.e * self.e2i
         i2r = self.i * self.i2r
@@ -78,10 +79,11 @@ class SEIR(BaseModel):
 
 class SEIRD(BaseModel):
 
-    def __init__(self):
-        super().__init__('SEIRD')
+    def __init__(self, name='SEIRD'):
+        super().__init__(name)
 
     def integrate(self, t):
+        super().integrate(t)
         s2e = self.s2e * self.s * (self.i + self.e)
         e2i = self.e2i * self.e
         e2r = self.e2r * self.e
@@ -93,8 +95,6 @@ class SEIRD(BaseModel):
         self.r += e2r + i2r
         self.d += i2d
         return [self.s, self.i, self.r, self.e, self.d]
-        # Derivative
-        # return [s2e, e2i, e2r+i2r, s2e, i2d]
 
 
 class SEIRC(BaseModel):
@@ -103,6 +103,7 @@ class SEIRC(BaseModel):
         super().__init__('SEIRC')
 
     def integrate(self, t):
+        super().integrate(t)
         pass
 
 

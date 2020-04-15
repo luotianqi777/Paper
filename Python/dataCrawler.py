@@ -58,6 +58,8 @@ class DataCrawler(BaseClass):
         # 计算截至今日已确诊人数
         data['today_storeConfirm'] = data['total_confirm'] - \
             data['total_dead'] - data['total_heal']
+        # 英汉映射
+        data.rename(columns=self.nameDict, inplace=True)
         # 储存数据
         data.to_csv(self.savePath, index=False)
         # 输出提示信息
@@ -70,7 +72,7 @@ class DataCrawler(BaseClass):
         # 读取数据
         data = pd.read_csv(self.savePath)
         # 将日期设为索引
-        data.set_index('date', inplace=True)
+        data.set_index('日期', inplace=True)
         return data
 
 
