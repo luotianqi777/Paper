@@ -1,22 +1,17 @@
-import matplotlib.pyplot as plt
 import numpy as np
 from baseClass import BaseClass
+from pyecharts.charts import Line
+from pyecharts import options as opts
 
 
 # more great design
 class BaseModel(BaseClass):
 
     def __init__(self, name):
-        super().__init__()
-        # model name
-        self.name = name
-        # line color
-        self.color = ['b', 'r', 'g', 'pink', 'grey', '']
+        super().__init__(name)
         # line label
         self.label = ['susceptible', 'infectious',
                       'recovered', 'exposed', 'death', '']
-        # line style
-        self.style = ['-', ':', '-.', '--', '-', '']
         # all people
         self.a = 1
         # susceptible people
@@ -40,21 +35,12 @@ class BaseModel(BaseClass):
     def run(self, loop_times=30):
         # save result
         data = np.asarray([self.integrate(t) for t in range(loop_times)])
+        line = Line().add_xaxis(xaxis_data=range(loop_times))
         # draw lines
         for raw in range(data.shape[1]):
-            plt.plot(data[:, raw], color=self.color[raw],
-                     linestyle=self.style[raw], label=self.label[raw])
-        # set axis label
-        plt.xlabel('time')
-        plt.ylabel('people')
-        # set label
-        plt.legend()
-        # set title
-        plt.title(self.name)
-        # save figure
-        plt.savefig(self.getSavePath(self.name+'.eps'), format='eps')
-        # clear and show figure
-        plt.show()
+            line.add_yaxis(
+                series_name=self.label[raw], y_axis=data[:, raw], label_opts=opts.LabelOpts(is_show=False))
+        self.saveImage(line.render())
 
     def integrate(self, t):
         pass
@@ -121,7 +107,6 @@ class SEIRC(BaseModel):
 
 
 if __name__ == '__main__':
-    model = SEIRD()
-    model.run(70)
-    # model = SEIR()
-    # model.run(100)
+    SIR().run(50)
+    SEIR().run()
+    SEIRD().run()

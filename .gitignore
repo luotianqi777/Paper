@@ -9,4 +9,5 @@
 # Python(Pycharm)
 *.xml
 *.iml
+render.html
 Python/__*
