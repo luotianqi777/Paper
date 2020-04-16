@@ -7,29 +7,41 @@ from pyecharts import options as opts
 
 class DataAnalysiser(BaseClass):
 
-    def __init__(self, name, keys):
+    def __init__(self, name='数据分析图'):
         super().__init__(name=name)
-        self.keys = keys
+        self.data = DataCrawler().getData()
+        self.keys = self.data.columns
 
-    def analysis(self):
-        data = DataCrawler().getData()
-        line = (Line()
-                .add_xaxis(data.index.tolist())
-                .set_global_opts(title_opts=opts.TitleOpts(title=self.name)))
-        for key in self.keys:
-            line.add_yaxis(series_name=key,
-                           y_axis=data[key].tolist(),
-                           label_opts=opts.LabelOpts(is_show=False),
-                           is_smooth=True)
-        self.saveImage(line.render())
-
-
-# 日期,今日确诊,今日死亡,今日治愈,今日重症,累计确诊,今日疑似,累计确诊,累计死亡,累计治愈,累计重症,累计疑似
 
 class A(DataAnalysiser):
     def __init__(self):
-        super().__init__(name='疫情数据A', keys=['累计确诊', '累计死亡', '累计治愈', '累计疑似'])
+        super().__init__(name='疫情数据')
+
+
+class B(DataAnalysiser):
+    def __init__(self):
+        super().__init__(name='确诊重症死亡比例')
+
+    def setLineData(self):
+        self.data['确诊重症比例'] = self.data['重症']/self.data['确诊']
+        self.data['确诊死亡比例'] = self.data['死亡']/self.data['确诊']
+        self.data['重症死亡比例'] = self.data['死亡']/self.data['重症']
+        self.keys = ['确诊重症比例', '确诊死亡比例', '重症死亡比例']
+
+
+class C(DataAnalysiser):
+    def __init__(self):
+        super().__init__(name='每日新增人数')
+
+    def setLineData(self):
+        self.data = self.data - self.data.shift(1)
+
+
+def saveAllImage():
+    A().drawLine()
+    B().drawLine()
+    C().drawLine()
 
 
 if __name__ == "__main__":
-    A().analysis()
+    saveAllImage()

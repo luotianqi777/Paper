@@ -1,7 +1,6 @@
 import numpy as np
+import pandas as pd
 from baseClass import BaseClass
-from pyecharts.charts import Line
-from pyecharts import options as opts
 
 
 # more great design
@@ -10,8 +9,8 @@ class BaseModel(BaseClass):
     def __init__(self, name):
         super().__init__(name)
         # line label
-        self.label = ['易感人群', '确诊人群',
-                      '康复人群', '携带未患病', '死亡人数', '']
+        self.keys = ['易感人群', '确诊人群',
+                     '康复人群', '携带未患病', '死亡人数', '']
         # all people
         self.a = 1
         # susceptible people
@@ -25,23 +24,22 @@ class BaseModel(BaseClass):
         # death people
         self.d = 0
 
-    def run(self, loop_times=30):
+    def run(self, loop_times=60):
         # save result
-        data = np.asarray([self.integrate(t) for t in range(loop_times)])
-        line = Line().add_xaxis(xaxis_data=range(loop_times))
-        # draw lines
-        for raw in range(data.shape[1]):
-            line.add_yaxis(
-                series_name=self.label[raw], y_axis=data[:, raw], label_opts=opts.LabelOpts(is_show=False))
-        self.saveImage(line.render())
+        self.data = np.asarray([self.integrate(t) for t in range(loop_times)])
+        count = self.data.shape[1]
+        self.keys = self.keys[:count]
+        self.data = pd.DataFrame(self.data)
+        self.data.columns = self.keys
+        self.drawLine()
 
     def integrate(self, t):
-        # a2b is probability of a to b
-        self.s2e = 0.5
-        self.e2i = 0.2
+        # a2b is probability rate of a to b
+        self.s2e = 0.5 - 0.005*t
+        self.e2i = 0.8
         self.s2i = self.s2e
-        self.e2r = 0.2
-        self.i2r = 0.1
+        self.e2r = 0.002 * t
+        self.i2r = 0.005 * t
         self.i2d = 0.01
 
 
@@ -97,17 +95,21 @@ class SEIRD(BaseModel):
         return [self.s, self.i, self.r, self.e, self.d]
 
 
-class SEIRC(BaseModel):
+class SEIRD_(SEIRD):
 
     def __init__(self):
-        super().__init__('SEIRC')
+        super().__init__('SEIRD_变化')
 
-    def integrate(self, t):
-        super().integrate(t)
-        pass
+    def setLineData(self):
+        self.data -= self.data.shift(1)
 
 
-if __name__ == '__main__':
-    SIR().run(50)
+def saveAllImage():
+    SIR().run()
     SEIR().run()
     SEIRD().run()
+    SEIRD_().run()
+
+
+if __name__ == "__main__":
+    SEIRD_().run()

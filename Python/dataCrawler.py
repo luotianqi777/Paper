@@ -20,17 +20,11 @@ class DataCrawler(BaseClass):
         # 英汉映射
         self.nameDict = {
             'date': '日期',
-            'today_confirm': '今日确诊',
-            'today_dead': '今日死亡',
-            'today_heal': '今日治愈',
-            'today_severe': '今日重症',
-            'today_storeConfirm': '累计确诊',
-            'today_suspect': '今日疑似',
-            'total_confirm': '累计确诊',
-            'total_dead': '累计死亡',
-            'total_heal': '累计治愈',
-            'total_severe': '累计重症',
-            'total_suspect': '累计疑似'
+            'confirm': '确诊',
+            'dead': '死亡',
+            'heal': '治愈',
+            'severe': '重症',
+            'suspect': '疑似',
         }
 
     def __run__(self):
@@ -44,22 +38,18 @@ class DataCrawler(BaseClass):
             print('请求数据成功')
             # 读取读取数据
             data = json.loads(r.text)['data']['chinaDayList']
-        result = []
-        # 截取每个关键字
-        for key in ['date', 'today', 'total']:
-            # 提取每个关键字的数据
-            frame = pd.DataFrame([unit[key] for unit in data])
-            # 更改列名
-            frame.columns = [key] if frame.shape[1] == 1 else [
-                key + '_' + column for column in frame.columns]
-            result.append(frame)
-        # 将数据进行拼接
-        data = pd.concat(result, axis=1)
-        # 计算截至今日已确诊人数
-        data['today_storeConfirm'] = data['total_confirm'] - \
-            data['total_dead'] - data['total_heal']
+        # 获取日期
+        _date = pd.DataFrame([unit['date'] for unit in data])
+        # 修改列名
+        _date.columns = ['date']
+        # 获取数据
+        _data = pd.DataFrame([unit['total'] for unit in data])
+        # 拼接数据
+        data = pd.concat([_date, _data], axis=1)
         # 英汉映射
         data.rename(columns=self.nameDict, inplace=True)
+        # 计算截至目前确诊人数
+        data['确诊'] = data['确诊']-data['死亡']-data['治愈']
         # 储存数据
         data.to_csv(self.savePath, index=False)
         # 输出提示信息
