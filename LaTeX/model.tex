@@ -51,7 +51,7 @@
 \subsubsection{新的符号表}
 \begin{table}[H]
     \centering
-    \caption{新的SIR模型符号表}
+    \caption{新的模型符号表}
     \begin{tabular}{ll}
         \hline
         符号       & 含义                              \\
@@ -82,7 +82,7 @@
 \end{equation}
 \par 其中$a\in\mathbb{A}$，$b\in\mathbb{A}$且$b\not=a$，不在感染机制中的$\T{a}{b}$为$0$。
 \par 值得注意的是，该积分式对本文中提到的所有模型都适用，这意味着我们将不必再关心模型的积分式，只需关注模型新引入的群体及其引起的感染机制$\T{a}{b}$变化即可。
-\par 现在，可以这样方便清晰的来描述$SIR$模型：
+\par 现在，可以仅通过感染机制来方便清晰的描述$SIR$模型：
 \begin{itemize}
     \item 人群
           \subitem $S$：易感者
@@ -95,6 +95,7 @@
               \TP{I}{R}{I}
           \end{align}
     \item 图像
+          \\
           \includegraphics[width=.9\textwidth]{SIR.png}
 \end{itemize}
 \subsection{SEIR模型}
@@ -113,6 +114,7 @@
               \TP{I}{R}{I}
           \end{align}
     \item 图像
+          \\
           \includegraphics[width=.9\textwidth]{SEIR.png}
 \end{itemize}
 \subsection{SEIRD模型}
@@ -134,6 +136,7 @@
               \TP{I}{D}{I}
           \end{align}
     \item 图像
+          \\
           \includegraphics[width=\imagewidth]{SEIRD.png}
           \\
           \includegraphics[width=\imagewidth]{SEIRD_变化.png}
@@ -141,5 +144,4 @@
 \subsection{考虑隔离因素}
 \par
 在强有力的隔离措施下，病毒的传染率和致死率大幅降低。
-\\
-\includegraphics[width=\imagewidth]{疫情数据.png}
+应该在2月中旬

@@ -24,22 +24,27 @@ class BaseModel(BaseClass):
         # death people
         self.d = 0
 
-    def run(self, loop_times=60):
+    def run(self, loop_times=90):
         # save result
         self.data = np.asarray([self.integrate(t) for t in range(loop_times)])
+        self.data = self.data * 8e4 // 1
         count = self.data.shape[1]
         self.keys = self.keys[:count]
         self.data = pd.DataFrame(self.data)
         self.data.columns = self.keys
+        self.data['日期'] = [pd.datetime(year=2020, month=1, day=20)
+                           + pd.Timedelta(days=i) for i in range(loop_times)]
+        self.data['日期'] = [x.strftime('%Y-%m-%d') for x in self.data['日期']]
+        self.data.set_index('日期', inplace=True)
         self.drawLine()
 
     def integrate(self, t):
         # a2b is probability rate of a to b
-        self.s2e = 0.5 - 0.005*t
+        self.s2e = 0.4 - 0.003*t
         self.e2i = 0.8
         self.s2i = self.s2e
-        self.e2r = 0.002 * t
-        self.i2r = 0.005 * t
+        self.e2r = 0.005 * t
+        self.i2r = 0.002 * t
         self.i2d = 0.01
 
 
@@ -112,4 +117,4 @@ def saveAllImage():
 
 
 if __name__ == "__main__":
-    SEIRD_().run()
+    saveAllImage()

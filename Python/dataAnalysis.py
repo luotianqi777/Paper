@@ -19,28 +19,51 @@ class A(DataAnalysiser):
 
 
 class B(DataAnalysiser):
+    def __init__(self, name='确诊死亡比例'):
+        super().__init__(name=name)
+
+    def setLineData(self):
+        self.data['确诊'] += self.data['死亡']+self.data['治愈']
+        self.data['确诊死亡比例'] = self.data['死亡']/self.data['确诊']
+        self.keys = ['确诊死亡比例']
+
+
+class C(B):
+    def __init__(self, name='确诊治愈比例'):
+        super().__init__(name=name)
+
+    def setLineData(self):
+        super().setLineData()
+        self.data['确诊治愈比例'] = self.data['治愈']/self.data['确诊']
+        self.keys = ['确诊治愈比例']
+
+
+class D(B):
     def __init__(self):
         super().__init__(name='确诊重症死亡比例')
 
     def setLineData(self):
+        super().setLineData()
+        self.data['重症'] += self.data['死亡']
         self.data['确诊重症比例'] = self.data['重症']/self.data['确诊']
-        self.data['确诊死亡比例'] = self.data['死亡']/self.data['确诊']
         self.data['重症死亡比例'] = self.data['死亡']/self.data['重症']
-        self.keys = ['确诊重症比例', '确诊死亡比例', '重症死亡比例']
+        self.keys += ['确诊重症比例', '重症死亡比例']
 
 
-class C(DataAnalysiser):
+class E(DataAnalysiser):
     def __init__(self):
         super().__init__(name='每日新增人数')
 
     def setLineData(self):
-        self.data = self.data - self.data.shift(1)
+        self.data -= self.data.shift(1)
 
 
 def saveAllImage():
     A().drawLine()
     B().drawLine()
     C().drawLine()
+    D().drawLine()
+    E().drawLine()
 
 
 if __name__ == "__main__":
