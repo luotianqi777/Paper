@@ -117,4 +117,4 @@ def saveAllImage():
 
 
 if __name__ == "__main__":
-    saveAllImage()
+    pass
