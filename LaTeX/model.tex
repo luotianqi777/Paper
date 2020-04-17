@@ -1,5 +1,6 @@
 % 模型描述
 \section{模型}
+ (本节所有由模型导出的图像均为用真实数据拟合后的曲线，拟合方法和过程会在第\ref{section:数据拟合}节数据拟合中介绍)
 \subsection{传统SIR模型}
 \citeauthor{对流行病数学理论的贡献}在\citeyear{对流行病数学理论的贡献}年研究黑死病时提出了仓室模型，模型中将人口分为三类：
 \begin{itemize}
@@ -99,6 +100,7 @@
           \includegraphics[width=.9\textwidth]{SIR.png}
 \end{itemize}
 \subsection{SEIR模型}
+考虑到病毒具有较长潜伏期，即携带病毒未患病
 \paragraph{考虑病毒潜伏期，在$SIR$模型的基础上加入病毒携带者人群，即为$SEIR$模型：}
 \begin{itemize}
     \item 人群
@@ -131,17 +133,19 @@
           \begin{align}
               \TP{S}{E}{S(I+E)} \\
               \TP{E}{I}{E}      \\
-              \TP{E}{R}{E}      \\
               \TP{I}{R}{I}      \\
               \TP{I}{D}{I}
           \end{align}
     \item 图像
           \\
           \includegraphics[width=\imagewidth]{SEIRD.png}
+          \par
+          每日新增
           \\
           \includegraphics[width=\imagewidth]{SEIRD_变化.png}
 \end{itemize}
 \subsection{考虑隔离因素}
 \par
 在强有力的隔离措施下，病毒的传染率和致死率大幅降低。
-应该在2月中旬
+隔离措施前后的模型参数都会引起较大变化，
+故将其分段处理以2月12日为断点将其分为两部分对其分别进行模拟。

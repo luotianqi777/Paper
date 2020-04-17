@@ -1,4 +1,6 @@
 import model
+import dataAnalysis
 
 if __name__ == "__main__":
-    model.SEIR().run()
+    model.saveAllImage()
+    dataAnalysis.saveAllImage()
