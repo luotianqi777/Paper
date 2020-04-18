@@ -8,34 +8,6 @@ from baseClass import DataManager, Drawer
 from scipy.optimize import minimize
 
 
-class ArgsManager(DataManager):
-    def __init__(self):
-        super().__init__(name='args', type='json')
-        default = {
-            'se': 0.45787809,
-            'ei': 0.22186872,
-            'si': 0.37807416,
-            'ir': 0.04682236,
-            'id': 0.00101029,
-        }
-        if not self.isExists():
-            with open(self.getSavePath(), 'w') as f:
-                json.dump(default, f)
-
-    def saveData(self, models):
-        file_json = self.getData()
-        index = 0
-        for arg_key in models.args_key:
-            file_json[arg_key] = models.args[index]
-            index += 1
-        with open(self.getSavePath(), 'w') as f:
-            json.dump(file_json, f)
-
-    def getData(self):
-        with open(self.getSavePath(), 'r') as f:
-            return json.load(f)
-
-
 class Model(Drawer):
 
     def __init__(self, name, y0: str, args: str):
@@ -49,20 +21,27 @@ class Model(Drawer):
             '死亡人数': '死亡'
         }
         self.N = 8e4
-        y_dict = {
+        arg_dict = {
+            'se': 0.45787809,
+            'ei': 0.22186872,
+            'si': 0.37807416,
+            'ir': 0.04682236,
+            'id': 0.00101029,
+        }
+        y0_dict = {
             'i': 100,
             's': 8e4 - 100,
             'e': 0,
             'r': 0,
             'd': 0,
         }
-        arg_dict = ArgsManager().getData()
-        self.y0 = [y_dict[key] for key in y0]
-        self.args_key = args.split(',')
-        self.args = [arg_dict[key] for key in self.args_key]
-        self.trueData = DataCrawler().getData()
+        self.args = [arg_dict[key] for key in args.split(',')]
+        self.y0 = [y0_dict[key] for key in y0]
+        self.trueData = self.getTrueData()
         self.days = self.trueData.shape[0]
-        self.keys = self.keys[:self.y0.__len__()]
+
+    def getTrueData(self):
+        return DataCrawler().getData()
 
     def diff(self, y, t, args):
         pass
@@ -75,7 +54,8 @@ class Model(Drawer):
                       )
         data = pd.DataFrame(data)
         data.columns = self.keys
-        data['日期'] = pd.date_range(start='2020-01-20', periods=self.days)
+        data['日期'] = pd.date_range(
+            start=self.trueData.index[0], periods=self.days)
         data['日期'] = [x.strftime('%Y-%m-%d') for x in data['日期']]
         data.set_index('日期', inplace=True)
         return data
@@ -96,9 +76,10 @@ class Model(Drawer):
     def optimize(self):
         res = minimize(self.lose, self.args, bounds=[
                        (0, 1) for i in range(len(self.args))])
+        print(self.name+' 拟合完成')
         print(res)
         self.args = res.x
-        ArgsManager().saveData(self)
+        return self
 
     def run(self):
         self.data = self.getIntData(self.args)
@@ -111,6 +92,7 @@ class SIR(Model):
                          y0='sir',
                          args='si,ir',
                          )
+        self.keys = ['易感人群', '确诊人群', '康复人群']
 
     def diff(self, y, t, args):
         s, i, r = y
@@ -126,11 +108,12 @@ class SIR(Model):
 class SEIR(Model):
     def __init__(self):
         super().__init__(name='SEIR',
-                         y0='sire',
+                         y0='seir',
                          args='se,ei,ir')
+        self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群']
 
     def diff(self, y, t, args):
-        s, i, r, e = y
+        s, e, i, r = y
         sep, eip,  irp = args
         s2e = (i+e)*s*sep/self.N
         e2i = e * eip
@@ -139,17 +122,18 @@ class SEIR(Model):
         de = s2e - e2i
         di = e2i - i2r
         dr = i2r
-        return [ds, di, dr, de]
+        return [ds, de, di, dr]
 
 
 class SEIRD(Model):
     def __init__(self, name='SEIRD'):
         super().__init__(name=name,
-                         y0='sired',
+                         y0='seird',
                          args='se,ei,ir,id')
+        self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群', '死亡人数']
 
     def diff(self, y, t, args):
-        s, i, r, e, d = y
+        s, e, i, r, d = y
         sep, eip,  irp, idp = args
         s2e = sep * s * (i + e) / self.N
         e2i = eip * e
@@ -160,31 +144,44 @@ class SEIRD(Model):
         di = e2i - i2r - i2d
         dr = i2r
         dd = i2d
-        return [ds, di, dr, de, dd]
+        return [ds, de, di, dr, dd]
 
 
-class SEIRD_(SEIRD):
+class SEIRD_A(SEIRD):
+
+    class SEIRD_F(SEIRD):
+        def __init__(self):
+            super().__init__(name='SEIRD_F')
+
+        def getTrueData(self):
+            data = DataCrawler().getData()
+            return data.loc[:'2020-02-20']
+
     def __init__(self):
-        super().__init__(name='SEIRD_变化')
+        super().__init__(name='SEIRD_A')
+        F = SEIRD_A.SEIRD_F()
+        F.optimize()
+        F.run()
+        self.y0 = F.getIntData(self.args).loc['2020-02-20']
 
-    def setLineData(self):
-        self.data -= self.data.shift(1)
-        self.keys.remove('易感人群')
+    def getTrueData(self):
+        data = DataCrawler().getData()
+        return data.loc['2020-02-20':]
 
 
 def saveAllImage():
     SIR().run()
     SEIR().run()
     SEIRD().run()
-    SEIRD_().run()
+    SEIRD_A().run()
 
 
 def optiAllModel():
-    SIR().optimize()
-    SEIR().optimize()
-    SEIRD().optimize()
-    saveAllImage()
+    SIR().optimize().run()
+    SEIR().optimize().run()
+    SEIRD().optimize().run()
+    SEIRD_A().optimize().run()
 
 
 if __name__ == "__main__":
-    optiAllModel()
+    SEIRD_B().optimize().run()
