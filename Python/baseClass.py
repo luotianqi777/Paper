@@ -8,27 +8,47 @@ from pyecharts import options as opts
 
 class BaseClass(object):
 
-    def __init__(self, name, type='png'):
+    def __init__(self, name, type):
         self.baseSavePath = './Output/'
-        self.baseHtmlSavePath = self.baseSavePath+'html/'
         self.name = name
-        self.title = name
-        self.data = pd.DataFrame()
-        self.keys = []
         self.type = ['.', ''][type[0] == '.'] + type
         if not os.path.exists(self.baseSavePath):
             os.mkdir(self.baseSavePath)
-        if not os.path.exists(self.baseHtmlSavePath):
-            os.mkdir(self.baseHtmlSavePath)
-
-    def getSaveHtmlPath(self):
-        return self.baseHtmlSavePath+self.name+'.html'
 
     def getSavePath(self):
         return self.baseSavePath+self.name+self.type
 
+
+class DataManager(BaseClass):
+    def __init__(self, name, type):
+        super().__init__(name=name, type=type)
+
+    def isExists(self):
+        return os.path.exists(self.getSavePath())
+
+    def getData(self):
+        pass
+
+    def saveData(self):
+        pass
+
+
+class Drawer(BaseClass):
+
+    def __init__(self, name):
+        super().__init__(name=name, type='png')
+        self.baseHtmlSavePath = self.baseSavePath+'html/'
+        self.title = name
+        self.data = pd.DataFrame()
+        self.keys = []
+        if not os.path.exists(self.baseHtmlSavePath):
+            os.mkdir(self.baseHtmlSavePath)
+
     def setLineData(self):
         pass
+
+    def getSaveHtmlPath(self):
+        return self.baseHtmlSavePath+self.name+'.html'
 
     def drawLine(self):
         self.setLineData()

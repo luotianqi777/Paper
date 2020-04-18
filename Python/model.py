@@ -1,13 +1,42 @@
+import json
 import numpy as np
 import pandas as pd
 from dataCrawler import DataCrawler
 from scipy.integrate import odeint
 from matplotlib import pyplot as plt
-from baseClass import BaseClass
+from baseClass import DataManager, Drawer
 from scipy.optimize import minimize
 
 
-class Model(BaseClass):
+class ArgsManager(DataManager):
+    def __init__(self):
+        super().__init__(name='args', type='json')
+        default = {
+            'se': 0.45787809,
+            'ei': 0.22186872,
+            'si': 0.37807416,
+            'ir': 0.04682236,
+            'id': 0.00101029,
+        }
+        if not self.isExists():
+            with open(self.getSavePath(), 'w') as f:
+                json.dump(default, f)
+
+    def saveData(self, models):
+        file_json = self.getData()
+        index = 0
+        for arg_key in models.args_key:
+            file_json[arg_key] = models.args[index]
+            index += 1
+        with open(self.getSavePath(), 'w') as f:
+            json.dump(file_json, f)
+
+    def getData(self):
+        with open(self.getSavePath(), 'r') as f:
+            return json.load(f)
+
+
+class Model(Drawer):
 
     def __init__(self, name, y0: str, args: str):
         super().__init__(name=name)
@@ -27,15 +56,10 @@ class Model(BaseClass):
             'r': 0,
             'd': 0,
         }
-        arg_dict = {
-            'se': 0.45787809,
-            'ei': 0.22186872,
-            'si': 0.37807416,
-            'ir': 0.04682236,
-            'id': 0.00101029,
-        }
+        arg_dict = ArgsManager().getData()
         self.y0 = [y_dict[key] for key in y0]
-        self.args = [arg_dict[key] for key in args.split(',')]
+        self.args_key = args.split(',')
+        self.args = [arg_dict[key] for key in self.args_key]
         self.trueData = DataCrawler().getData()
         self.days = self.trueData.shape[0]
         self.keys = self.keys[:self.y0.__len__()]
@@ -74,7 +98,7 @@ class Model(BaseClass):
                        (0, 1) for i in range(len(self.args))])
         print(res)
         self.args = res.x
-        return self
+        ArgsManager().saveData(self)
 
     def run(self):
         self.data = self.getIntData(self.args)
@@ -156,10 +180,10 @@ def saveAllImage():
 
 
 def optiAllModel():
-    SIR().optimize().run()
-    SEIR().optimize().run()
-    SEIRD().optimize().run()
-    SEIRD_().run()
+    SIR().optimize()
+    SEIR().optimize()
+    SEIRD().optimize()
+    saveAllImage()
 
 
 if __name__ == "__main__":

@@ -1,11 +1,11 @@
 import pandas as pd
-from baseClass import BaseClass
+from baseClass import Drawer
 from pyecharts.charts import Line
 from dataCrawler import DataCrawler
 from pyecharts import options as opts
 
 
-class DataAnalysiser(BaseClass):
+class DataAnalysiser(Drawer):
 
     def __init__(self, name='数据分析图'):
         super().__init__(name=name)

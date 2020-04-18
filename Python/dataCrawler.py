@@ -1,11 +1,10 @@
-import os
 import json
 import requests
 import pandas as pd
-from baseClass import BaseClass
+from baseClass import DataManager
 
 
-class DataCrawler(BaseClass):
+class DataCrawler(DataManager):
 
     def __init__(self):
         super().__init__(name='data', type='csv')
@@ -27,7 +26,7 @@ class DataCrawler(BaseClass):
             'suspect': '疑似',
         }
 
-    def __run__(self):
+    def saveData(self):
         # 请求数据
         r = requests.get(url=self.url, headers=self.headers)
         # 检查是否成功
@@ -57,8 +56,8 @@ class DataCrawler(BaseClass):
 
     def getData(self):
         # 未找到数据文件则获取数据
-        if not os.path.exists(self.savePath):
-            self.__run__()
+        if not self.isExists():
+            self.saveData()
         # 读取数据
         data = pd.read_csv(self.savePath)
         # 将日期设为索引
