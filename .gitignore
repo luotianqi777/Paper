@@ -7,8 +7,8 @@
 *.synctex.gz
 *.log
 # Python
-render.html
+*.html
 Python/__*
 # Output(图片历史占用空间太大)
-Output/html
+Output/html/*
 Output/*.png
