@@ -46,7 +46,7 @@ class D(B):
         super().setLineData()
         self.data['重症'] += self.data['死亡']
         self.data['确诊重症比例'] = self.data['重症']/self.data['确诊']
-        self.keys += ['确诊重症比例']
+        self.keys = ['确诊死亡比例', '确诊重症比例']
 
 
 class E(DataAnalysiser):

@@ -6,8 +6,9 @@
 *.blg
 *.synctex.gz
 *.log
-# Python(Pycharm)
-*.xml
-*.iml
+# Python
 render.html
 Python/__*
+# Output(图片历史占用空间太大)
+Output/html
+Output/*.png

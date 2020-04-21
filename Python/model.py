@@ -38,7 +38,9 @@ class Model(Drawer):
         self.args = [arg_dict[key] for key in args.split(',')]
         self.y0 = [y0_dict[key] for key in y0]
         self.trueData = self.getTrueData()
-        self.days = self.trueData.shape[0]
+
+    def getDays(self):
+        return self.trueData.shape[0]
 
     def getTrueData(self):
         return DataCrawler().getData()
@@ -49,13 +51,13 @@ class Model(Drawer):
     def getIntData(self, args):
         data = odeint(func=self.diff,
                       y0=self.y0,
-                      t=range(self.days),
+                      t=range(self.getDays()),
                       args=(args,)
                       )
         data = pd.DataFrame(data)
         data.columns = self.keys
         data['日期'] = pd.date_range(
-            start=self.trueData.index[0], periods=self.days)
+            start=self.trueData.index[0], periods=self.getDays())
         data['日期'] = [x.strftime('%Y-%m-%d') for x in data['日期']]
         data.set_index('日期', inplace=True)
         return data
@@ -84,6 +86,25 @@ class Model(Drawer):
     def run(self):
         self.data = self.getIntData(self.args)
         self.drawLine()
+
+    # 分段拟合
+    def AF(self):
+        date = '2020-02-20'
+        _name = self.name + '_隔离前'
+        name_ = self.name + '_隔离后'
+        _data = self.trueData.loc[:date]
+        data_ = self.trueData.loc[date:]
+        # 拟合整体
+        self.optimize().run()
+        # 拟合前半段
+        self.name = _name
+        self.trueData = _data
+        self.optimize().run()
+        # 拟合后半段
+        self.name = name_
+        self.y0 = self.getIntData(self.args).loc[date]
+        self.trueData = data_
+        self.optimize().run()
 
 
 class SIR(Model):
@@ -126,8 +147,8 @@ class SEIR(Model):
 
 
 class SEIRD(Model):
-    def __init__(self, name='SEIRD'):
-        super().__init__(name=name,
+    def __init__(self):
+        super().__init__(name='SEIRD',
                          y0='seird',
                          args='se,ei,ir,id')
         self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群', '死亡人数']
@@ -147,41 +168,17 @@ class SEIRD(Model):
         return [ds, de, di, dr, dd]
 
 
-class SEIRD_A(SEIRD):
-
-    class SEIRD_F(SEIRD):
-        def __init__(self):
-            super().__init__(name='SEIRD_F')
-
-        def getTrueData(self):
-            data = DataCrawler().getData()
-            return data.loc[:'2020-02-20']
-
-    def __init__(self):
-        super().__init__(name='SEIRD_A')
-        F = SEIRD_A.SEIRD_F()
-        F.optimize()
-        F.run()
-        self.y0 = F.getIntData(self.args).loc['2020-02-20']
-
-    def getTrueData(self):
-        data = DataCrawler().getData()
-        return data.loc['2020-02-20':]
-
-
 def saveAllImage():
     SIR().run()
     SEIR().run()
     SEIRD().run()
-    SEIRD_A().run()
 
 
 def optiAllModel():
-    SIR().optimize().run()
-    SEIR().optimize().run()
-    SEIRD().optimize().run()
-    SEIRD_A().optimize().run()
+    SIR().AF()
+    SEIR().AF()
+    SEIRD().AF()
 
 
 if __name__ == "__main__":
-    SEIRD_B().optimize().run()
+    SEIRD().AF()
