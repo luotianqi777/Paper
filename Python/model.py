@@ -4,7 +4,7 @@ import pandas as pd
 from dataCrawler import DataCrawler
 from scipy.integrate import odeint
 from matplotlib import pyplot as plt
-from baseClass import DataManager, Drawer
+from baseClass import DataManager, Drawer, TexTabelBulier
 from scipy.optimize import minimize
 
 
@@ -12,6 +12,8 @@ class Model(Drawer):
 
     def __init__(self, name, y0: str, args: str):
         super().__init__(name=name)
+        self.area = True
+        self.trans_rate = 1
         self.keys = ['易感人群', '确诊人群',
                      '康复人群', '携带未患病', '死亡人数', '']
         self.translator = {
@@ -36,7 +38,8 @@ class Model(Drawer):
             'r': 0,
             'd': 0,
         }
-        self.args = [arg_dict[key] for key in args.split(',')]
+        self.args_key = args.split(',')
+        self.args = [arg_dict[key] for key in self.args_key]
         self.y0 = [y0_dict[key] for key in y0]
         self.trueData = self.getTrueData()
 
@@ -70,23 +73,32 @@ class Model(Drawer):
         data = data[keys]
         data.rename(self.translator, axis=1, inplace=True)
         keys = data.columns
+        trans_index = int(self.trans_rate*self.getDays()//1)
         res = self.trueData[keys] - data[keys]
+        res = res.iloc[:trans_index]
         res = res ** 2
         res = np.mean(res)
         res = np.sum(res)
         return res
 
     def optimize(self):
-        res = minimize(self.lose, self.args, bounds=[
-                       (0, 1) for i in range(len(self.args))])
+        res = minimize(self.lose,
+                       self.args,
+                       bounds=[(0, 1) for i in range(len(self.args))],
+                       method='L-BFGS-B')
         print(self.name+' 拟合完成')
         print(res)
+        tex = TexTabelBulier(name=self.name, title=self.args_key)
+        tex.addData(res.x)
+        tex.saveData()
         self.args = res.x
         return self
 
     def run(self):
-        self.data = self.getIntData(self.args)
-        self.drawLine()
+        keys = [self.translator[k] for k in self.keys if not k == '易感人群']
+        self.data = pd.concat(
+            [self.getIntData(self.args), self.trueData[keys]], axis=1)
+        self.drawLine(self.keys[1:]+keys)
 
     # 分段拟合
     def AF(self):
@@ -207,4 +219,4 @@ def optiAllModel():
 
 
 if __name__ == "__main__":
-    optiAllModel()
+    SIR().AF()

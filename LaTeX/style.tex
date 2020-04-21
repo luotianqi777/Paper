@@ -30,16 +30,41 @@
 % 图片宽度
 \newcommand{\imagewidth}{0.95\textwidth}
 \newcommand{\smallimagewidth}{0.45\textwidth}
-% 图片并列
-\newcommand{\figures}[1]{
-    \begin{figure}[H]
+% 显示图片
+\newcommand{\showfigure}[1]{
+    #1模型图像与参数
+    \begin{center}
+        \begin{table}[H]
+            \centering
+            \input{Table/#1.tex}
+        \end{table}
+        \includegraphics[width=\imagewidth]{#1.png}
+    \end{center}
+}
+\newcommand{\showfigures}[1]{
+    \begin{minipage}{\imagewidth}
         \centering
-        \subfigure{
-            \includegraphics[width=\smallimagewidth]{#1_隔离前.png}
-        }
-        \subfigure{
-            \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
-        }
-        \caption{#1模型隔离前后拟合结果}
-    \end{figure}
+        \begin{table}[H]
+            \centering
+            \caption{#1模型隔离前后拟合参数}
+            \begin{minipage}{\smallimagewidth}
+                \centering
+                \input{Table/#1_隔离前.tex}
+            \end{minipage}
+            \begin{minipage}{\smallimagewidth}
+                \centering
+                \input{Table/#1_隔离后.tex}
+            \end{minipage}
+        \end{table}
+        \begin{figure}[H]
+            \centering
+            \subfigure{
+                \includegraphics[width=\smallimagewidth]{#1_隔离前.png}
+            }
+            \subfigure{
+                \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
+            }
+            \caption{#1模型隔离前后拟合图像}
+        \end{figure}
+    \end{minipage}
 }

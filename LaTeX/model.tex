@@ -1,6 +1,5 @@
 % 模型描述
 \section{模型}
- (本节所有由模型导出的图像均为用真实数据拟合后的曲线，拟合方法和过程会在第\ref{section:数据拟合}节数据拟合中介绍)
 \subsection{传统SIR模型}
 \citeauthor{对流行病数学理论的贡献}在\citeyear{对流行病数学理论的贡献}年研究黑死病时提出了仓室模型，模型中将人口分为三类：
 \begin{itemize}
@@ -10,6 +9,7 @@
 \end{itemize}
 \par 根据其人群划分将其称为$SIR$
 \cite{对流行病数学理论的贡献}模型。
+\citeauthor{Kermack-McKendrick确定性流行病模型的推广}在\citeyear{Kermack-McKendrick确定性流行病模型的推广}年对其进行了推广\cite{Kermack-McKendrick确定性流行病模型的推广}，证明其广泛的适用性。
 \par $SIR$模型的建立基于几个假设\cite{对流行病数学理论的贡献}：
 \begin{itemize}
     \item 人口总数保持常量（包含死亡人数）
@@ -95,13 +95,17 @@
               \TP{S}{I}{SI} \\
               \TP{I}{R}{I}
           \end{align}
-    \item 图像
-          \\
-          \includegraphics[width=.9\textwidth]{SIR.png}
 \end{itemize}
 \subsection{SEIR模型}
-考虑到病毒具有较长潜伏期，即携带病毒未患病
-\paragraph{考虑病毒潜伏期，在$SIR$模型的基础上加入病毒携带者人群，即为$SEIR$模型：}
+考虑到易感人群接触到感染者后不会立即患病，而是经过一段时间潜伏期，即携带病毒还未患病，将该类人群定义为携带者人群，在COVID-19中这类人群会通过检测试剂等方式被被诊断为疑似病例。
+\par
+$SEIR$模型具有广泛的适用性,历来众多国内外学者通过其来研究传染病的传播
+\cite{应用SEIR模型预测2009年甲型H1N1流感流行趋势,一类具有潜伏期的SEIR手足口病模型的研究}，
+或将其用于其它信息传播方向的研究
+\cite{基于SEIR的社交网络信息传播模型,基于改良SEIR模型的微博话题式信息传播研究}，
+最近还有众多学者用其来预测本次COVID-19的传播趋势
+\cite{通过流行病学建模表征传播和确定COVID-19的控制策略,中国COVID-19爆发的流行动力学模型和控制,2019年冠状病毒疾病控制策略的有效性：SEIR动态建模研究,结合人类迁移数据的2019年冠状病毒疾病在中国传播的建模与预测,基于动力学模型的中国COVID-19流行病学分析,SEIR建模分析与新型冠状病毒的斗争何时在武汉结束}。
+
 \begin{itemize}
     \item 人群
           \subitem $S$：易感者
@@ -115,12 +119,9 @@
               \TP{E}{I}{E}      \\
               \TP{I}{R}{I}
           \end{align}
-    \item 图像
-          \\
-          \includegraphics[width=.9\textwidth]{SEIR.png}
 \end{itemize}
 \subsection{SEIRD模型}
-考虑死亡人群
+在$SEIR$的基础上加入死亡人群，使其与易感者人群分离开。
 \begin{itemize}
     \item 人群
           \subitem $S$：易感者
@@ -136,12 +137,9 @@
               \TP{I}{R}{I}      \\
               \TP{I}{D}{I}
           \end{align}
-    \item 图像
-          \\
-          \includegraphics[width=\imagewidth]{SEIRD.png}
 \end{itemize}
 \subsection{SEIRS模型}
-考虑到治愈者有复发的可能
+考虑到治愈者有复发的可能，康复者有一定比例转变为感染者。
 \begin{itemize}
     \item 人群
           \subitem $S$：易感者
@@ -158,20 +156,4 @@
               \TP{I}{D}{I}      \\
               \TP{R}{I}{R}
           \end{align}
-    \item 图像
-          \\
-          \includegraphics[width=\imagewidth]{SEIRS.png}
 \end{itemize}
-\subsection{考虑隔离因素}
-\par
-在强有力的隔离措施下，病毒的传染率和致死率大幅降低。
-隔离措施前后的模型参数都会引起较大变化，
-故将其分段处理以2月12日为断点将其分为两部分对其分别进行模拟。
-\subsubsection{SIR}
-\figures{SIR}
-\subsubsection{SEIR}
-\figures{SEIR}
-\subsubsection{SEIRD}
-\figures{SEIRD}
-\subsubsection{SEIRS}
-\figures{SEIRS}
