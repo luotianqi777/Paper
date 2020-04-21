@@ -2,6 +2,8 @@
 \usepackage{ctex}
 % 浮动体控制
 \usepackage{float}
+% 子图
+\usepackage{subfigure}
 % 数学相关
 \usepackage{amsthm,amsmath,amssymb,mathrsfs}
 % 页面
@@ -27,3 +29,17 @@
 \newcommand{\absemph}[1]{\textbf{#1}}
 % 图片宽度
 \newcommand{\imagewidth}{0.95\textwidth}
+\newcommand{\smallimagewidth}{0.45\textwidth}
+% 图片并列
+\newcommand{\figures}[1]{
+    \begin{figure}[H]
+        \centering
+        \subfigure{
+            \includegraphics[width=\smallimagewidth]{#1_隔离前.png}
+        }
+        \subfigure{
+            \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
+        }
+        \caption{#1模型隔离前后拟合结果}
+    \end{figure}
+}

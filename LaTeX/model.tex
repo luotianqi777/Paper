@@ -139,11 +139,39 @@
     \item 图像
           \\
           \includegraphics[width=\imagewidth]{SEIRD.png}
-          \par
 \end{itemize}
 \subsection{SEIRS模型}
+考虑到治愈者有复发的可能
+\begin{itemize}
+    \item 人群
+          \subitem $S$：易感者
+          \subitem $I$：感染者
+          \subitem $R$：康复者
+          \subitem $E$：携带者
+          \subitem $D$：病逝者
+    \item  感染机制
+          \subitem
+          \begin{align}
+              \TP{S}{E}{S(I+E)} \\
+              \TP{E}{I}{E}      \\
+              \TP{I}{R}{I}      \\
+              \TP{I}{D}{I}      \\
+              \TP{R}{I}{R}
+          \end{align}
+    \item 图像
+          \\
+          \includegraphics[width=\imagewidth]{SEIRS.png}
+\end{itemize}
 \subsection{考虑隔离因素}
 \par
 在强有力的隔离措施下，病毒的传染率和致死率大幅降低。
 隔离措施前后的模型参数都会引起较大变化，
 故将其分段处理以2月12日为断点将其分为两部分对其分别进行模拟。
+\subsubsection{SIR}
+\figures{SIR}
+\subsubsection{SEIR}
+\figures{SEIR}
+\subsubsection{SEIRD}
+\figures{SEIRD}
+\subsubsection{SEIRS}
+\figures{SEIRS}

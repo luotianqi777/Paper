@@ -27,6 +27,7 @@ class Model(Drawer):
             'si': 0.37807416,
             'ir': 0.04682236,
             'id': 0.00101029,
+            'ri': 0.01,
         }
         y0_dict = {
             'i': 100,
@@ -89,7 +90,7 @@ class Model(Drawer):
 
     # 分段拟合
     def AF(self):
-        date = '2020-02-20'
+        date = '2020-02-12'
         _name = self.name + '_隔离前'
         name_ = self.name + '_隔离后'
         _data = self.trueData.loc[:date]
@@ -168,17 +169,42 @@ class SEIRD(Model):
         return [ds, de, di, dr, dd]
 
 
+class SEIRS(Model):
+    def __init__(self):
+        super().__init__(name='SEIRS',
+                         y0='seird',
+                         args='se,ei,ir,id,ri')
+        self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群', '死亡人数']
+
+    def diff(self, y, t, args):
+        s, e, i, r, d = y
+        sep, eip,  irp, idp, rip = args
+        s2e = sep * s * (i + e) / self.N
+        e2i = eip * e
+        i2r = irp * i
+        i2d = idp * i
+        r2i = rip * r
+        ds = -s2e
+        de = s2e - e2i
+        di = e2i - i2r - i2d + r2i
+        dr = i2r - r2i
+        dd = i2d
+        return [ds, de, di, dr, dd]
+
+
 def saveAllImage():
     SIR().run()
     SEIR().run()
     SEIRD().run()
+    SEIRS().run()
 
 
 def optiAllModel():
     SIR().AF()
     SEIR().AF()
     SEIRD().AF()
+    SEIRS().AF()
 
 
 if __name__ == "__main__":
-    SEIRD().AF()
+    optiAllModel()
