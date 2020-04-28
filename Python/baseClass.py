@@ -83,13 +83,14 @@ class TexTabelBulier(BaseClass):
         super().__init__(name=name, type='tex')
         self.baseSavePath = './LaTeX/Table/'
         title = [t.upper() for t in title]
-        self.title = []
+        self.title = ['参数名']
         for t in title:
             self.title.append('$\\P{'+t[0]+'}{'+t[1]+'}$')
         self.data = []
 
     def addData(self, data):
         data = ['{:.3f}'.format(num) for num in data]
+        data.insert(0, '参数值')
         self.data.append(data)
 
     def saveData(self):
