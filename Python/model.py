@@ -88,9 +88,9 @@ class Model(Drawer):
                        method='L-BFGS-B')
         print(self.name+' 拟合完成')
         print(res)
-        tex = TexTabelBulier(name=self.name, title=self.args_key)
-        tex.addData(res.x)
-        tex.saveData()
+        # tex = TexTabelBulier(name=self.name, title=self.args_key)
+        # tex.addData(res.x)
+        # tex.saveData()
         self.args = res.x
         return self
 
@@ -108,16 +108,26 @@ class Model(Drawer):
         _data = self.trueData.loc[:date]
         data_ = self.trueData.loc[date:]
         # 拟合整体
-        self.optimize().run()
+        self.optimize()
+        tex = TexTabelBulier(name=self.name, title=self.args_key)
+        tex.addData(indexName='参数值', data=self.args)
+        tex.saveData()
+        self.run()
         # 拟合前半段
+        tex = TexTabelBulier(name=self.name+'隔离', title=self.args_key)
         self.name = _name
         self.trueData = _data
-        self.optimize().run()
+        self.optimize()
+        tex.addData(indexName='隔离前参数值', data=self.args)
+        self.run()
         # 拟合后半段
         self.name = name_
         self.y0 = self.getIntData(self.args).loc[date]
         self.trueData = data_
-        self.optimize().run()
+        self.optimize()
+        tex.addData(indexName='隔离后参数值', data=self.args)
+        self.run()
+        tex.saveData()
 
 
 class SIR(Model):

@@ -88,13 +88,14 @@ class TexTabelBulier(BaseClass):
             self.title.append('$\\P{'+t[0]+'}{'+t[1]+'}$')
         self.data = []
 
-    def addData(self, data):
+    def addData(self, indexName, data):
         data = ['{:.3f}'.format(num) for num in data]
-        data.insert(0, '参数值')
+        data.insert(0, indexName)
         self.data.append(data)
 
     def saveData(self):
         with open(self.getSavePath(), mode='w+') as f:
+            print('保存数据到', self.getSavePath())
             f.write('\\begin{tabular}{'+'c'*len(self.title)+'}\n')
             f.write('\\hline\n')
             f.write('&'.join(self.title)+'\\\\\n')

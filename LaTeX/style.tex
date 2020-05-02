@@ -7,7 +7,7 @@
 % 数学相关
 \usepackage{amsthm,amsmath,amssymb,mathrsfs}
 % 页面
-\usepackage[left=2cm,right=2cm,top=1cm,bottom=2cm]{geometry}
+\usepackage[left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 % 图片宏包
 \usepackage{graphicx}
 % 图片文件夹路径
@@ -47,14 +47,7 @@
         \begin{table}[H]
             \centering
             \caption{#1模型隔离前后拟合参数}
-            \begin{minipage}{\smallimagewidth}
-                \centering
-                \input{Table/#1_隔离前.tex}
-            \end{minipage}
-            \begin{minipage}{\smallimagewidth}
-                \centering
-                \input{Table/#1_隔离后.tex}
-            \end{minipage}
+            \input{Table/#1隔离.tex}
         \end{table}
         \begin{figure}[H]
             \centering
