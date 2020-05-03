@@ -38,13 +38,13 @@
     \label{table:SIR模型符号表}
     \begin{tabular}{ll}
         \hline
-        符号     & 含义                     \\
+        符号     & 含义         \\
         \hline
-        S        & 易感者                   \\
-        I        & 感染者                   \\
-        R        & 康复者                   \\
-        $\alpha$ & $S$群体变为$I$群体的概率 \\
-        $\beta$  & $I$群体变为$R$群体的概率 \\
+        S        & 易感者       \\
+        I        & 感染者       \\
+        R        & 康复者       \\
+        $\alpha$ & \PText{S}{I} \\
+        $\beta$  & \PText{I}{R} \\
         \hline
     \end{tabular}
 \end{table}
@@ -60,6 +60,6 @@
     \dt{R} & = \beta I
 \end{align}
 \subsection{使用工具}
-使用python实现爬虫获取数据、
-使用scipy库进行积分求解及数据拟合、
+使用python实现爬虫获取数据(见附录\ref{appendix:数据})、
+使用scipy库进行积分求解及数据拟合(见\ref{section:数据拟合与分析})、
 使用pyecharts库绘制图像。

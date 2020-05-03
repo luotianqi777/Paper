@@ -25,20 +25,26 @@
 \newcommand{\T}[2]{T^{#1}_{#2}}
 % 感染机制
 \newcommand{\TP}[3]{\T{#1}{#2}&=\P{#1}{#2}#3}
+% 概率文本
+\newcommand{\PText}[2]{$#1$群体转变为$#2$群体的概率}
 % 摘要强调
 \newcommand{\absemph}[1]{\textbf{#1}}
 % 图片宽度
-\newcommand{\imagewidth}{0.95\textwidth}
-\newcommand{\smallimagewidth}{0.45\textwidth}
+\def\imagewidth{0.95\textwidth}
+\def\smallimagewidth{0.45\textwidth}
 % 显示图片
 \newcommand{\showfigure}[1]{
-    #1模型图像与参数
     \begin{center}
         \begin{table}[H]
             \centering
+            \caption{#1模型拟合参数}
             \input{Table/#1.tex}
         \end{table}
-        \includegraphics[width=\imagewidth]{#1.png}
+        \begin{figure}[H]
+            \centering
+            \includegraphics[width=\imagewidth]{#1.png}
+            \caption{#1模型拟合图像}
+        \end{figure}
     \end{center}
 }
 \newcommand{\showfigures}[1]{
