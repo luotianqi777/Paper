@@ -1,10 +1,10 @@
-/Other
+# Papers
+paper.code-workspace
 # LaTeX
 *.aux
 *.bbl
 *.toc
 *.blg
-*.synctex.gz
 *.log
 # Python
 *.html

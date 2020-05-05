@@ -51,8 +51,6 @@ class Drawer(BaseClass):
         super().__init__(name=name, type='png')
         # html文件保存路径
         self.baseHtmlSavePath = self.baseSavePath+'html/'
-        # 图片标题
-        self.title = name
         # 绘制数据源
         self.data = pd.DataFrame()
         # 绘制列
@@ -91,10 +89,10 @@ class Drawer(BaseClass):
                 areastyle_opts=opts.AreaStyleOpts(
                     opacity=[0.0, 0.3][self.area])
             )
+            line.render(self.getSaveHtmlPath())
         if self.save:
             # 保存图像
             print('保存图片到'+self.getSavePath())
-            line.render(self.getSaveHtmlPath())
             make_snapshot(snapshot,
                           file_name=line.render(),
                           output_name=self.getSavePath(),

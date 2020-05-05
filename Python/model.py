@@ -15,7 +15,7 @@ class Model(Drawer):
         # 绘制面积图
         self.area = True
         # 保存图像
-        self.save = False
+        self.save = True
         # 选择训练数据范围(0~x, x < 1)
         self.trans_rate = 1
         # 数据字段与模型字段映射
@@ -29,11 +29,11 @@ class Model(Drawer):
         self.N = 8e4
         # 初始参数
         arg_dict = {
-            'se': 0.45787809,
-            'ei': 0.22186872,
-            'si': 0.37807416,
-            'ir': 0.04682236,
-            'id': 0.00101029,
+            'se': 0.45,
+            'ei': 0.22,
+            'si': 0.37,
+            'ir': 0.04,
+            'id': 0.01,
             'ri': 0.01,
         }
         # 初始y0
@@ -66,11 +66,13 @@ class Model(Drawer):
         pass
 
     # 获取积分结果
-    def getIntData(self, args):
+    def getIntData(self, args, days=None):
+        if days == None:
+            days = self.getDays()
         # 积分
         data = odeint(func=self.diff,
                       y0=self.y0,
-                      t=range(self.getDays()),
+                      t=range(days),
                       args=(args,)
                       )
         # 转化为DataFrame对象
@@ -79,7 +81,7 @@ class Model(Drawer):
         data.columns = self.keys
         # 添加时间序列
         data['日期'] = pd.date_range(
-            start=self.trueData.index[0], periods=self.getDays())
+            start=self.trueData.index[0], periods=days)
         # 时间转字符串
         data['日期'] = [x.strftime('%Y-%m-%d') for x in data['日期']]
         # 设置时间序列为索引
@@ -99,14 +101,16 @@ class Model(Drawer):
         keys = data.columns
         # 计算预测值与真实值的差值
         res = self.trueData[keys] - data[keys]
+        res = res**2/self.trueData[keys]
         # 截取训练数据
         trans_index = int(self.trans_rate*self.getDays()//1)
         res = res.iloc[:trans_index]
         # 计算标准差
-        res = np.sqrt(res**2)
+        # res = np.sqrt(res**2)
+        # 取均值
         res = np.mean(res)
         res = np.mean(res)
-        res /= len(keys)
+        # res /= len(keys)
         return res
 
     # 优化模型
@@ -114,7 +118,7 @@ class Model(Drawer):
         # 优化模型
         res = minimize(self.lose,
                        self.args,
-                       bounds=[(0, 1) for i in range(len(self.args))],
+                       bounds=[(0, 0.9) for i in range(len(self.args))],
                        method='L-BFGS-B')
         print(self.name+' 拟合完成')
         print(res)
@@ -142,12 +146,12 @@ class Model(Drawer):
         _data = self.trueData.loc[:date]
         data_ = self.trueData.loc[date:]
         columns = self.args_key.copy()
-        columns.append('lose')
+        columns.append('loss')
         # 整体拟合
-        lose = self.optimize()
+        loss = self.optimize()
         # 保存结果参数
         value = list(self.args.copy())
-        value.append(lose)
+        value.append(loss)
         tex = TexTabelBulier(name=self.name, title=columns)
         tex.addData(indexName='参数值', data=value)
         tex.saveData()
@@ -157,9 +161,9 @@ class Model(Drawer):
         # 拟合前半段
         self.name = _name
         self.trueData = _data
-        lose = self.optimize()
+        loss = self.optimize()
         value = list(self.args.copy())
-        value.append(lose)
+        value.append(loss)
         tex.addData(indexName='隔离前参数值', data=value)
         self.run()
         # 拟合后半段
@@ -167,9 +171,9 @@ class Model(Drawer):
         # 获取初值
         self.y0 = self.getIntData(self.args).loc[date]
         self.trueData = data_
-        lose = self.optimize()
+        loss = self.optimize()
         value = list(self.args.copy())
-        value.append(lose)
+        value.append(loss)
         tex.addData(indexName='隔离后参数值', data=value)
         self.run()
         tex.saveData()
@@ -245,7 +249,7 @@ class SEIRS(Model):
 
     def diff(self, y, t, args):
         s, e, i, r, d = y
-        sep, eip,  irp, idp, rip = args
+        sep, eip, irp, idp, rip = args
         s2e = sep * s * (i + e) / self.N
         e2i = eip * e
         i2r = irp * i

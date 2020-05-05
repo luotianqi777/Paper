@@ -34,14 +34,14 @@
 \par 该积分式对本文中提到的所有模型都适用，
 读者不必再关心模型的积分式，
 只需关注模型新引入的群体及其引起的感染机制$\T{a}{b}$变化即可
-(积分式会在附录\ref{appendix:模型积分式} 给出，如有需要请自行查看)。
+(详细积分式会在附录\ref{appendix:模型积分式} 给出，如有需要请自行查看)。
 \par 现在，可以仅通过感染机制来方便清晰的描述$SIR$模型：
 \begin{align}
     \TP{S}{I}{SI} \\
     \TP{I}{R}{I}
 \end{align}
 \subsection{模型推论}
-考虑到易感人群接触到感染者后不会立即患病，
+\par 考虑到易感人群接触到感染者后不会立即患病，
 而是经过一段时间潜伏期，
 即携带病毒还未患病，
 将该类人群定义为携带者人群$E$，
@@ -52,7 +52,7 @@
     \TP{E}{I}{E}      \\
     \TP{I}{R}{I}
 \end{align}
-在$SEIR$的基础上加入死亡人群$D$，
+\par 在$SEIR$的基础上加入死亡人群$D$，
 即为$SEIRD$模型：
 \begin{align}
     \TP{S}{E}{S(I+E)} \\
@@ -60,7 +60,7 @@
     \TP{I}{R}{I}      \\
     \TP{I}{D}{I}
 \end{align}
-考虑到治愈者有复发的可能，
+\par 考虑到治愈者有复发的可能，
 康复者有一定比例重新转变为感染者，
 加入新的传播机制$\T{R}{I}$，
 即为$SEIRS$模型：
@@ -71,24 +71,42 @@
     \TP{I}{D}{I}      \\
     \TP{R}{I}{R}
 \end{align}
-\subsection{数据拟合结果及分析\label{section:数据拟合与分析}}
-本节将上述每个模型与真实数据进行拟合对比，
-并给出拟合后的参数以及损失值$LOSE$，
-损失值将作为评判模型拟合优劣的指标之一。
-\par 考虑到2月中旬开始实施的隔离政策，
-将数据分为隔离前与隔离后两部分，
+\par 本文并未尝试引入隔离群体的$SEIHR$模型，
+因为在该数据中隔离群体是携带者、感染者的混合群体，
+且隔离群体有可能治愈或死亡，
+而这其中的比例无法通过现有数据得知，
+故不能通过拟合来确定其参数。
+\par 对于隔离的处理，
+本文将数据分为隔离前与隔离后两部分，
 对这两个时间段的数据分别进行拟合，
-对比得出的拟合结果。
-\subsubsection{SIR}
-\showfigure{SIR}
-\showfigures{SIR}
-\subsubsection{SEIR}
-\showfigure{SEIR}
-\showfigures{SEIR}
-\subsubsection{SEIRD}
-\showfigure{SEIRD}
+以此来对比隔离前后对疫情传播的影响。
+\subsection{数据拟合结果及分析}
+\par 本文采取$L-BFGS-B$方法对每个模型进行拟合，
+将每个模型的预测值与真实数据进行对比(全部模型图表详见附录\ref{appendix:数据拟合结果})，
+并给出拟合后的参数以及损失值$LOSS$，
+损失值将作为评判模型拟合优劣的指标之一。
+\par 损失值定义:
+\begin{equation}
+    LOSS = \frac{\sum\limits^{day}\sum\limits^{group}
+        \left|True-Predict\right|}{day}
+\end{equation}
+\par 横向对比各个模型间的$LOSS$值，
+$SEIRD$模型与$SEIRS$模型的$LOSS$值同比其他模型最低，
+$SEIRDS$模型的$LOSS$值虽比$SEIRD$模型稍低，
+但在分段拟合中$SEIRS$模型的效果远不如$SEIRD$模型，
+可以理解为复阳率极低，
+对疫情的影响微乎其微，
+判断可以将$\T{S}{I}$从模型中剔除，
+故采用$SEIRD$模型。
+\par 以下为$SEIRD$模型的拟合参数：
+\begin{table}[H]
+    \centering
+    \caption{SEIRD模型拟合参数}
+    \input{Table/SEIRD.tex}
+\end{table}
+\par 以下为对其隔离前后分别进行拟合的参数及图像：
+\\
 \showfigures{SEIRD}
-\subsubsection{SEIRS}
-\showfigure{SEIRS}
-\showfigures{SEIRS}
-\subsection{模型预测结果}
+\par 可见隔离前后对疫情传播的影响较大，
+传染病的传染率降低、治愈率增加、死亡率降低，
+足以说明隔离措施十分有效。

@@ -1,4 +1,14 @@
 \begin{appendix}
+    \section{数据\label{appendix:数据}}
+    以下为官方发布的疫情数据：
+    \\
+    \includegraphics[width=\imagewidth]{疫情数据.png}
+    \\
+    \includegraphics[width=\imagewidth]{每日新增人数.png}
+    \par
+    2月12日确诊人数猛增，
+    是因为当日重新规定了确诊条件，
+    导致许多疑似病例纳入确诊人数。
     \section{模型积分式\label{appendix:模型积分式}}
     \begin{table}[H]
         \centering
@@ -109,18 +119,20 @@
         \dt{S} & = -\SE                  \\
         \dt{E} & = \SE - \EI             \\
         \dt{I} & = \RI + \EI - \IR - \ID \\
-        \dt{R} & = \IR                   \\
+        \dt{R} & = \IR - \RI             \\
         \dt{D} & = \ID                   \\
-        \dt{R} & = \RI
     \end{align}
-    \section{数据\label{appendix:数据}}
-    以下为官方发布的疫情数据：
-    \\
-    \includegraphics[width=\imagewidth]{疫情数据.png}
-    \\
-    \includegraphics[width=\imagewidth]{每日新增人数.png}
-    \par
-    2月12日确诊人数猛增，
-    是因为当日重新规定了确诊条件，
-    导致许多疑似病例纳入确诊人数。
+    \section{数据拟合结果\label{appendix:数据拟合结果}}
+    \subsection{SIR}
+    \showfigure{SIR}
+    \showfigures{SIR}
+    \subsection{SEIR}
+    \showfigure{SEIR}
+    \showfigures{SEIR}
+    \subsection{SEIRD}
+    \showfigure{SEIRD}
+    \showfigures{SEIRD}
+    \subsection{SEIRS}
+    \showfigure{SEIRS}
+    \showfigures{SEIRS}
 \end{appendix}
