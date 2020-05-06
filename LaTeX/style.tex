@@ -33,14 +33,26 @@
 \def\imagewidth{0.95\textwidth}
 % \def\imagewidth{0.45\textwidth}
 \def\smallimagewidth{0.45\textwidth}
+% 显示表格
+\newcommand{\showtable}[1]{
+    \begin{table}[H]
+        \centering
+        \caption{#1模型拟合参数}
+        \input{Table/#1.tex}
+    \end{table}
+}
+% 显示隔离后表格
+\newcommand{\showtables}[1]{
+    \begin{table}[H]
+        \centering
+        \caption{#1模型隔离前后拟合参数}
+        \input{Table/#1隔离.tex}
+    \end{table}
+}
 % 显示图片
 \newcommand{\showfigure}[1]{
     \begin{center}
-        \begin{table}[H]
-            \centering
-            \caption{#1模型拟合参数}
-            \input{Table/#1.tex}
-        \end{table}
+        \showtable{#1}
         \begin{figure}[H]
             \centering
             \includegraphics[width=\imagewidth]{#1.png}
@@ -48,14 +60,11 @@
         \end{figure}
     \end{center}
 }
+% 显示隔离后图片
 \newcommand{\showfigures}[1]{
     \begin{minipage}{\imagewidth}
         \centering
-        \begin{table}[H]
-            \centering
-            \caption{#1模型隔离前后拟合参数}
-            \input{Table/#1隔离.tex}
-        \end{table}
+        \showtables{#1}
         \begin{figure}[H]
             \centering
             \subfigure{
@@ -67,4 +76,112 @@
             \caption{#1模型隔离前后拟合图像}
         \end{figure}
     \end{minipage}
+}
+% SIR模型
+\def\SIR{
+    \begin{table}[H]
+        \centering
+        \caption{SIR模型参数表}
+        \begin{tabular}{ll}
+            \hline
+            符号     & 含义         \\
+            \hline
+            $\alpha$ & \PText{S}{I} \\
+            $\beta$  & \PText{I}{R} \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \def\SI{IS\alpha}
+    \def\IR{I\beta}
+    \begin{align}
+        \dt{S} & = -\SI      \\
+        \dt{I} & = \SI - \IR \\
+        \dt{R} & = \IR
+    \end{align}
+}
+\def\SEIR{
+    \begin{table}[H]
+        \centering
+        \caption{SEIR模型参数表}
+        \begin{tabular}{ll}
+            \hline
+            符号       & 含义         \\
+            \hline
+            $\alpha$   & \PText{S}{E} \\
+            $\gamma$   & \PText{E}{I} \\
+            $\epsilon$ & \PText{E}{R} \\
+            $\beta$    & \PText{I}{R} \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \def\SE{(I+E)S\alpha}
+    \def\EI{E\gamma}
+    \def\ER{E\epsilon}
+    \def\IR{I\beta}
+    \begin{align}
+        \dt{S} & = -\SE            \\
+        \dt{E} & = \SE - \EI - \ER \\
+        \dt{I} & = \EI - \IR       \\
+        \dt{R} & = \IR +\ER
+    \end{align}
+}
+\def\SEIRD{
+    \begin{table}[H]
+        \centering
+        \caption{SEIRD模型参数表}
+        \begin{tabular}{ll}
+            \hline
+            符号       & 含义         \\
+            \hline
+            $\alpha$   & \PText{S}{E} \\
+            $\gamma$   & \PText{E}{I} \\
+            $\epsilon$ & \PText{E}{R} \\
+            $\beta$    & \PText{I}{R} \\
+            $\delta$   & \PText{I}{D} \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \def\SE{(I+E)S\alpha}
+    \def\EI{E\gamma}
+    \def\ER{E\epsilon}
+    \def\IR{I\beta}
+    \def\ID{I\delta}
+    \begin{align}
+        \dt{S} & = -\SE            \\
+        \dt{E} & = \SE - \EI - \ER \\
+        \dt{I} & = \EI - \IR - \ID \\
+        \dt{R} & = \IR + \ER       \\
+        \dt{D} & = \ID
+    \end{align}
+}
+\def\SEIRS{
+    \begin{table}[H]
+        \centering
+        \caption{SEIRS模型参数表}
+        \begin{tabular}{ll}
+            \hline
+            符号       & 含义         \\
+            \hline
+            $\alpha$   & \PText{S}{E} \\
+            $\gamma$   & \PText{E}{I} \\
+            $\epsilon$ & \PText{E}{R} \\
+            $\beta$    & \PText{I}{R} \\
+            $\delta$   & \PText{I}{D} \\
+            $\theta$   & \PText{R}{I} \\
+            \hline
+        \end{tabular}
+    \end{table}
+    \def\SE{(I+E)S\alpha}
+    \def\EI{E\gamma}
+    \def\ER{E\epsilon}
+    \def\IR{I\beta}
+    \def\ID{I\delta}
+    \def\RI{R\theta}
+    \begin{align}
+        \dt{S} & = -\SE                  \\
+        \dt{E} & = \SE - \EI - \ER       \\
+        \dt{I} & = \RI + \EI - \IR - \ID \\
+        \dt{R} & = \IR - \RI + \ER       \\
+        \dt{D} & = \ID                   \\
+    \end{align}
 }

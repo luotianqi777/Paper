@@ -32,6 +32,7 @@ class Model(Drawer):
             'se': 0.45,
             'ei': 0.22,
             'si': 0.37,
+            'er': 0.05,
             'ir': 0.04,
             'id': 0.01,
             'ri': 0.01,
@@ -118,7 +119,7 @@ class Model(Drawer):
         # 优化模型
         res = minimize(self.lose,
                        self.args,
-                       bounds=[(0, 0.9) for i in range(len(self.args))],
+                       bounds=[(0.001, 0.999) for i in range(len(self.args))],
                        method='L-BFGS-B')
         print(self.name+' 拟合完成')
         print(res)
@@ -138,6 +139,7 @@ class Model(Drawer):
         self.drawLine(self.keys[1:]+keys)
 
     # 分段拟合
+
     def AF(self):
         # 隔离措施实施日期
         date = '2020-02-12'
@@ -202,19 +204,20 @@ class SEIR(Model):
     def __init__(self):
         super().__init__(name='SEIR',
                          y0='seir',
-                         args='se,ei,ir')
+                         args='se,ei,er,ir')
         self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群']
 
     def diff(self, y, t, args):
         s, e, i, r = y
-        sep, eip,  irp = args
+        sep, eip, erp, irp = args
         s2e = (i+e)*s*sep/self.N
         e2i = e * eip
+        e2r = e * erp
         i2r = i * irp
         ds = -s2e
-        de = s2e - e2i
+        de = s2e - e2i - e2r
         di = e2i - i2r
-        dr = i2r
+        dr = i2r + e2r
         return [ds, de, di, dr]
 
 
@@ -222,20 +225,21 @@ class SEIRD(Model):
     def __init__(self):
         super().__init__(name='SEIRD',
                          y0='seird',
-                         args='se,ei,ir,id')
+                         args='se,ei,er,ir,id')
         self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群', '死亡人数']
 
     def diff(self, y, t, args):
         s, e, i, r, d = y
-        sep, eip,  irp, idp = args
+        sep, eip, erp, irp, idp = args
         s2e = sep * s * (i + e) / self.N
         e2i = eip * e
+        e2r = erp * e
         i2r = irp * i
         i2d = idp * i
         ds = -s2e
-        de = s2e - e2i
+        de = s2e - e2i - e2r
         di = e2i - i2r - i2d
-        dr = i2r
+        dr = i2r + e2r
         dd = i2d
         return [ds, de, di, dr, dd]
 
@@ -244,21 +248,22 @@ class SEIRS(Model):
     def __init__(self):
         super().__init__(name='SEIRS',
                          y0='seird',
-                         args='se,ei,ir,id,ri')
+                         args='se,ei,er,ir,id,ri')
         self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群', '死亡人数']
 
     def diff(self, y, t, args):
         s, e, i, r, d = y
-        sep, eip, irp, idp, rip = args
+        sep, eip, erp, irp, idp, rip = args
         s2e = sep * s * (i + e) / self.N
         e2i = eip * e
+        e2r = erp * e
         i2r = irp * i
         i2d = idp * i
         r2i = rip * r
         ds = -s2e
-        de = s2e - e2i
+        de = s2e - e2i - e2r
         di = e2i - i2r - i2d + r2i
-        dr = i2r - r2i
+        dr = i2r - r2i + e2r
         dd = i2d
         return [ds, de, di, dr, dd]
 

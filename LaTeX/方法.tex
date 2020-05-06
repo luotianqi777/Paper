@@ -34,43 +34,76 @@
 \par 该积分式对本文中提到的所有模型都适用，
 读者不必再关心模型的积分式，
 只需关注模型新引入的群体及其引起的感染机制$\T{a}{b}$变化即可
-(详细积分式会在附录\ref{appendix:模型积分式} 给出，如有需要请自行查看)。
+(详细积分式仍会给出，以便深入理解模型的变化)。
 \par 现在，可以仅通过感染机制来方便清晰的描述$SIR$模型：
 \begin{align}
     \TP{S}{I}{SI} \\
     \TP{I}{R}{I}
 \end{align}
 \subsection{模型推论}
+\par 本文共引入$5$种人群，在此声明。
+\begin{table}[H]
+    \centering
+    \caption{人群}
+    \begin{tabular}{ll}
+        \hline
+        符号 & 含义   \\
+        \hline
+        $S$  & 易感者 \\
+        $I$  & 感染者 \\
+        $R$  & 康复者 \\
+        $E$  & 携带者 \\
+        $D$  & 病逝者 \\
+        \hline
+    \end{tabular}
+\end{table}
+\subsubsection{$SEIR$模型}
 \par 考虑到易感人群接触到感染者后不会立即患病，
 而是经过一段时间潜伏期，
 即携带病毒还未患病，
 将该类人群定义为携带者人群$E$，
+该人群有可能转变为治愈者$R$或感染者$I$，
 即为$SEIR$模型。
-在COVID-19中这类人群一般会通过检测试剂等方式被诊断为疑似病例：
+在COVID-19中这类人群一般会通过检测试剂等方式被诊断为疑似病例。
+\subsubsection{感染机制}
 \begin{align}
     \TP{S}{E}{S(I+E)} \\
+    \TP{E}{R}{E}      \\
     \TP{E}{I}{E}      \\
     \TP{I}{R}{I}
 \end{align}
+\subsubsection{详细积分式}
+\SEIR
+\subsubsection{$SEIRD$模型}
 \par 在$SEIR$的基础上加入死亡人群$D$，
-即为$SEIRD$模型：
+即为$SEIRD$模型。
+\subsubsection{感染机制}
 \begin{align}
     \TP{S}{E}{S(I+E)} \\
+    \TP{E}{R}{E}      \\
     \TP{E}{I}{E}      \\
     \TP{I}{R}{I}      \\
     \TP{I}{D}{I}
 \end{align}
+\subsubsection{详细积分式}
+\SEIRD
+\subsubsection{$SEIRS$模型}
 \par 考虑到治愈者有复发的可能，
 康复者有一定比例重新转变为感染者，
 加入新的传播机制$\T{R}{I}$，
-即为$SEIRS$模型：
+即为$SEIRS$模型。
+\subsubsection{感染机制}
 \begin{align}
     \TP{S}{E}{S(I+E)} \\
+    \TP{E}{R}{E}      \\
     \TP{E}{I}{E}      \\
     \TP{I}{R}{I}      \\
     \TP{I}{D}{I}      \\
     \TP{R}{I}{R}
 \end{align}
+\subsubsection{详细积分式}
+\SEIRS
+\subsection{对隔离的处理}
 \par 本文并未尝试引入隔离群体的$SEIHR$模型，
 因为在该数据中隔离群体是携带者、感染者的混合群体，
 且隔离群体有可能治愈或死亡，
@@ -81,6 +114,7 @@
 对这两个时间段的数据分别进行拟合，
 以此来对比隔离前后对疫情传播的影响。
 \subsection{数据拟合结果及分析}
+\par 拟合所用数据为2020年1月20日至5月１日官方发布的全国疫情数据。
 \par 本文采取$L-BFGS-B$方法对每个模型进行拟合，
 将每个模型的预测值与真实数据进行对比(全部模型图表详见附录\ref{appendix:数据拟合结果})，
 并给出拟合后的参数以及损失值$LOSS$，
@@ -90,23 +124,64 @@
     LOSS = \frac{\sum\limits^{day}\sum\limits^{group}
         \left|True-Predict\right|}{day}
 \end{equation}
-\par 横向对比各个模型间的$LOSS$值，
-$SEIRD$模型与$SEIRS$模型的$LOSS$值同比其他模型最低，
-$SEIRDS$模型的$LOSS$值虽比$SEIRD$模型稍低，
-但在分段拟合中$SEIRS$模型的效果远不如$SEIRD$模型，
+\par 对比各个模型间的$LOSS$值：
+\showtable{SIR}
+\par $SIR$模型中$\P{S}{I}$为感染人数增长率，
+不同于感染率。
+$\P{I}{R}$为治愈人数增长率，
+不同于治愈率。
+\showtable{SEIR}
+\par $SEIR$模型中$\P{E}{R}$极低，
+一可理解为潜伏期较长，
+二可理解为致病率较高，
+这两点都与实际情况吻合。
+\showtable{SEIRD}
+\par $SEIRD$模型中$\P{I}{D}$为死亡人数增长率，
+不同于死亡率。
+\showtable{SEIRS}
+\par $SEIRS$模型中的$\P{R}{I}=0.001$，
 可以理解为复阳率极低，
-对疫情的影响微乎其微，
+说明复阳人数占患病人数比例极低，
+对疫情的影响微乎其微。
+\par 仅从$LOSS$值判断，
+模型从优到劣排序为$SEIRD>SEIRS>SEIR>SIR$，
+\par 对比各个模型拟合前后的参数值变化：
+\showtables{SIR}
+$\P{S}{I}$有所下降，
+$\P{I}{R}$有所增减，
+代表感染率降低，
+治愈率提高。
+\showtables{SEIR}
+$\P{S}{E},\P{E}{I}$有所下降，
+$\P{I}{R}$有所增减，
+代表感染率降低，
+治愈率提高。
+\showtables{SEIRD}
+$\P{S}{E}$稍有增加，
+$\P{E}{I}$有所下降，
+$\P{S}{E}\cdot \P{E}{I}$有所下降，
+$\P{I}{R}$有所增减，
+$\P{I}{D}$有所下降
+代表患病率降低，
+治愈率提高，
+死亡率降低。
+\showtables{SEIRS}
+$SEIRS$模型与$SEIRD$模型的参数十分接近，
+无论分段与否，$SEIRS$模型的$\P{S}{I}$均为$0.001$，
+说明$\P{S}{I}$对模型的影响极其微弱，
 判断可以将$\T{S}{I}$从模型中剔除，
-故采用$SEIRD$模型。
-\par 以下为$SEIRD$模型的拟合参数：
-\begin{table}[H]
-    \centering
-    \caption{SEIRD模型拟合参数}
-    \input{Table/SEIRD.tex}
-\end{table}
-\par 以下为对其隔离前后分别进行拟合的参数及图像：
-\\
-\showfigures{SEIRD}
-\par 可见隔离前后对疫情传播的影响较大，
-传染病的传染率降低、治愈率增加、死亡率降低，
-足以说明隔离措施十分有效。
+并参考$LOSS$值的大小，
+认为在上述几种模型中，
+$SEIRD$模型最适用于该类传染病预测。
+\par 无论哪种模型，
+比较模型分段前后参数，
+均可得出传染病的传染率降低、治愈率增加、死亡率降低这一结论，
+可以说明隔离措施十分有效。
+\par 根据$SEIRD$模型的拟合参数，
+可以计算出病毒大致的基础再生数
+$R_0$\cite{应用SEIR模型预测2009年甲型H1N1流感流行趋势,王宝童2013流感传播数学模型的基本再生数}：
+\begin{equation}
+    R_0 = \frac{\P{S}{I}}{\P{I}{R}}
+    = \frac{\P{S}{E}\cdot \P{E}{I}}{\P{I}{R}}
+\end{equation}
+\par 计算出隔离前$R_0=5.937$，隔离后$R_0=1.242$，可见疫情传播得到了有效的抑制。
