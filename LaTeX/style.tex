@@ -8,6 +8,34 @@
 \usepackage{amsthm,amsmath,amssymb,mathrsfs}
 % 页面
 \usepackage[left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+% 代码环境
+\usepackage{listings}
+\usepackage{xcolor}
+% 代码格式设置
+\lstset{
+    % 语言
+    language=python,
+    % 自动换行
+    breaklines=true,
+    % 行号
+    numbers=left,
+    % 基础字体设置
+    basicstyle=\footnotesize,
+    % 行号风格
+    numberstyle=\tiny,
+    % 字符串风格
+    stringstyle=\color{orange},
+    % 注释风格
+    commentstyle=\color{gray},
+    % 关键字风格
+    keywordstyle=\color{blue},
+    % 左侧margin
+    xleftmargin = 25pt,
+    % 添加frame
+    frame = tb,
+    % 设置frame左侧margin
+    framexleftmargin = 20pt,
+}
 % 图片宏包
 \usepackage{graphicx}
 % 图片文件夹路径
