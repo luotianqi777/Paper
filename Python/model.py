@@ -106,12 +106,9 @@ class Model(Drawer):
         # 截取训练数据
         trans_index = int(self.trans_rate*self.getDays()//1)
         res = res.iloc[:trans_index]
-        # 计算标准差
-        # res = np.sqrt(res**2)
         # 取均值
         res = np.mean(res)
         res = np.mean(res)
-        # res /= len(keys)
         return res
 
     # 优化模型
@@ -139,7 +136,6 @@ class Model(Drawer):
         self.drawLine(self.keys[1:]+keys)
 
     # 分段拟合
-
     def AF(self):
         # 隔离措施实施日期
         date = '2020-02-12'
@@ -266,13 +262,6 @@ class SEIRS(Model):
         dr = i2r - r2i + e2r
         dd = i2d
         return [ds, de, di, dr, dd]
-
-
-def saveAllImage():
-    SIR().run()
-    SEIR().run()
-    SEIRD().run()
-    SEIRS().run()
 
 
 def optiAllModel():
