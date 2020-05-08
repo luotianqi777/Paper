@@ -1,0 +1,135 @@
+\section{模型研究}
+\subsection{模型解释}
+\par 通过微分方程来描述美观简练，
+但在扩建模型时会有一些麻烦：
+由表\ref{table:SIR模型符号表}可预见，
+随着划分人群的增多，
+人群间感染机制也随之复杂，
+不同人群之间转变率的符号也会增多或者改变含义，
+这会使读者对符号的理解产生负面的路径依赖影响，
+对于模型的扩建是十分不利的。
+\par $SIR$模型的本质为人群间的转移，
+只要理解人群间的转移方程便可了解模型的结构。
+而这类模型都是在总人数固定的前提下进行的，
+所以通过状态转移方程即可得出微分方程，
+传染病问题中，
+状态转移等价于感染机制，
+为了更为清晰的描述人群间的感染机制，
+本文将引入新的描述方式。
+\begin{table}[H]
+    \centering
+    \caption{另一种模型符号表示}
+    \begin{tabular}{ll}
+        \hline
+        符号       & 含义                              \\
+        \hline
+        $\P{a}{b}$ & a群体变为b群体的概率              \\
+        $\T{a}{b}$ & 单位时间$t$内a群体变为b群体的人数 \\
+        \hline
+    \end{tabular}
+\end{table}
+\par 将a到b群体的转换概率用$\P{a}{b}$表示，单位时间内a到b群体转变的人数为$\T{a}{b}$。
+\par 感染机制如下：
+\begin{align}
+    S(t)\xrightarrow{\P{S}{I}}I(t) \Rightarrow \TP{S}{I}{SI} \\
+    I(t)\xrightarrow{\P{I}{R}}R(t) \Rightarrow \TP{I}{R}{I}
+\end{align}
+\par 可将其简化为：
+\begin{align}
+    \TP{S}{I}{SI} \\
+    \TP{I}{R}{I}
+\end{align}
+\par 易感者转变为感染者，感染者转变为治愈者(包含死亡者)。
+\par 将所有人群放到一个集合$\mathbb{A}$中，则模型的积分方程为：
+\begin{equation}
+    \dt{a} = \sum\left(\T{b}{a}-\T{a}{b}\right)
+\end{equation}
+\par 其中$a\in\mathbb{A}$，$b\in\mathbb{A}$且$b\not=a$，不在感染机制中的$\T{a}{b}$为$0$。
+\par 该积分式对本文中提到的所有模型都适用，
+读者通过了解新模型的感染机制$\T{a}{b}$即可了解该模型的结构，
+进而宏观的理解整个模型的运作方式。
+本文会在介绍模型时首先列出感染机制，
+随后给出参数表及详细积分式供读者参考。
+\subsection{模型推论}
+\par 本文共引入$5$种人群，在此声明。
+\begin{table}[H]
+    \centering
+    \caption{人群}
+    \begin{tabular}{ll}
+        \hline
+        符号 & 含义   \\
+        \hline
+        $S$  & 易感者 \\
+        $I$  & 感染者 \\
+        $R$  & 康复者 \\
+        $E$  & 携带者 \\
+        $D$  & 病逝者 \\
+        \hline
+    \end{tabular}
+\end{table}
+\subsubsection{$SEIR$模型}
+\par 考虑到易感人群接触到感染者后不会立即患病，
+而是经过一段时间潜伏期，
+即携带病毒还未患病，
+将该类人群定义为携带者人群$E$，
+该人群有可能转变为治愈者$R$或感染者$I$，
+即为$SEIR$模型。
+在COVID-19中这类人群一般会通过检测试剂等方式被诊断为疑似病例。
+\paragraph{感染机制}
+\begin{align}
+    \TP{S}{E}{S(I+E)} \\
+    \TP{E}{R}{E}      \\
+    \TP{E}{I}{E}      \\
+    \TP{I}{R}{I}
+\end{align}
+\par 易感者会转变为携带者，
+由于接触携带者也会感染，
+故此时接触者为$I+E$，
+携带者会转变为治愈者或感染者。
+\paragraph{详细积分式}
+\SEIR
+\subsubsection{$SEIRD$模型}
+\par 在$SEIR$的基础上加入死亡人群$D$，
+即为$SEIRD$模型。
+\paragraph{感染机制}
+\begin{align}
+    \TP{S}{E}{S(I+E)} \\
+    \TP{E}{R}{E}      \\
+    \TP{E}{I}{E}      \\
+    \TP{I}{R}{I}      \\
+    \TP{I}{D}{I}
+\end{align}
+\par 感染者会转变为治愈者或病逝者。
+\paragraph{详细积分式}
+\SEIRD
+\subsubsection{$SEIRS$模型}
+\par 考虑到治愈者有复发的可能，
+康复者有一定比例重新转变为感染者，
+在$SEIRD$模型中加入新的传播机制$\T{R}{I}$，
+即为$SEIRS$模型。
+\paragraph{感染机制}
+\begin{align}
+    \TP{S}{E}{S(I+E)} \\
+    \TP{E}{R}{E}      \\
+    \TP{E}{I}{E}      \\
+    \TP{I}{R}{I}      \\
+    \TP{I}{D}{I}      \\
+    \TP{R}{I}{R}
+\end{align}
+\par 治愈者有可能变为感染者，
+之所以不是携带者是因为治愈者已有抗体，
+由携带到感染的几率小于易感者，
+故感染病毒后不能简单的归入携带者，
+所以将其从携带到感染归为一个过程。
+\paragraph{详细积分式}
+\SEIRS
+\subsection{对隔离的处理}
+\par 本文并未尝试引入隔离群体的$SEIHR$模型，
+因为在该数据中隔离群体是携带者、感染者的混合群体，
+且隔离群体有可能治愈或死亡，
+而这其中的比例无法通过现有数据得知，
+故不能通过拟合来确定其参数。
+\par 对于隔离的处理，
+本文将数据分为隔离前与隔离后两部分，
+对这两个时间段的数据分别进行拟合，
+以此来对比隔离前后对疫情传播的影响。

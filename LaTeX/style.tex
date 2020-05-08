@@ -6,8 +6,17 @@
 \usepackage{subfigure}
 % 数学相关
 \usepackage{amsthm,amsmath,amssymb,mathrsfs}
+% 图表公式章节编号
+\renewcommand{\thetable}{\thesection-\arabic{table}}
+\renewcommand{\thefigure}{\thesection-\arabic{figure}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\makeatletter
+\@addtoreset{table}{section}
+\@addtoreset{figure}{section}
+\@addtoreset{equation}{section}
+\makeatother
 % 页面
-\usepackage[left=3cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
+\usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
 % 代码环境
 \usepackage{listings}
 % 颜色
@@ -61,7 +70,7 @@
 % 摘要强调
 \newcommand{\absemph}[1]{\textbf{#1}}
 % 图片宽度
-\def\imagewidth{0.95\textwidth}
+\def\imagewidth{0.65\textwidth}
 % \def\imagewidth{0.45\textwidth}
 \def\smallimagewidth{0.45\textwidth}
 % 显示表格
@@ -82,31 +91,24 @@
 }
 % 显示图片
 \newcommand{\showfigure}[1]{
-    \begin{center}
-        \showtable{#1}
-        \begin{figure}[H]
-            \centering
-            \includegraphics[width=\imagewidth]{#1.png}
-            \caption{#1模型拟合图像}
-        \end{figure}
-    \end{center}
+    \begin{figure}[H]
+        \centering
+        \includegraphics[width=\imagewidth]{#1.png}
+        \caption{#1模型拟合图像}
+    \end{figure}
 }
 % 显示隔离后图片
 \newcommand{\showfigures}[1]{
-    \begin{minipage}{\imagewidth}
+    \begin{figure}[H]
         \centering
-        \showtables{#1}
-        \begin{figure}[H]
-            \centering
-            \subfigure{
-                \includegraphics[width=\smallimagewidth]{#1_隔离前.png}
-            }
-            \subfigure{
-                \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
-            }
-            \caption{#1模型隔离前后拟合图像}
-        \end{figure}
-    \end{minipage}
+        \subfigure{
+            \includegraphics[width=\smallimagewidth]{#1_隔离前.png}
+        }
+        \subfigure{
+            \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
+        }
+        \caption{#1模型隔离前后拟合图像}
+    \end{figure}
 }
 % SIR模型
 \def\SIR{
