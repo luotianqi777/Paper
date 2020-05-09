@@ -69,6 +69,16 @@
 \newcommand{\PText}[2]{$#1$群体转变为$#2$群体的概率}
 % 摘要强调
 \newcommand{\absemph}[1]{\textbf{#1}}
+% 英文摘要
+\newenvironment{enabstract}{
+    \par\small
+    \noindent\mbox{}\hfill{\bfseries Abstract}\hfill\mbox{}\par
+    \vskip 2.5ex}{\par\vskip 2.5ex}
+% 中文摘要
+\newenvironment{cnabstract}{
+    \par\small
+    \noindent\mbox{}\hfill{\bfseries 摘要}\hfill\mbox{}\par
+    \vskip 2.5ex}{\par\vskip 2.5ex}
 % 图片宽度
 \def\imagewidth{0.65\textwidth}
 % \def\imagewidth{0.45\textwidth}
