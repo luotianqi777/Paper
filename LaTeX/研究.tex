@@ -36,10 +36,10 @@
 \end{align}
 \par 可将其简化为：
 \begin{align}
-    \TP{S}{I}{SI} \\
-    \TP{I}{R}{I}
+    \TP{S}{I}{SI} \label{math:TSI} \\
+    \TP{I}{R}{I} \label{math:TIR}
 \end{align}
-\par 流程图为：
+\par 群体转移图为：
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=2cm]
@@ -49,9 +49,10 @@
         \draw[arrow](S)--node[above]{$\T{S}{I}$}(I);
         \draw[arrow](I)--node[above]{$\T{I}{R}$}(R);
     \end{tikzpicture}
-    \caption{$SIR$模型流程图}
+    \caption{$SIR$模型群体转移图}
 \end{figure}
-\par 易感者转变为感染者，感染者转变为治愈者(包含死亡者)。
+\par 式(\ref{math:TSI})表示易感者转变为感染者(详细过程见对式(\ref{math:SI})的解释)，
+式(\ref{math:TIR})表示感染者转变为治愈者(死亡者包含在内)。
 \par 将所有人群放到一个集合$\mathbb{A}$中，则模型的积分方程为：
 \begin{equation}
     \dt{a} = \sum\left(\T{b}{a}-\T{a}{b}\right)
@@ -89,12 +90,12 @@
 在COVID-19中这类人群一般会通过检测试剂等方式被诊断为疑似病例。
 \paragraph{感染机制}
 \begin{align}
-    \TP{S}{E}{S(I+E)} \\
-    \TP{E}{R}{E}      \\
-    \TP{E}{I}{E}      \\
+    \TP{S}{E}{S(I+E)} \label{math:TSE} \\
+    \TP{E}{R}{E}     \label{math:TER}  \\
+    \TP{E}{I}{E}     \label{math:TEI}  \\
     \TP{I}{R}{I}
 \end{align}
-\par 流程图为：
+\par 群体转移图为：
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=2cm]
@@ -107,13 +108,14 @@
         \draw[arrow](E)--node[above]{$\T{E}{R}$}(R);
         \draw[arrow](I)--node[right]{$\T{I}{R}$}(R);
     \end{tikzpicture}
-    \caption{$SEIR$模型流程图}
+    \caption{$SEIR$模型群体转移图}
 \end{figure}
-\par 易感者会转变为携带者，
+\par 式(\ref{math:TSE})表示易感者会转变为携带者，
 由于接触携带者也会感染，
 故此时接触者为$I+E$，
 $\dt{S}$公式变为$-(I+E)S\alpha$，
-携带者会转变为治愈者或感染者。
+式(\ref{math:TER})表示携带者会转变为治愈者，
+式(\ref{math:TEI})表示携带者会转变为感染者。
 \paragraph{详细积分式}
 \SEIR
 \subsubsection{$SEIRD$模型}
@@ -126,9 +128,9 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
     \TP{E}{R}{E}      \\
     \TP{E}{I}{E}      \\
     \TP{I}{R}{I}      \\
-    \TP{I}{D}{I}
+    \TP{I}{D}{I} \label{math:TID}
 \end{align}
-\par 流程图为：
+\par 群体转移图为：
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=2cm]
@@ -143,10 +145,12 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
         \draw[arrow](I)--node[right]{$\T{I}{R}$}(R);
         \draw[arrow](I)--node[above]{$\T{I}{D}$}(D);
     \end{tikzpicture}
-    \caption{$SEIRD$模型流程图}
+    \caption{$SEIRD$模型群体转移图}
 \end{figure}
-\par 感染者会转变为治愈者或病逝者，
-治愈人数和死亡人数均与感染者人数成正比。
+\par 式(\ref{math:TID})表示感染者会转变为病逝者，
+将病逝者从治愈者中分离出来，
+且治愈人数和死亡人数均与感染者人数成正比。
+使模型更贴近真实情况。
 \paragraph{详细积分式}
 \SEIRD
 \subsubsection{$SEIRS$模型}
@@ -161,9 +165,9 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
     \TP{E}{I}{E}      \\
     \TP{I}{R}{I}      \\
     \TP{I}{D}{I}      \\
-    \TP{R}{I}{R}
+    \TP{R}{I}{R} \label{math:TRI}
 \end{align}
-\par 流程图为：
+\par 群体转移图为：
 \begin{figure}[H]
     \centering
     \begin{tikzpicture}[node distance=2cm]
@@ -179,9 +183,9 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
         \draw[arrow,out=-120,in=120](I) to node[left]{$\T{I}{R}$}(R);
         \draw[arrow,out=60,in=-60](R) to node[right]{$\T{R}{I}$}(I);
     \end{tikzpicture}
-    \caption{$SEIRD$模型流程图}
+    \caption{$SEIRD$模型群体转移图}
 \end{figure}
-\par 治愈者有可能变为感染者，
+\par 式(\ref{math:TRI})表示治愈者有可能会再次变为感染者，
 之所以不是携带者是因为治愈者已有抗体，
 由携带到感染的几率小于易感者，
 故感染病毒后不能简单的归入携带者，
