@@ -39,6 +39,18 @@
     \TP{S}{I}{SI} \\
     \TP{I}{R}{I}
 \end{align}
+\par 流程图为：
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+        \node[startstop](S){S};
+        \node[startstop,right of=S](I){I};
+        \node[startstop,right of=I](R){R};
+        \draw[arrow](S)--node[above]{$\T{S}{I}$}(I);
+        \draw[arrow](I)--node[above]{$\T{I}{R}$}(R);
+    \end{tikzpicture}
+    \caption{$SIR$模型流程图}
+\end{figure}
 \par 易感者转变为感染者，感染者转变为治愈者(包含死亡者)。
 \par 将所有人群放到一个集合$\mathbb{A}$中，则模型的积分方程为：
 \begin{equation}
@@ -82,15 +94,32 @@
     \TP{E}{I}{E}      \\
     \TP{I}{R}{I}
 \end{align}
+\par 流程图为：
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+        \node[startstop](S){S};
+        \node[startstop,right of=S](E){E};
+        \node[startstop,right of=E](I){I};
+        \node[startstop,below of=I](R){R};
+        \draw[arrow](S)--node[above]{$\T{S}{E}$}(E);
+        \draw[arrow](E)--node[above]{$\T{E}{I}$}(I);
+        \draw[arrow](E)--node[above]{$\T{E}{R}$}(R);
+        \draw[arrow](I)--node[right]{$\T{I}{R}$}(R);
+    \end{tikzpicture}
+    \caption{$SEIR$模型流程图}
+\end{figure}
 \par 易感者会转变为携带者，
 由于接触携带者也会感染，
 故此时接触者为$I+E$，
+$\dt{S}$公式变为$-(I+E)S\alpha$，
 携带者会转变为治愈者或感染者。
 \paragraph{详细积分式}
 \SEIR
 \subsubsection{$SEIRD$模型}
 \par 在$SEIR$的基础上加入死亡人群$D$，
 即为$SEIRD$模型。
+\par $SEIRD$模型理论上能比$SEIR$模型更精确的描述人群转移状况。
 \paragraph{感染机制}
 \begin{align}
     \TP{S}{E}{S(I+E)} \\
@@ -99,7 +128,25 @@
     \TP{I}{R}{I}      \\
     \TP{I}{D}{I}
 \end{align}
-\par 感染者会转变为治愈者或病逝者。
+\par 流程图为：
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+        \node[startstop](S){S};
+        \node[startstop,right of=S](E){E};
+        \node[startstop,right of=E](I){I};
+        \node[startstop,right of=I](D){D};
+        \node[startstop,below of=I](R){R};
+        \draw[arrow](S)--node[above]{$\T{S}{E}$}(E);
+        \draw[arrow](E)--node[above]{$\T{E}{I}$}(I);
+        \draw[arrow](E)--node[above]{$\T{E}{R}$}(R);
+        \draw[arrow](I)--node[right]{$\T{I}{R}$}(R);
+        \draw[arrow](I)--node[above]{$\T{I}{D}$}(D);
+    \end{tikzpicture}
+    \caption{$SEIRD$模型流程图}
+\end{figure}
+\par 感染者会转变为治愈者或病逝者，
+治愈人数和死亡人数均与感染者人数成正比。
 \paragraph{详细积分式}
 \SEIRD
 \subsubsection{$SEIRS$模型}
@@ -116,6 +163,24 @@
     \TP{I}{D}{I}      \\
     \TP{R}{I}{R}
 \end{align}
+\par 流程图为：
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+        \node[startstop](S){S};
+        \node[startstop,right of=S](E){E};
+        \node[startstop,right of=E](I){I};
+        \node[startstop,right of=I](D){D};
+        \node[startstop,below of=I](R){R};
+        \draw[arrow](S)--node[above]{$\T{S}{E}$}(E);
+        \draw[arrow](E)--node[above]{$\T{E}{I}$}(I);
+        \draw[arrow,out=-90,in=180](E) to node[left]{$\T{E}{R}$}(R);
+        \draw[arrow](I)--node[above]{$\T{I}{D}$}(D);
+        \draw[arrow,out=-120,in=120](I) to node[left]{$\T{I}{R}$}(R);
+        \draw[arrow,out=60,in=-60](R) to node[right]{$\T{R}{I}$}(I);
+    \end{tikzpicture}
+    \caption{$SEIRD$模型流程图}
+\end{figure}
 \par 治愈者有可能变为感染者，
 之所以不是携带者是因为治愈者已有抗体，
 由携带到感染的几率小于易感者，

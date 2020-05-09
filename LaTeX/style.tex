@@ -17,6 +17,16 @@
 \makeatother
 % 页面
 \usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+% 解决字体警告
+\usepackage{anyfontsize}
+% 图片宏包
+\usepackage{graphicx}
+% 图片文件夹路径
+\graphicspath{{../Output/}}
+% 文献引用风格
+\usepackage{natbib}
+% 规定论文格式
+\usepackage[number]{gbt7714}
 % 代码环境
 \usepackage{listings}
 % 颜色
@@ -48,15 +58,14 @@
     % 设置frame左侧margin
     framexleftmargin = 20pt,
 }
-% 图片宏包
-\usepackage{graphicx}
-% 图片文件夹路径
-\graphicspath{{../Output/}}
-% 文献引用风格
-\usepackage{natbib}
-\usepackage[number]{gbt7714}
-% 解决字体警告
-\usepackage{anyfontsize}
+% 流程图
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows}
+\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=1cm,minimum height=1cm,text centered, draw=black,fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=1cm,minimum height=1cm,text centered,draw=black,fill=blue!30]
+\tikzstyle{process} = [rectangle,minimum width=1cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
+\tikzstyle{decision} = [diamond,minimum width=1cm,minimum height=1cm,text centered,draw=black,fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
 % 积分算子
 \newcommand{\dt}[1]{\frac{\mathrm{d}#1}{\mathrm{d}t}}
 % 概率

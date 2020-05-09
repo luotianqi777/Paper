@@ -48,10 +48,22 @@
 \end{align}
 \par 可以用积分方程表示为
 \begin{align}
-    \dt{S} & = -\alpha SI          \\
-    \dt{I} & = \alpha SI - \beta I \\
+    \dt{S} & = -\alpha SI          \label{math:SI} \\
+    \dt{I} & = \alpha SI - \beta I                 \\
     \dt{R} & = \beta I
 \end{align}
+\par 对式(\ref{math:SI})的解释：
+\par 易感者转变为感染者的人数为$\text{易感者}\times\text{接触率}\times\text{感染率}$，
+其中接触率为$\frac{\text{感染者}}{\text{总人数}}$。
+\par 总人数是一个常数，
+规定$\alpha=\frac{\text{感染率}}{\text{总人数}}$，
+得出$\dt{S}$：
+\begin{align*}
+    \dt{S} & = -\text{易感者}\times\text{接触率}\times\text{感染率} \\
+           & = -S\cdot\frac{I}{\text{总人数}}\cdot\text{感染率}     \\
+           & = -S\cdot I\cdot\frac{\text{感染率}}{\text{总人数}}    \\
+           & = -S\cdot I \cdot \alpha
+\end{align*}
 \subsection{使用工具}
 使用python实现爬虫获取数据、
 使用scipy库进行积分求解及数据拟合、
