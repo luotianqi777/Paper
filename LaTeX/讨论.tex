@@ -31,44 +31,47 @@
 \subsubsection{SIR模型拟合结果}
 \showtable{SIR}
 \showfigure{SIR}
-\par $SIR$模型中$\P{S}{I}$为感染人数增长率，
+\par $SIR$模型(图\ref{figure:SIR模型拟合图像})中$\P{S}{I}$为感染人数增长率，
 不同于感染率。
 $\P{I}{R}$为治愈人数增长率，
-不同于治愈率。
+不同于治愈率(表\ref{table:SIR模型拟合参数})。
 \subsubsection{SEIR模型拟合结果}
 \showtable{SEIR}
 \showfigure{SEIR}
-\par $SEIR$模型中$\P{E}{R}$极低，
+\par $SEIR$模型(图\ref{figure:SEIR模型拟合图像})中$\P{E}{R}$极低，
 一可理解为潜伏期较长，
 二可理解为致病率较高，
-这两点都与实际情况吻合。
+这两点都与实际情况吻合(表\ref{table:SEIR模型拟合参数})。
 \subsubsection{SEIRD模型拟合结果}
 \showtable{SEIRD}
 \showfigure{SEIRD}
-\par $SEIRD$模型中$\P{I}{D}$为死亡人数增长率，
-不同于死亡率。
+\par $SEIRD$模型(图\ref{figure:SEIRD模型拟合图像})中$\P{I}{D}$为死亡人数增长率，
+不同于死亡率(表\ref{table:SEIRD模型拟合参数})。
 \subsubsection{SEIRS模型拟合结果}
 \showtable{SEIRS}
 \showfigure{SEIRS}
-\par $SEIRS$模型中的$\P{R}{I}=0.001$，
+\par $SEIRS$模型(图\ref{figure:SEIRS模型拟合图像})中的$\P{R}{I}=0.001$，
 可以理解为复阳率极低，
 说明复阳人数占患病人数比例极低，
-对疫情的影响微乎其微。
+对疫情的影响微乎其微(表\ref{table:SEIRS模型拟合参数})。
 \par 对比各个模型拟合前后的参数值变化：
 \showtables{SIR}
 \showfigures{SIR}
+\par 在$SIR$模型(图\ref{figure:SIR模型隔离前后拟合图像})中，
 $\P{S}{I}$有所下降，
 $\P{I}{R}$有所增减，
 代表感染率降低，
-治愈率提高。
+治愈率提高(表\ref{table:SIR模型隔离前后拟合参数})。
 \showtables{SEIR}
 \showfigures{SEIR}
+\par 在$SEIR$模型(图\ref{figure:SEIR模型隔离前后拟合图像})中，
 $\P{S}{E},\P{E}{I}$有所下降，
 $\P{I}{R}$有所增减，
 代表感染率降低，
-治愈率提高。
+治愈率提高(表\ref{table:SEIR模型隔离前后拟合参数})。
 \showtables{SEIRD}
 \showfigures{SEIRD}
+\par 在$SEIRD$模型(图\ref{figure:SEIRD模型隔离前后拟合图像})中，
 $\P{S}{E}$稍有增加，
 $\P{E}{I}$有所下降，
 $\P{S}{E}\cdot \P{E}{I}$有所下降，
@@ -76,10 +79,12 @@ $\P{I}{R}$有所增减，
 $\P{I}{D}$有所下降
 代表患病率降低，
 治愈率提高，
-死亡率降低。
+死亡率降低(表\ref{table:SEIRD模型隔离前后拟合参数})。
 \showtables{SEIRS}
 \showfigures{SEIRS}
-$SEIRS$模型与$SEIRD$模型的参数十分接近，
+\par $SEIRS$模型(图\ref{figure:SEIRS模型隔离前后拟合图像})
+与$SEIRD$模型(图\ref{figure:SEIRD模型隔离前后拟合图像})
+的参数十分接近(表\ref{table:SEIRS模型隔离前后拟合参数}、表\ref{table:SEIRD模型隔离前后拟合参数})，
 无论分段与否，$SEIRS$模型的$\P{S}{I}$均为$0.001$，
 说明$\P{S}{I}$对模型的影响极其微弱。
 \subsection{结果分析}
