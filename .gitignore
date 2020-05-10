@@ -11,6 +11,7 @@ paper.code-workspace
 # Python
 *.html
 Python/__*
+LaTeX/Table/*
 # Output(图片历史占用空间太大)
 Output/html/*
 Output/*.png
