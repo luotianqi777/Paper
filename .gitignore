@@ -7,7 +7,7 @@ paper.code-workspace
 *.blg
 *.log
 # 占用空间太大
-LaTeX/*.pdf
+LaTeX/paper.pdf
 # Python
 *.html
 Python/__*
