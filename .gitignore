@@ -6,12 +6,11 @@ paper.code-workspace
 *.toc
 *.blg
 *.log
-# 占用空间太大
-*.pdf
+*.synctex.gz
 # Python
 *.html
 Python/__*
-LaTeX/Table/*
-# Output(图片历史占用空间太大)
-Output/html/*
-Output/*.png
+# 占用空间太大
+*.pdf
+*.eps
+*.png
