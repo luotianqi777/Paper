@@ -9,6 +9,8 @@
     anchorcolor=black,
     citecolor=black
 ]{hyperref}
+% 间距控制
+\usepackage{setspace}
 % 子图
 \usepackage{subfigure}
 % 数学相关
@@ -26,6 +28,8 @@
 \usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
 % 解决字体警告
 \usepackage{anyfontsize}
+% 设置英文字体
+\setmainfont{Times New Roman}
 % 图片宏包
 \usepackage{graphicx}
 % 图片文件夹路径
@@ -51,7 +55,7 @@
     % 字符串显示空格
     showstringspaces=false,
     % 基础字体设置
-    basicstyle=\fontspec{Ubuntu Mono},
+    basicstyle=\fontspec{Monaco},
     % 字符串风格
     stringstyle=\color{purple},
     % 注释风格
@@ -88,22 +92,21 @@
 % 英文摘要
 \newenvironment{enabstract}{
     \par\small
-    \noindent\mbox{}\hfill{\bfseries Abstract}\hfill\mbox{}\par
+    \noindent\mbox{}\hfill{\bfseries \zihao{-3} ABSTRACT}\hfill\mbox{}\par
     \vskip 2.5ex}{\par\vskip 2.5ex}
 % 中文摘要
 \newenvironment{cnabstract}{
     \par\small
-    \noindent\mbox{}\hfill{\bfseries 摘要}\hfill\mbox{}\par
+    \noindent\mbox{}\hfill{\bfseries \heiti\zihao{-3} 摘　　要}\hfill\mbox{}\par
     \vskip 2.5ex}{\par\vskip 2.5ex}
 % 图片宽度
 \def\imagewidth{0.65\textwidth}
-% \def\imagewidth{0.45\textwidth}
 \def\smallimagewidth{0.45\textwidth}
 % 显示表格
 \newcommand{\showtable}[1]{
     \begin{table}[H]
         \centering
-        \caption{#1模型拟合参数}
+        \caption{#1模型拟合参数\label{table:#1模型拟合参数}}
         \input{Table/#1.tex}
     \end{table}
 }
@@ -111,7 +114,7 @@
 \newcommand{\showtables}[1]{
     \begin{table}[H]
         \centering
-        \caption{#1模型隔离前后拟合参数}
+        \caption{#1模型隔离前后拟合参数\label{table:#1模型隔离前后拟合参数}}
         \input{Table/#1隔离.tex}
     \end{table}
 }
@@ -120,7 +123,7 @@
     \begin{figure}[H]
         \centering
         \includegraphics[width=\imagewidth]{#1.png}
-        \caption{#1模型拟合图像}
+        \caption{#1模型拟合图像\label{figure:#1模型拟合图像}}
     \end{figure}
 }
 % 显示隔离后图片
@@ -133,7 +136,7 @@
         \subfigure{
             \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
         }
-        \caption{#1模型隔离前后拟合图像}
+        \caption{#1模型隔离前后拟合图像\label{figure:#1模型隔离前后拟合图像}}
     \end{figure}
 }
 % 导入预定义指令

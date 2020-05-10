@@ -1,37 +1,51 @@
 % 摘要
 \begin{cnabstract}
+	\songti \zihao{-4}
 	\absemph{目的：}
-	结合新型冠状病毒肺炎的疫情的发展趋势，
-	得出一个有效的预测模型，
+	建立一系列流体动力学模型，
+	拟合新型冠状病毒肺炎的疫情的官方发布数据，
+	在其中找出一个最为有效的预测模型，
 	为今后与之类似的疫情防控提供一种预测方法。
 	\absemph{方法：}
-	基于SEIR预测模型，
-	考虑COVID-19独特的传播机制以及政府强有力的隔离措施等，
-	构建新的预测模型。
-	基于官方公布的数据进行建模，
-	并进行疫情预测。
+	基于SIR预测模型，
+	根据病毒特点一步步迭代构建新的预测模型。
+	并基于官方公布的数据进行拟合，
+	根据拟合效果选择最优模型，
+	从使用最优模型的最佳估计参数中提取有效信息。
 	\absemph{结果：}
-	本文提出的模型符合疫情传播趋势，
-	可以较为准确的描述疫情传播过程，
+	在提出的三个模型($SIR$、$SEIRD$、$SEIRS$)中，
+	$SEIRD$模型最符合疫情传播趋势，
+	通过分析$SEIRD$模型的最优估计参数，
+	得出了疫情的初期(未隔离甚至人口密集状态下)$R_0=5.5937$，
+	疫情后期(隔离措施到位)$R_0=1.242$，
+	整个疫情周期$R_0=1.764$，
+	基本符合官方发布数据及众多文献的结论。
+	说明该模型可以较为准确的描述疫情传播过程，
 	可用于类似传染病的预测。
 	\\
-	\absemph{关键字：} SEIR， 数学模型， COVID-19
+	\absemph{关键字：} SEIR， 数学模型，传染病， COVID-19
 \end{cnabstract}
 \begin{enabstract}
+	\zihao{-4}
 	\absemph{Target:}
-	Combined with the development trend of new coronavirus pneumonia,
-	come up with an effective prediction model,
-	provide a prediction method for similar epidemic prevention and control in the future.
+	Establish a series of fluid dynamic models to fit the official release data of the new coronavirus pneumonia epidemic,
+	find one of the most effective prediction models,
+	and provide a prediction method for similar epidemic prevention and control in the future.
 	\absemph{Method:}
-	Based on the SEIR prediction model,
-	consider the unique communication mechanism of COVID-19 and the isolation measures of government strength, etc.,
-	establish a new prediction model.
-	modeling based on officially published data,
-	and forecast the epidemic situation.
+	Based on the SIR prediction model,
+	iteratively builds a new prediction model step by step according to the characteristics of the virus.
+	Based on the officially published data,
+	the optimal model is selected according to the fitting effect,
+	and effective information is extracted from the best estimated parameters using the optimal model.
 	\absemph{Result:}
-	The model proposed in this paper is in line with the spread of epidemic situation,
-	it can describe the spread of the epidemic widely and accurately,
-	it can be used to predict similar infectious diseases.
+	Among the three models proposed ($SIR$, $SEIRD$, $SEIRS$),
+	the $SEIRD$ model is most in line with the epidemic propagation trend.
+	By analyzing the optimal estimation parameters of the $SEIRD$ model,
+	the initial stage of the epidemic (unisolated or even densely populated) is obtained $R_0 = 5.5937$,
+	late in the epidemic (isolation measures in place) $R_0 = 1.242$,
+	the entire epidemic cycle $R_0 = 1.764$,
+	basically in line with the official data and the conclusions of many literature.
+	It shows that the model can describe the spreading process of epidemic situation more accurately and can be used to predict similar infectious diseases.
 	\\
-	\absemph{Keywords:} SEIR, model, COVID-19
+	\absemph{Key Words:} SEIR, mathematical model, epidemic, COVID-19
 \end{enabstract}
