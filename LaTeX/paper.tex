@@ -8,15 +8,15 @@
 \date{}
 \begin{document}
 \begin{titlepage}
-    \input{封面.tex}
-    \maketitle
-    \input{摘要.tex}
-    % 不显示页码
-    \thispagestyle{empty}
-    \clearpage
-    \tableofcontents
-    % 不显示页码
-    \thispagestyle{empty}
+      \input{封面.tex}
+      \maketitle
+      \input{摘要.tex}
+      % 不显示页码
+      \thispagestyle{empty}
+      \clearpage
+      \tableofcontents
+      % 不显示页码
+      \thispagestyle{empty}
 \end{titlepage}
 \songti \zihao{-4}
 \input{引言.tex}
@@ -27,7 +27,9 @@
 % 目录生成参考文献
 \addcontentsline{toc}{section}{参考文献}
 \clearpage
+\normalsize
 \bibliography{paper.bib}
 \clearpage
+\zihao{-4}
 \input{附录.tex}
 \end{document}
