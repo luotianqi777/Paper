@@ -1,18 +1,18 @@
 # Paper
 
-- Author: 骆天奇
-- Editer: LaTeX
-  - texlive-full
+- Author:
+  - 骆天奇
+- Editer:
+  - environment: TeX 3.14159265 (TeX Live 2019/Debian)
   - builder: xelatex
-- Programe: Python
+- Programe:
   - python 3.7.5
   - scipy 1.2.2
   - numpy 1.16.2
   - pandas 0.23.3+dfsg
   - pyecharts 1.7.1
-  - matplotlib 3.0.2
   - snapshot_phantomjs 0.0.3
-- OS: Linux
+- OS:
   - Ubuntu 19.10
 - Other:
   - MS Font Family

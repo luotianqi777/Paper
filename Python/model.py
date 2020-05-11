@@ -1,9 +1,7 @@
-import json
 import numpy as np
 import pandas as pd
 from dataCrawler import DataCrawler
 from scipy.integrate import odeint
-from matplotlib import pyplot as plt
 from baseClass import DataManager, Drawer, TexTabelBulier
 from scipy.optimize import minimize
 
