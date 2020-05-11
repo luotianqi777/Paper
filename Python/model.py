@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from dataCrawler import DataCrawler
 from scipy.integrate import odeint
-from baseClass import DataManager, Drawer, TexTabelBulier
+from baseClass import Drawer, TexTabelBulier
 from scipy.optimize import minimize
 
 

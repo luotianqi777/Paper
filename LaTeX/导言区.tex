@@ -2,28 +2,6 @@
 \usepackage{ctex}
 % 浮动体控制
 \usepackage{float}
-% 超链接
-\usepackage[
-    colorlinks,
-    linkcolor=black,
-    anchorcolor=black,
-    citecolor=black
-]{hyperref}
-% 间距控制
-\usepackage{setspace}
-% 子图
-\usepackage{subfigure}
-% 数学相关
-\usepackage{amsthm,amsmath,amssymb,mathrsfs}
-% 图表公式章节编号
-\renewcommand{\thetable}{\thesection-\arabic{table}}
-\renewcommand{\thefigure}{\thesection-\arabic{figure}}
-\renewcommand{\theequation}{\thesection.\arabic{equation}}
-\makeatletter
-\@addtoreset{table}{section}
-\@addtoreset{figure}{section}
-\@addtoreset{equation}{section}
-\makeatother
 % 页面
 \usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
 % 解决字体警告
@@ -38,12 +16,52 @@
 \usepackage{natbib}
 % 规定论文格式
 \usepackage[number]{gbt7714}
-% 代码环境
-\usepackage{listings}
 % 颜色
 \usepackage{xcolor}
 % 字体
 \usepackage{fontspec}
+% 间距控制
+\usepackage{setspace}
+% 子图
+\usepackage{subfigure}
+% 数学相关宏包
+\usepackage{amsthm,amsmath,amssymb,mathrsfs}
+% 图表公式章节编号
+\renewcommand{\thetable}{\thesection-\arabic{table}}
+\renewcommand{\thefigure}{\thesection-\arabic{figure}}
+\renewcommand{\theequation}{\thesection.\arabic{equation}}
+\makeatletter
+\@addtoreset{table}{section}
+\@addtoreset{figure}{section}
+\@addtoreset{equation}{section}
+\makeatother
+% 超链接
+\usepackage[
+    colorlinks,
+    linkcolor=black,
+    anchorcolor=black,
+    citecolor=black
+]{hyperref}
+% 流程图
+\usepackage{tikz}
+\usetikzlibrary{shapes.geometric,arrows}
+\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=1cm,minimum height=1cm,text centered, draw=black,fill=red!30]
+\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=1cm,minimum height=1cm,text centered,draw=black,fill=blue!30]
+\tikzstyle{process} = [rectangle,minimum width=1cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
+\tikzstyle{decision} = [diamond,minimum width=1cm,minimum height=1cm,text centered,draw=black,fill=green!30]
+\tikzstyle{arrow} = [thick,->,>=stealth]
+% 英文摘要
+\newenvironment{enabstract}{
+    \par\small
+    \noindent\mbox{}\hfill{\bfseries \zihao{-3} ABSTRACT}\hfill\mbox{}\par
+    \vskip 2.5ex}{\par\vskip 2.5ex}
+% 中文摘要
+\newenvironment{cnabstract}{
+    \par\small
+    \noindent\mbox{}\hfill{\bfseries \heiti\zihao{-3} 摘　　要}\hfill\mbox{}\par
+    \vskip 2.5ex}{\par\vskip 2.5ex}
+% 代码环境
+\usepackage{listings}
 % 代码格式设置
 \lstset{
     % 语言
@@ -69,75 +87,3 @@
     % 设置frame左侧margin
     framexleftmargin = 20pt,
 }
-% 流程图
-\usepackage{tikz}
-\usetikzlibrary{shapes.geometric,arrows}
-\tikzstyle{startstop} = [rectangle,rounded corners, minimum width=1cm,minimum height=1cm,text centered, draw=black,fill=red!30]
-\tikzstyle{io} = [trapezium, trapezium left angle = 70,trapezium right angle=110,minimum width=1cm,minimum height=1cm,text centered,draw=black,fill=blue!30]
-\tikzstyle{process} = [rectangle,minimum width=1cm,minimum height=1cm,text centered,text width =3cm,draw=black,fill=orange!30]
-\tikzstyle{decision} = [diamond,minimum width=1cm,minimum height=1cm,text centered,draw=black,fill=green!30]
-\tikzstyle{arrow} = [thick,->,>=stealth]
-% 积分算子
-\newcommand{\dt}[1]{\frac{\mathrm{d}#1}{\mathrm{d}t}}
-% 概率
-\renewcommand{\P}[2]{P^{#1}_{#2}}
-% 人群
-\newcommand{\T}[2]{T^{#1}_{#2}}
-% 感染机制
-\newcommand{\TP}[3]{\T{#1}{#2}&=\P{#1}{#2}#3}
-% 概率文本
-\newcommand{\PText}[2]{$#1$群体转变为$#2$群体的概率}
-% 摘要强调
-\newcommand{\absemph}[1]{\textbf{#1}}
-% 英文摘要
-\newenvironment{enabstract}{
-    \par\small
-    \noindent\mbox{}\hfill{\bfseries \zihao{-3} ABSTRACT}\hfill\mbox{}\par
-    \vskip 2.5ex}{\par\vskip 2.5ex}
-% 中文摘要
-\newenvironment{cnabstract}{
-    \par\small
-    \noindent\mbox{}\hfill{\bfseries \heiti\zihao{-3} 摘　　要}\hfill\mbox{}\par
-    \vskip 2.5ex}{\par\vskip 2.5ex}
-% 图片宽度
-\def\imagewidth{0.65\textwidth}
-\def\smallimagewidth{0.45\textwidth}
-% 显示表格
-\newcommand{\showtable}[1]{
-    \begin{table}[H]
-        \centering
-        \caption{#1模型拟合参数\label{table:#1模型拟合参数}}
-        \input{Table/#1.tex}
-    \end{table}
-}
-% 显示隔离后表格
-\newcommand{\showtables}[1]{
-    \begin{table}[H]
-        \centering
-        \caption{#1模型隔离前后拟合参数\label{table:#1模型隔离前后拟合参数}}
-        \input{Table/#1隔离.tex}
-    \end{table}
-}
-% 显示图片
-\newcommand{\showfigure}[1]{
-    \begin{figure}[H]
-        \centering
-        \includegraphics[width=\imagewidth]{#1.png}
-        \caption{#1模型拟合图像\label{figure:#1模型拟合图像}}
-    \end{figure}
-}
-% 显示隔离后图片
-\newcommand{\showfigures}[1]{
-    \begin{figure}[H]
-        \centering
-        \subfigure{
-            \includegraphics[width=\smallimagewidth]{#1_隔离前.png}
-        }
-        \subfigure{
-            \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
-        }
-        \caption{#1模型隔离前后拟合图像\label{figure:#1模型隔离前后拟合图像}}
-    \end{figure}
-}
-% 导入预定义指令
-\input{预定义.tex}
