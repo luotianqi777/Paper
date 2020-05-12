@@ -2,9 +2,11 @@
 
 - Author:
   - 骆天奇
-- Editer:
-  - environment: TeX 3.14159265 (TeX Live 2019/Debian)
-  - builder: xelatex
+- Tools:
+  - OS: Ubuntu 19.10
+  - Editer: Visual Studio Code
+  - TeX version: TeX 3.14159265 (TeX Live 2019/Debian)
+  - PDF builder: xelatex
 - Programe:
   - python 3.7.5
   - scipy 1.2.2
@@ -12,8 +14,6 @@
   - pandas 0.23.3+dfsg
   - pyecharts 1.7.1
   - snapshot_phantomjs 0.0.3
-- OS:
-  - Ubuntu 19.10
 - Other:
   - MS Font Family
   - Monaco Font Family
