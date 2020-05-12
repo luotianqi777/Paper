@@ -63,7 +63,7 @@
 进而宏观的理解整个模型的运作方式。
 本文会在介绍模型时首先列出感染机制，
 随后给出参数表及详细积分式供读者参考。
-\subsection{模型推论}
+\subsection{SEIR模型}
 \par 本文共引入$5$种人群，在此声明。
 \begin{table}[H]
     \centering
@@ -80,7 +80,6 @@
         \hline
     \end{tabular}
 \end{table}
-\subsubsection{SEIR模型}
 \par 考虑到易感人群接触到感染者后不会立即患病，
 而是经过一段时间潜伏期，
 即携带病毒还未患病，
@@ -118,7 +117,7 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
 式(\ref{math:TEI})表示携带者会转变为感染者。
 \paragraph{详细积分式}
 \SEIR
-\subsubsection{SEIRD模型}
+\subsection{SEIRD模型}
 \par 在$SEIR$的基础上加入死亡人群$D$，
 即为$SEIRD$模型。
 \par $SEIRD$模型理论上能比$SEIR$模型更精确的描述人群转移状况。
@@ -153,7 +152,7 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
 使模型更贴近真实情况。
 \paragraph{详细积分式}
 \SEIRD
-\subsubsection{SEIRS模型}
+\subsection{SEIRS模型}
 \par 考虑到治愈者有复发的可能，
 康复者有一定比例重新转变为感染者，
 在$SEIRD$模型中加入新的传播机制$\T{R}{I}$，

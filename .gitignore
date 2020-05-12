@@ -6,6 +6,7 @@ paper.code-workspace
 *.toc
 *.blg
 *.log
+*.out
 *.synctex.gz
 # Python
 *.html

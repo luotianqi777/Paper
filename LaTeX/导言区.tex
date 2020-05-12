@@ -8,6 +8,12 @@
 \usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
 % 解决字体警告
 \usepackage{anyfontsize}
+% 章节格式
+\usepackage{titlesec}
+% 设置章节格式
+\titleformat{\section}{\centering\heiti\zihao{-3}}{第\arabic{section}章}{1em}{}
+\titleformat*{\subsection}{\heiti\zihao{4}}
+\titleformat*{\subsubsection}{\heiti\zihao{-4}}
 % 设置英文字体
 \setmainfont{Times New Roman}
 % 图片宏包
