@@ -1,5 +1,15 @@
 % 该文件仅负责只适用于该论文的自定义命令
 % 格式配置或通用指令放到 导言区.tex
+% 积分算子
+\newcommand{\dt}[1]{\frac{\mathrm{d}#1}{\mathrm{d}t}}
+% 概率
+\renewcommand{\P}[2]{P^{#1}_{#2}}
+% 人群
+\newcommand{\T}[2]{T^{#1}_{#2}}
+% 感染机制
+\newcommand{\TP}[3]{\T{#1}{#2}&=\P{#1}{#2}#3}
+% 概率文本
+\newcommand{\PText}[2]{$#1$群体转变为$#2$群体的概率}
 % 图片宽度
 \def\imagewidth{0.65\textwidth}
 \def\smallimagewidth{0.45\textwidth}
@@ -40,18 +50,6 @@
         \caption{#1模型隔离前后拟合图像\label{figure:#1模型隔离前后拟合图像}}
     \end{figure}
 }
-% 积分算子
-\newcommand{\dt}[1]{\frac{\mathrm{d}#1}{\mathrm{d}t}}
-% 概率
-\renewcommand{\P}[2]{P^{#1}_{#2}}
-% 人群
-\newcommand{\T}[2]{T^{#1}_{#2}}
-% 感染机制
-\newcommand{\TP}[3]{\T{#1}{#2}&=\P{#1}{#2}#3}
-% 概率文本
-\newcommand{\PText}[2]{$#1$群体转变为$#2$群体的概率}
-% 摘要强调
-\newcommand{\absemph}[1]{\textbf{#1}}
 % SIR模型
 \def\SIR{
     \begin{table}[H]
