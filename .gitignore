@@ -7,7 +7,7 @@ paper.code-workspace
 *.blg
 *.log
 *.out
-*.synctex.gz
+*synctex*
 # Python
 *.html
 Python/__*
