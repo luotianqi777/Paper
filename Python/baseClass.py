@@ -121,7 +121,7 @@ class TexTabelBulier(BaseClass):
         self.data.append(data)
 
     def saveData(self):
-        with open(self.getSavePath(), mode='w+') as f:
+        with open(self.getSavePath(), mode='w+', encoding='utf-8') as f:
             print('保存数据到', self.getSavePath())
             f.write('\\begin{tabular}{'+'c'*len(self.title)+'}\n')
             f.write('\\hline\n')

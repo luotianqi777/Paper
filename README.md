@@ -9,9 +9,10 @@
   - PDF builder: xelatex
 - Programe:
   - python 3.7.5
-  - scipy 1.2.2
-  - numpy 1.16.2
-  - pandas 0.23.3+dfsg
+  - scipy 1.4.1
+  - numpy 1.18.4
+  - requests 2.23.0
+  - pandas 1.0.3
   - pyecharts 1.7.1
   - snapshot_phantomjs 0.0.3
 - Other:
@@ -20,3 +21,4 @@
 - E-mail:
   - luotianqi777@gmail.com
   - 2649256918@qq.com (always online)
+  
