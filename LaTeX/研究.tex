@@ -8,7 +8,7 @@
 不同人群之间转变率的符号也会增多或者改变含义，
 这会使读者对符号的理解产生负面的路径依赖影响，
 对于模型的扩建是十分不利的。
-\par $SIR$模型的本质为人群间的转移，
+\par 传染病模型的本质为人群间的转移，
 只要理解人群间的转移方程便可了解模型的结构。
 而这类模型都是在总人数固定的前提下进行的，
 所以通过状态转移方程即可得出微分方程，
@@ -16,6 +16,7 @@
 状态转移等价于感染机制，
 为了更为清晰的描述人群间的感染机制，
 本文将引入新的描述方式。
+\par 以下以$SIR$模型为例。
 \begin{table}[H]
     \centering
     \caption{另一种模型符号表示}
@@ -53,39 +54,42 @@
 \end{figure}
 \par 式(\ref{math:TSI})表示易感者转变为感染者(详细过程见对式(\ref{math:SI})的解释)，
 式(\ref{math:TIR})表示感染者转变为治愈者(死亡者包含在内)。
-\par 将所有人群放到一个集合$\mathbb{A}$中，则模型的积分方程为：
+\par 将所有人群放到一个集合$\mathbb{A}$中，
+人群$a$的积分式为其余人群转入$a$的数量减去$a$转入其余人群的数量：
 \begin{equation}
-    \dt{a} = \sum\left(\T{b}{a}-\T{a}{b}\right)
+    \dt{a} = \sum^{b\in \mathbb{A}}\left(\T{b}{a}-\T{a}{b}\right)\label{math:积分式}
 \end{equation}
-\par 其中$a\in\mathbb{A}$，$b\in\mathbb{A}$且$b\not=a$，不在感染机制中的$\T{a}{b}$为$0$。
+\par 式(\ref{math:积分式})中$a\in\mathbb{A}$，$b\in\mathbb{A}$且$b\not=a$，不在感染机制中的$\T{a}{b}$为$0$。
 \par 该积分式对本文中提到的所有模型都适用，
 读者通过了解新模型的感染机制$\T{a}{b}$即可了解该模型的结构，
 进而宏观的理解整个模型的运作方式。
-本文会在介绍模型时首先列出感染机制，
+本文会在介绍模型时首先列出感染机制及群体转移图，
 随后给出参数表及详细积分式供读者参考。
-\subsection{SEIR模型}
-\par 本文共引入$5$种人群，在此声明。
-\begin{table}[H]
-    \centering
-    \caption{人群}
-    \begin{tabular}{ll}
-        \hline
-        符号 & 含义   \\
-        \hline
-        $S$  & 易感者 \\
-        $I$  & 感染者 \\
-        $R$  & 康复者 \\
-        $E$  & 携带者 \\
-        $D$  & 病逝者 \\
-        \hline
-    \end{tabular}
-\end{table}
+\subsection{SEIR模型\label{sec:SEIR}}
+% \par 本文共引入$5$种人群，在此声明。
+% \begin{table}[H]
+%     \centering
+%     \caption{人群}
+%     \begin{tabular}{ll}
+%         \hline
+%         符号 & 含义   \\
+%         \hline
+%         $S$  & 易感者 \\
+%         $I$  & 感染者 \\
+%         $R$  & 康复者 \\
+%         $E$  & 携带者 \\
+%         $D$  & 病逝者 \\
+%         \hline
+%     \end{tabular}
+% \end{table}
 \par 考虑到易感人群接触到感染者后不会立即患病，
 而是经过一段时间潜伏期，
 即携带病毒还未患病，
 将该类人群定义为携带者人群$E$，
 该人群有可能转变为治愈者$R$或感染者$I$，
 即为$SEIR$模型。
+相比$SIR$模型，
+$SEIR$模型进一步考虑了携带病毒者仅有一部分人感染的因素。
 在COVID-19中这类人群一般会通过检测试剂等方式被诊断为疑似病例。
 \paragraph{感染机制}
 \begin{align}
@@ -118,8 +122,10 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
 \paragraph{详细积分式}
 \SEIR
 \subsection{SEIRD模型}
-\par 在$SEIR$的基础上加入死亡人群$D$，
-即为$SEIRD$模型。
+\par 在$SEIR$的基础上加入死亡人群$D$(Death)，
+即为$SEIRD$模型
+（称之为$SEIRD$模型仅仅是为了将加入死亡人群$D$的$SEIR$模型与经典$SEIR$模型区分开，
+$SEIRD$模型实质上仍是$SEIR$模型）。
 \par $SEIRD$模型理论上能比$SEIR$模型更精确的描述人群转移状况。
 \paragraph{感染机制}
 \begin{align}
@@ -182,7 +188,7 @@ $\dt{S}$公式变为$-(I+E)S\alpha$，
         \draw[arrow,out=-120,in=120](I) to node[left]{$\T{I}{R}$}(R);
         \draw[arrow,out=60,in=-60](R) to node[right]{$\T{R}{I}$}(I);
     \end{tikzpicture}
-    \caption{$SEIRD$模型群体转移图}
+    \caption{$SEIRS$模型群体转移图}
 \end{figure}
 \par 式(\ref{math:TRI})表示治愈者有可能会再次变为感染者，
 之所以不是携带者是因为治愈者已有抗体，

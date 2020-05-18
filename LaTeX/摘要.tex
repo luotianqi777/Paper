@@ -1,67 +1,49 @@
 % 摘要
 \begin{cnabstract}
-	\songti \zihao{-4}
-	\absemph{目的：}
-	本文建立多个基于$SIR$的衍生病毒传播模型，
-	并使用新型冠状病毒肺炎（COVID-19）疫情的官方发布数据来对这些模型进行拟合，
-	在所建立的模型中找出一个与该疫情拟合度最高的病毒传播模型。
-	并根据最优模型对该病毒传播进行更深一步的分析。
-	\absemph{方法：}
-	基于$SIR$病毒传播模型，
-	根据病毒特点一步步迭代构建新的预测模型（
-	考虑潜伏人群得到$SEIR$模型、
-	考虑死亡人群得到$SEIRD$模型、
-	考虑复阳人群得到$SEIRS$模型）。
-	并基于官方公布的数据进行拟合，
-	根据拟合效果选择最优模型，
-	从使用最优模型的最佳估计参数中提取有效信息。
-	\absemph{结果：}
-	在提出的四个模型($SIR$、$SEIR$、$SEIRD$、$SEIRS$)中，
-	通过对比模型与实际数据的拟合程度优劣，
-	判断$SEIRD$模型最符合疫情传播趋势，
-	并通过分析$SEIRD$模型的最优估计参数来计算病毒的基本生殖数$R_0$，
-	基本生殖数$R_0$代表了病毒的有效传播速率，
-	$R_0$越低代表病毒传播速率越低。
-	计算出整个疫情期间的$R_0=1.754$，
-	所得$R_0$值符合官方发布数据$1.4\leq R_0\leq 3.8$及众多文献的结论。
-	并通过数据分段拟合计算出疫情的初期(未隔离甚至人口密集状态下)$R_0=5.937$，
-	以及疫情后期(隔离措施到位)$R_0=1.081$，
-	所得疫情前期$R_0$符合相关文献所得结论$4.16\leq R_0\leq 7.10$，
-	说明该模型可以较为准确的描述疫情传播过程，
-	可用于类似传染病的预测。
-	\\
-	\absemph{关键字：} SEIR， 数学模型，传染病， COVID-19
+    \songti \zihao{-4}
+    \absemph{目的：}
+    在$SEIR$模型的基础上结合COVID-19病毒的特点创建衍生模型，
+    在所建立的模型中找出一个与该疫情拟合度最高的病毒传播模型。
+    使用最优模型对该病毒传播进行分析。
+    \absemph{方法：}
+    基于$SEIR$病毒传播模型，
+    根据病毒特点构建新的衍生模型。
+    并使用官方公布的数据进行拟合，
+    根据拟合效果选择最优模型。
+    \absemph{结果：}
+    在本文提到的几个模型中，
+    通过对比模型与实际数据的拟合程度优劣，
+    判断加入死亡人群$D$的$SEIR$模型最符合疫情传播趋势，
+    并通过分析最优模型的最优估计参数来计算病毒的基本生殖数$R_0$和有效生殖数$R_t$。
+    计算出整个疫情期间的$R_t=1.754$，
+    并通过数据分段拟合计算出疫情的初期$R_0=5.937$，
+    以及疫情后期$R_t=1.081$。
+    所得结论与官方数据及文献相符，
+    说明该模型可以较为准确的描述疫情传播过程。
+    \\
+    \absemph{关键字：} SEIR， 数学模型，传染病， COVID-19
 \end{cnabstract}
 \begin{enabstract}
-	\zihao{-4}
-	\absemph{Target:}
-	This article establishes multiple $ SIR $ derived virus propagation models,
-	and use the officially released data of the new coronavirus pneumonia (COVID-19) epidemic situation to fit these models,
-	Find a virus transmission model with the best fit to the epidemic in the established model.
-	And according to the optimal model for further analysis of the spread of the virus.
-	\absemph{Method:}
-	Based on the $ SIR $ virus propagation model,
-	according to the characteristics of the virus, iteratively build a new prediction model step by step (
-	consider the latent crowd to get the $ SEIR $ model,
-	consider the death crowd get $ SEIRD $ model,
-	consider the Fuyang crowd to get the $ SEIRS $ model).
-	and based on the official data, fitting
-	choose the best model according to the fitting effect,
-	extract effective information from the best estimated parameters using the optimal model.
-	\absemph{Result:}
-	Among the four models proposed ($ SIR $, $ SEIR $, $ SEIRD $, $ SEIRS $),
-	compare the fit of the model and the actual data,
-	judging that the $ SEIRD $ model is most in line with the spreading trend of the epidemic,
-	and by analyzing the optimal estimated parameters of the $ SEIRD $ model to calculate the basic reproduction number of the virus $ R_0 $,
-	the basic reproduction number $ R_0 $ represents the effective transmission rate of the virus,
-	the lower the $ R_0 $, the lower the virus transmission rate.
-	Calculate $ R_0 = 1.754 $ for the entire epidemic period,
-	the obtained $ R_0 $ value is in accordance with the official release data $ 1.4 \leq R_0 \leq 3.8 $ and the conclusions of many literatures.
-	and calculate the early stage of the epidemic through data segmentation fitting (unisolated or even densely populated) $ R_0 = 5.937 $
-	and later in the outbreak (quarantine measures are in place) $ R_0 = 1.081 $,
-	earlier outbreaks of $ R_0 $ in line with conclusions from relevant literature $ 4.16 \leq R_0 \leq 7.10 $,
-	it shows that the model can describe the epidemic transmission process more accurately,
-	it can be used to predict similar infectious diseases.
-	\\
-	\absemph{Key Words:} SEIR, mathematical model, epidemic, COVID-19
+    \zihao{-4}
+    \absemph{Target:}
+    Based on the $ SEIR $ model,
+    combined with the characteristics of the COVID-19 virus to create a derivative model,
+    find a virus propagation model with the best fit to the epidemic in the established model.
+    Use the optimal model to analyze the spread of the virus.
+    \absemph{Method:}
+    Based on the $ SEIR $ virus propagation model,
+    a new derivative model is constructed according to the characteristics of the virus.
+    And use the officially published data for fitting,
+    and select the optimal model according to the fitting effect.
+    \absemph{Result:}
+    Among the several models mentioned in this article,
+    by comparing the fit of the model with the actual data,
+    it is judged that the $ SEIR $ model that joins the death crowd $ D $ is most in line with the epidemic transmission trend,
+    and by analyzing the optimal model Estimate the parameters to calculate the basic reproduction number of the virus $ R_0 $ and the effective reproduction number $ R_t $.
+    Calculate the $ R_t = 1.754 $ for the entire epidemic period,
+    and calculate the initial $ R_0 = 5.937 $ of the epidemic and the later $ R_t = 1.081 $ of the epidemic by fitting the data piecewise.
+    The conclusions obtained are consistent with official data and literature,
+    indicating that the model can describe the epidemic transmission process more accurately.
+    \\
+    \absemph{Key Words:} SEIR, mathematical model, epidemic, COVID-19
 \end{enabstract}

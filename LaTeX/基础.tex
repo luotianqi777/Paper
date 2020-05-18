@@ -4,13 +4,16 @@
 众多国内外不同领域的专家学者对此高度关注，
 从各个层面深度剖析，
 运用各种方法预测疫情趋势。
-其中以流体动力学模型为基础的方法最为多见，
-根据COVID-19的特点构建了许多模型，
-得出众多研究成果。
+其中以基于$SIR$模型的$SEIR$模型最为多见，
+众多专家学者依据COVID-19的特点通过$SEIR$模型进行拟合分析，
+得出诸多研究成果。
 \subsection{文献综述}
 \input{文献综述.tex}
 \subsection{理论基础}
-\citeauthor{对流行病数学理论的贡献}在\citeyear{对流行病数学理论的贡献}年研究黑死病时提出了仓室模型，模型中将人口分为三类：
+\par 在介绍$SEIR$模型前，
+需要先说明$SIR$模型，
+$SEIR$模型是由$SIR$模型发展而来的。
+\par \citeauthor{对流行病数学理论的贡献}在\citeyear{对流行病数学理论的贡献}年研究黑死病时提出了仓室模型，模型中将人口分为三类：
 \begin{itemize}
     \item 易感者(susceptibles)，$S$人群
     \item 感染者(infectives)，$I$人群
@@ -64,7 +67,9 @@
            & = -S\cdot I\cdot\frac{\text{感染率}}{\text{总人数}}    \\
            & = -S\cdot I \cdot \alpha
 \end{align*}
+\par $SEIR$模型是在$SIR$模型基础上加入病毒携带者$E$(Exposed)得来的，
+详细模型将在\ref{sec:SEIR}进行说明。
 \subsection{使用工具}
-使用python实现爬虫获取数据、
-使用scipy库进行积分求解及数据拟合、
-使用pyecharts库绘制图像。
+本文使用python实现爬虫动态获取所需数据、
+使用scipy库进行高效率的积分求解及数据拟合、
+使用pyecharts库绘制较为美观的图像。
