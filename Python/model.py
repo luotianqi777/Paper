@@ -15,7 +15,7 @@ class Model(Drawer):
         # 保存图像
         self.save = True
         # 选择训练数据范围(0~x, x < 1)
-        self.trans_rate = 1
+        self.trans_rate = 0.7
         # 数据字段与模型字段映射
         self.translator = {
             '确诊人群': '确诊',
