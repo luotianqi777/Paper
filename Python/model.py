@@ -18,10 +18,10 @@ class Model(Drawer):
         self.trans_rate = 0.7
         # 数据字段与模型字段映射
         self.translator = {
-            '确诊人群': '确诊',
-            '康复人群': '治愈',
-            '携带未患病': '疑似',
-            '死亡人数': '死亡'
+            '预测确诊': '确诊',
+            '预测治愈': '治愈',
+            '预测疑似': '疑似',
+            '预测死亡': '死亡'
         }
         # 总人数
         self.N = 8e4
@@ -51,6 +51,8 @@ class Model(Drawer):
         self.y0 = [y0_dict[key] for key in y0]
         # 训练数据
         self.trueData = self.getTrueData()
+        # 拟合优度
+        self.fit = 0
 
     # 获取天数
     def getDays(self):
@@ -103,8 +105,13 @@ class Model(Drawer):
         res = res**2/self.trueData[keys]
         # 截取训练数据
         trans_index = int(self.trans_rate*self.getDays()//1)
-        res = res.iloc[:trans_index]
+        # 计算拟合优度
+        fit = res.iloc[trans_index:]
+        fit = np.mean(fit)
+        fit = np.mean(fit)
+        self.fit = fit
         # 取均值
+        res = res.iloc[:trans_index]
         res = np.mean(res)
         res = np.mean(res)
         return res
@@ -143,11 +150,13 @@ class Model(Drawer):
         data_ = self.trueData.loc[date:]
         columns = self.args_key.copy()
         columns.append('loss')
+        columns.append('fit')
         # 整体拟合
         loss = self.optimize()
         # 保存结果参数
         value = list(self.args.copy())
         value.append(loss)
+        value.append(self.fit)
         tex = TexTabelBulier(name=self.name, title=columns)
         tex.addData(indexName='参数值', data=value)
         tex.saveData()
@@ -160,6 +169,7 @@ class Model(Drawer):
         loss = self.optimize()
         value = list(self.args.copy())
         value.append(loss)
+        value.append(self.fit)
         tex.addData(indexName='隔离前参数值', data=value)
         self.run()
         # 拟合后半段
@@ -170,6 +180,7 @@ class Model(Drawer):
         loss = self.optimize()
         value = list(self.args.copy())
         value.append(loss)
+        value.append(self.fit)
         tex.addData(indexName='隔离后参数值', data=value)
         self.run()
         tex.saveData()
@@ -181,7 +192,7 @@ class SIR(Model):
                          y0='sir',
                          args='si,ir',
                          )
-        self.keys = ['易感人群', '确诊人群', '康复人群']
+        self.keys = ['易感人群', '预测确诊', '预测治愈']
 
     def diff(self, y, t, args):
         s, i, r = y
@@ -199,7 +210,7 @@ class SEIR(Model):
         super().__init__(name='SEIR',
                          y0='seir',
                          args='se,ei,er,ir')
-        self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群']
+        self.keys = ['易感人群', '预测疑似', '预测确诊', '预测治愈']
 
     def diff(self, y, t, args):
         s, e, i, r = y
@@ -220,7 +231,7 @@ class SEIRD(Model):
         super().__init__(name='SEIRD',
                          y0='seird',
                          args='se,ei,er,ir,id')
-        self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群', '死亡人数']
+        self.keys = ['易感人群', '预测疑似', '预测确诊', '预测治愈', '预测死亡']
 
     def diff(self, y, t, args):
         s, e, i, r, d = y
@@ -243,7 +254,7 @@ class SEIRS(Model):
         super().__init__(name='SEIRS',
                          y0='seird',
                          args='se,ei,er,ir,id,ri')
-        self.keys = ['易感人群', '携带未患病', '确诊人群', '康复人群', '死亡人数']
+        self.keys = ['易感人群', '预测疑似', '预测确诊', '预测治愈', '预测死亡']
 
     def diff(self, y, t, args):
         s, e, i, r, d = y
