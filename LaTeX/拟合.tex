@@ -19,21 +19,33 @@
 导致许多疑似病例纳入确诊人数。
 \subsection{拟合方法}
 \par 本文采取$L-BFGS-B$方法对每个模型进行拟合，
-将每个模型的预测值与真实数据进行对比，
-并给出拟合后的参数以及损失值$LOSS$，
-损失值将作为评判模型拟合优劣的指标之一。
-\par 损失值定义:
+将每个模型的模拟值与真实数据进行对比，
+并给出拟合后的参数以及损失值$LOSS$和拟合度$FIT$，
+损失值代表了模型拟合的优劣程度，
+拟合度代表了模型预测的忧劣程度，
+损失值和拟合度将作为本文评判模型优劣的指标。
+\par 本文采用前$70\%$的数据进行训练并计算$LOSS$值，
+后$30\%$的数据进行验证并计算$FIT$值。
+\par 损失值及拟合度定义:
 \begin{equation}
-    LOSS = \frac{\sum\limits^{day}\sum\limits^{group}
-        \left|True-Predict\right|}{day}
+    LOSS= FIT = \frac{\sum\limits^{day}\sum\limits^{group}
+        (True-Predict)^2}{day}
+    \label{math:LOSS}
 \end{equation}
+\par 式(\ref{math:LOSS})中，
+$True$为真实数据，
+$Predict$为预测数据，
+$LOSS$和$FIT$为计算预测值与真实值的方差后取均值的结果。
 \subsection{SIR模型拟合结果}
 \showtable{SIR}
 \par 因时间跨度较大，
 数据较长，
-故在此以图像的形式展示模型拟合结果，
-前半组图例所代表曲线为拟合结果，
-后半组图例所代表曲线为真实数据。
+故在此以图像的形式展示模型拟合结果。
+带有“预测”字样的为拟合数据曲线，
+不带“预测”字样的为真实数据曲线，
+例如在图\ref{figure:SIR模型拟合图像}中，
+“预测确诊”和“预测治愈”为模型拟合数据，
+“确诊”和“治愈”为真实数据。
 \showfigure{SIR}
 \par $SIR$模型(表\ref{table:SIR模型拟合参数}、图\ref{figure:SIR模型拟合图像})中$\P{S}{I}$为感染人数增长率，
 不同于感染率。
