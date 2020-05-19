@@ -13,6 +13,15 @@
 % 图片宽度
 \def\imagewidth{0.65\textwidth}
 \def\smallimagewidth{0.45\textwidth}
+% 显示数据表格
+\newcommand{\showdatatable}[1]{
+    \input{Table/#1模型拟合数据.tex}
+}
+% 显示隔离前后数据表格
+\newcommand{\showdatatables}[1]{
+    \input{Table/#1隔离前模型拟合数据.tex}
+    \input{Table/#1隔离后模型拟合数据.tex}
+}
 % 显示表格
 \newcommand{\showtable}[1]{
     \begin{table}[H]
@@ -42,10 +51,10 @@
     \begin{figure}[H]
         \centering
         \subfigure{
-            \includegraphics[width=\smallimagewidth]{#1_隔离前.png}
+            \includegraphics[width=\smallimagewidth]{#1隔离前.png}
         }
         \subfigure{
-            \includegraphics[width=\smallimagewidth]{#1_隔离后.png}
+            \includegraphics[width=\smallimagewidth]{#1隔离后.png}
         }
         \caption{#1模型隔离前后拟合图像\label{figure:#1模型隔离前后拟合图像}}
     \end{figure}

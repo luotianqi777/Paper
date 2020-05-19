@@ -1,4 +1,11 @@
 \section{模型研究}
+\subsection{模型假设}
+\par 模型以下几点假设下进行：
+\begin{itemize}
+    \item 总人数不变（死亡人数包含在总人数内）
+    \item 人群的转移率为固定值
+    \item 认为感染者的病毒传播率相同，不考虑超级感染者等情况
+\end{itemize}
 \subsection{模型解释}
 \par 通过微分方程来描述美观简练，
 但在扩建模型时会有一些麻烦：
@@ -52,7 +59,7 @@
     \end{tikzpicture}
     \caption{$SIR$模型群体转移图}
 \end{figure}
-\par 式(\ref{math:TSI})表示易感者转变为感染者(详细过程见对式(\ref{math:SI})的解释)，
+\par 式(\ref{math:TSI})表示易感者转变为感染者(详细过程见对式(\ref{math:SIR_S})的解释)，
 式(\ref{math:TIR})表示感染者转变为治愈者(死亡者包含在内)。
 \par 将所有人群放到一个集合$\mathbb{A}$中，
 人群$a$的积分式为其余人群转入$a$的数量减去$a$转入其余人群的数量：

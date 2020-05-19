@@ -66,4 +66,4 @@ def saveAllImage():
 
 
 if __name__ == "__main__":
-    D().drawLine()
+    saveAllImage()

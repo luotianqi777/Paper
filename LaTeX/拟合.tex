@@ -38,8 +38,7 @@ $Predict$为预测数据，
 $LOSS$和$FIT$为计算预测值与真实值的方差后取均值的结果。
 \subsection{SIR模型拟合结果}
 \showtable{SIR}
-\par 因时间跨度较大，
-数据较长，
+\par 因拟合数据较长，将其放在附录\ref{append:数据表}，
 故在此以图像的形式展示模型拟合结果。
 带有“预测”字样的为拟合数据曲线，
 不带“预测”字样的为真实数据曲线，
@@ -107,7 +106,9 @@ $\P{I}{D}$有所下降
 \subsection{结果分析}
 \par 仅从$LOSS$值判断，
 模型从优到劣排序为$SEIRD>SEIRS>SEIR>SIR$。
-\par 参考$LOSS$值的大小，
+\par 仅从$FIT$值判断，
+模型从优到劣排序为$SEIRD>SIR>SEIR>SEIRS$。
+\par 综合考虑$LOSS$值及$FIT$值的大小，
 认为在上述几种模型中，
 $SEIRD$模型最适用于该类传染病预测。
 \par 无论哪种模型，

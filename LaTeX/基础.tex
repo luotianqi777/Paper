@@ -55,7 +55,7 @@ $SEIR$模型是由$SIR$模型发展而来的。
     \dt{I} & = \alpha SI - \beta I  \label{math:SIR_I} \\
     \dt{R} & = \beta I\label{math:SIR_R}
 \end{align}
-\par 对式(\ref{math:SIR_S})的解释：
+\par 对式(\ref{math:SIR_S})的说明：
 \par 易感者转变为感染者的人数为$\text{易感者}\times\text{接触率}\times\text{感染率}$，
 其中接触率为$\frac{\text{感染者}}{\text{总人数}}$。
 \par 总人数是一个常数，
@@ -67,7 +67,16 @@ $SEIR$模型是由$SIR$模型发展而来的。
            & = -S\cdot I\cdot\frac{\text{感染率}}{\text{总人数}}    \\
            & = -S\cdot I \cdot \alpha
 \end{align*}
-\par 式(\ref{math:SIR_I}、\ref{math:SIR_R})
+\par 对式(\ref{math:SIR_R})的说明：
+\begin{align*}
+    \dt{R} & = \text{感染者}\times\text{治愈率} \\
+           & =I\cdot \beta
+\end{align*}
+\par 对式(\ref{math:SIR_I})的说明：
+\begin{align*}
+    \dt{I} & = -\dt{S} - \dt{R}                     \\
+           & = S\cdot I \cdot \alpha - I\cdot \beta
+\end{align*}
 \par $SEIR$模型是在$SIR$模型基础上加入病毒携带者$E$(Exposed)得来的，
 详细模型将在\ref{sec:SEIR}进行说明。
 \subsection{使用工具}

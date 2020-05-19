@@ -102,33 +102,29 @@ class Drawer(BaseClass):
 class TexTabelBulier(BaseClass):
     # 用于生成tex表格
 
-    def __init__(self, name, title):
+    def __init__(self, name, data, isInt=False):
         super().__init__(name=name, type='tex')
         self.baseSavePath = './LaTeX/Table/'
-        title = [t.upper() for t in title]
-        self.title = ['参数名']
-        for t in title:
-            if len(t) == 2:
-                self.title.append('$\\P{' + t[0] + '}{' + t[1] + '}$')
-            else:
-                self.title.append(t)
+        self.title = data.columns.tolist()
+        self.index = data.index.tolist()
+        self.tableStyle = ['tabular', 'longtable'][isInt]
         self.data = []
-
-    # 添加行数据
-    def addData(self, indexName, data):
-        data = ['{:.3f}'.format(num) for num in data]
-        data.insert(0, indexName)
-        self.data.append(data)
-
-    def saveData(self):
+        for key in data.index.tolist():
+            line = data.loc[key].tolist()
+            self.data.append(
+                '&'.join([['{:.3f}', '{:.0f}'][isInt].format(num) for num in line])+'\\\\\n')
+        # 保存数据
         with open(self.getSavePath(), mode='w+', encoding='utf-8') as f:
             print('保存数据到', self.getSavePath())
-            f.write('\\begin{tabular}{'+'c'*len(self.title)+'}\n')
+            f.write('\\begin{'+self.tableStyle+'}{' +
+                    'c'*(len(self.title)+1)+'}\n')
+            if isInt:
+                f.write('\caption{'+self.name+'}\\\\\n')
             f.write('\\hline\n')
-            f.write('&'.join(self.title)+'\\\\\n')
+            f.write('&'+'&'.join(self.title)+'\\\\\n')
             f.write('\\hline\n')
-            for data in self.data:
-                f.write('&'.join(data)+'\\\\\n')
+            for i in range(len(self.data)):
+                f.write(self.index[i]+'&'+self.data[i])
             f.write('\\hline\n')
-            f.write('\\end{tabular}')
+            f.write('\\end{'+self.tableStyle+'}')
             f.close()

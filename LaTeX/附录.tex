@@ -1,9 +1,9 @@
 \begin{appendix}
       % 附录section设置
       \titleformat{\section}{\centering\heiti\zihao{-3}}{附录\Alph{section}}{1em}{}
-      \section{代码}
+      \section{代码\label{append:代码}}
       \paragraph{全部代码详见\href{https://github.com/luotianqi777/Paper}{Github}。}
-      \subsection{基础类}
+      \subsection*{基础类}
       \par 文件名：bassClass.py
       \begin{itemize}
             \item BaseClass：基础类，
@@ -20,7 +20,7 @@
                   用于将参数数据保存为LaTeX表格。
       \end{itemize}
       \lstinputlisting{../Python/baseClass.py}
-      \subsection{数据获取}
+      \subsection*{数据获取}
       \par 文件名：dataCrawler.py
       \begin{itemize}
             \item DataCrawler：数据爬虫类，
@@ -29,7 +29,7 @@
                   并提供读取功能。
       \end{itemize}
       \lstinputlisting{../Python/dataCrawler.py}
-      \subsection{数据分析}
+      \subsection*{数据分析}
       \par 文件名：dataAnalysis.py
       \begin{itemize}
             \item DataAnalysis：数据分析类，
@@ -37,7 +37,7 @@
                   可以方便的分析处理数据。
       \end{itemize}
       \lstinputlisting{../Python/dataAnalysis.py}
-      \subsection{模型及拟合}
+      \subsection*{模型及拟合}
       \par 文件名：model.py
       \begin{itemize}
             \item Model：模型基础类，
@@ -51,8 +51,17 @@
             \item SEIRS：SEIRS类，继承自Model，实现SEIRS模型。
       \end{itemize}
       \lstinputlisting{../Python/model.py}
-      \subsection{主函数}
+      \subsection*{主函数}
       \par 文件名：main.py
       \par 用于启动整个程序。
       \lstinputlisting{../Python/main.py}
+      \section{模型拟合数据表\label{append:数据表}}
+      \showdatatable{SIR}
+      \showdatatable{SEIR}
+      \showdatatable{SEIRD}
+      \showdatatable{SEIRS}
+      \showdatatables{SIR}
+      \showdatatables{SEIR}
+      \showdatatables{SEIRD}
+      \showdatatables{SEIRS}
 \end{appendix}

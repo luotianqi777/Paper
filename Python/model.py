@@ -13,7 +13,7 @@ class Model(Drawer):
         # 绘制面积图
         self.area = True
         # 保存图像
-        self.save = True
+        self.save = False
         # 选择训练数据范围(0~x, x < 1)
         self.trans_rate = 0.7
         # 数据字段与模型字段映射
@@ -37,11 +37,11 @@ class Model(Drawer):
         }
         # 初始y0
         y0_dict = {
-            'i': 100,
-            's': 8e4 - 100,
-            'e': 0,
-            'r': 0,
-            'd': 0,
+            'i': 260,
+            'e': 54,
+            'r': 25,
+            'd': 6,
+            's': 8e4 - 345,
         }
         # 参数字段列表
         self.args_key = args.split(',')
@@ -131,12 +131,20 @@ class Model(Drawer):
         return res.fun
 
     # 运行模型
+
     def run(self):
         # 去除易感人群
-        keys = [self.translator[k] for k in self.keys if not k == '易感人群']
+        keys = [k for k in self.keys if not k == '易感人群']
+        # 获取预测值
+        pri_data = self.getIntData(self.args)[keys]
+        # 人群映射
+        keys = [self.translator[k] for k in keys]
         # 拼接预测值与真实值
         self.data = pd.concat(
-            [self.getIntData(self.args), self.trueData[keys]], axis=1)
+            [pri_data, self.trueData[keys]], axis=1)
+        # 储存结果
+        TexTabelBulier(name=self.name + '模型拟合数据',
+                       data=self.data // 1, isInt=True)
         # 绘制图像
         self.drawLine(self.keys[1:]+keys)
 
@@ -144,25 +152,27 @@ class Model(Drawer):
     def AF(self):
         # 隔离措施实施日期
         date = '2020-02-12'
-        _name = self.name + '_隔离前'
-        name_ = self.name + '_隔离后'
+        name = self.name
+        _name = name + '隔离前'
+        name_ = name + '隔离后'
         _data = self.trueData.loc[:date]
         data_ = self.trueData.loc[date:]
-        columns = self.args_key.copy()
-        columns.append('loss')
-        columns.append('fit')
+        columns = [t.upper() for t in self.args_key.copy()]
+        columns = ['$\\P{'+t[0]+'}{'+t[1]+'}$' for t in columns]
+        columns.append('$LOSS$')
+        columns.append('$FIT$')
         # 整体拟合
         loss = self.optimize()
         # 保存结果参数
         value = list(self.args.copy())
         value.append(loss)
         value.append(self.fit)
-        tex = TexTabelBulier(name=self.name, title=columns)
-        tex.addData(indexName='参数值', data=value)
-        tex.saveData()
+        data = pd.DataFrame([value])
+        data.columns = columns
+        data.index = ['参数值']
+        TexTabelBulier(name=name, data=data)
         self.run()
         # 分段拟合
-        tex = TexTabelBulier(name=self.name+'隔离', title=columns)
         # 拟合前半段
         self.name = _name
         self.trueData = _data
@@ -170,7 +180,7 @@ class Model(Drawer):
         value = list(self.args.copy())
         value.append(loss)
         value.append(self.fit)
-        tex.addData(indexName='隔离前参数值', data=value)
+        temp = value
         self.run()
         # 拟合后半段
         self.name = name_
@@ -181,9 +191,11 @@ class Model(Drawer):
         value = list(self.args.copy())
         value.append(loss)
         value.append(self.fit)
-        tex.addData(indexName='隔离后参数值', data=value)
+        data = pd.DataFrame([temp, value])
+        data.columns = columns
+        data.index = ['隔离前参数值', '隔离后参数值']
+        TexTabelBulier(name=name+'隔离', data=data)
         self.run()
-        tex.saveData()
 
 
 class SIR(Model):
