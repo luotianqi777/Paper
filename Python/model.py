@@ -344,4 +344,4 @@ def optiAllModel():
 
 
 if __name__ == "__main__":
-    ModelFilter().killTime()
+    optiAllModel()
