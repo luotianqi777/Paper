@@ -13,7 +13,7 @@ class Model(Drawer):
         # 绘制面积图
         self.area = True
         # 保存图像
-        self.save = False
+        self.save = True
         # 选择训练数据范围(0~x, x < 1)
         self.trans_rate = 0.7
         # 数据字段与模型字段映射
@@ -55,6 +55,7 @@ class Model(Drawer):
         self.fit = 0
 
     # 获取天数
+
     def getDays(self):
         return self.trueData.shape[0]
 
@@ -132,21 +133,22 @@ class Model(Drawer):
 
     # 运行模型
 
-    def run(self):
+    def run(self, pri_data=''):
         # 去除易感人群
         keys = [k for k in self.keys if not k == '易感人群']
         # 获取预测值
-        pri_data = self.getIntData(self.args)[keys]
+        if len(pri_data) == 0:
+            pri_data = self.getIntData(self.args)[keys]
         # 人群映射
-        keys = [self.translator[k] for k in keys]
+        trans_keys = [self.translator[k] for k in keys]
         # 拼接预测值与真实值
         self.data = pd.concat(
-            [pri_data, self.trueData[keys]], axis=1)
+            [pri_data, self.trueData[trans_keys]], axis=1)
         # 储存结果
         TexTabelBulier(name=self.name + '模型拟合数据',
                        data=self.data // 1, isInt=True)
         # 绘制图像
-        self.drawLine(self.keys[1:]+keys)
+        self.drawLine(keys+trans_keys)
 
     # 分段拟合
     def AF(self):
@@ -285,12 +287,61 @@ class SEIRS(Model):
         return [ds, de, di, dr, dd]
 
 
+class ModelFilter(SEIRD):
+    # 用于模拟不同年龄段的人群
+
+    def __init__(self):
+        super().__init__()
+
+    def filter(self, name, s_r, i_r, d_r):
+        self.name = name
+        y0 = self.y0
+        trueData = self.trueData
+        self.y0[0] = y0[0]*s_r
+        self.y0[1] = y0[1]*s_r
+        self.y0[2] = y0[2]*i_r
+        self.y0[3] = y0[3]*s_r
+        self.y0[4] = y0[4]*d_r
+        self.trueData['疑似'] = trueData['疑似']*s_r
+        self.trueData['确诊'] = trueData['确诊']*i_r
+        self.trueData['治愈'] = trueData['治愈'] * s_r
+        self.trueData['死亡'] = trueData['死亡']*d_r
+        columns = [t.upper() for t in self.args_key.copy()]
+        columns = ['$\\P{'+t[0]+'}{'+t[1]+'}$' for t in columns]
+        columns.append('$LOSS$')
+        columns.append('$FIT$')
+        # 整体拟合
+        loss = self.optimize()
+        # 保存结果参数
+        value = list(self.args.copy())
+        value.append(loss)
+        value.append(self.fit)
+        data = pd.DataFrame([value])
+        data.columns = columns
+        data.index = ['参数值']
+        TexTabelBulier(name=name, data=data)
+        # self.run()
+        data = self.getIntData(self.args)
+        self.y0 = y0
+        self.trueData = trueData
+        return data
+
+    def killTime(self):
+        young = self.filter("青年", 0.295, 0.033, 0.0078)
+        mean = self.filter("中年", 0.463, 0.157, 0.1818)
+        old = self.filter("老年", 0.242, 0.810, 0.8104)
+        data = young+mean+old
+        self.name = '年龄分层预测结果'
+        self.run(pri_data=data)
+
+
 def optiAllModel():
     SIR().AF()
     SEIR().AF()
     SEIRD().AF()
     SEIRS().AF()
+    ModelFilter().killTime()
 
 
 if __name__ == "__main__":
-    optiAllModel()
+    ModelFilter().killTime()

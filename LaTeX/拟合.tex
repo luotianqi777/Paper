@@ -38,14 +38,16 @@ $True$为真实数据，
 $Predict$为预测数据，
 $LOSS$和$FIT$为计算预测值与真实值的方差后取均值的结果。
 \subsection{SIR模型拟合结果}
-\showtable{SIR}
-\par 因拟合数据较长，将其放在附录\ref{append:数据表}，
-故在此以图像的形式展示模型拟合结果。
-带有“预测”字样的为拟合数据曲线，
+\par 因拟合数据较长，
+故在此以图像的形式展示模型拟合结果，
+具体模型拟合数据可见附录\ref{append:数据表}。
+\par 本文将拟合结果与真实数据放到一个图中以便读者观察对比，
+其中带有“预测”字样的为拟合数据曲线，
 不带“预测”字样的为真实数据曲线，
 例如在图\ref{figure:SIR模型拟合图像}中，
-“预测确诊”和“预测治愈”为模型拟合数据，
-“确诊”和“治愈”为真实数据。
+“预测确诊”和“预测治愈”曲线为模型拟合数据曲线，
+“确诊”和“治愈”曲线为真实数据曲线。
+\showtable{SIR}
 \showfigure{SIR}
 \par $SIR$模型(表\ref{table:SIR模型拟合参数}、图\ref{figure:SIR模型拟合图像})中$\P{S}{I}$为感染人数增长率，
 不同于感染率。
@@ -82,15 +84,13 @@ $\P{I}{R}$有所增减，
 \showtables{SEIR}
 \showfigures{SEIR}
 \par 在$SEIR$模型(表\ref{table:SEIR模型隔离前后拟合参数}、图\ref{figure:SEIR模型隔离前后拟合图像})中，
-$\P{S}{E},\P{E}{I}$有所下降，
-$\P{I}{R}$有所增减，
+$\P{S}{E}\cdot \P{E}{I}$有所下降，
+$\P{I}{R}$有所增加，
 代表感染率降低，
 治愈率提高。
 \showtables{SEIRD}
 \showfigures{SEIRD}
 \par 在$SEIRD$模型(表\ref{table:SEIRD模型隔离前后拟合参数}、图\ref{figure:SEIRD模型隔离前后拟合图像})中，
-$\P{S}{E}$、
-$\P{E}{I}$有所下降，
 $\P{S}{E}\cdot \P{E}{I}$有所下降，
 $\P{I}{R}$有所增加，
 $\P{I}{D}$有所下降
@@ -139,3 +139,76 @@ $R_t$的计算公式与$R_0$相同。
 考虑到本文以2020年2月12日为分界线，
 此时正处于疫情爆发时间，
 所得结论可以接受。
+\subsection{考虑年龄分布}
+\par 考虑到不同年龄阶段的患病率治愈率死亡率等有较大差别，
+本文将安装年龄分布对不同人群分别进行拟合。
+\begin{figure}[H]
+    \centering
+    \begin{tikzpicture}[node distance=2cm]
+        \node[startstop](S){人群};
+        \node[startstop,below of=S](A){中年};
+        \node[startstop,left of=A](B){青年};
+        \node[startstop,right of=A](C){老年};
+        \node[process,below of=A](AP){拟合};
+        \node[process,below of=B](BP){拟合};
+        \node[process,below of=C](CP){拟合};
+        % \node[startstop,below of=AP](SS){人群};
+        \draw[arrow](S)--(A);
+        \draw[arrow](S)--(B);
+        \draw[arrow](S)--(C);
+        \draw[arrow](A)--(AP);
+        \draw[arrow](B)--(BP);
+        \draw[arrow](C)--(CP);
+        % \draw[arrow](AP)--(SS);
+        % \draw[arrow](BP)--(SS);
+        % \draw[arrow](CP)--(SS);
+    \end{tikzpicture}
+    \caption{年龄分层拟合示意图}
+\end{figure}
+\par 查阅官方发布数据得知中国人口年龄分布与COVID-19患者年龄分布分别为：
+\begin{table}[H]
+    \centering
+    \caption{中国年龄分布与COVID-19患者年龄分布表}
+    \begin{tabular}{cccccc}
+        \hline
+        年龄分布 & 年龄段      & 中国人口 & COVID-19患者 & COVID-19死亡人数   \\
+        \hline
+        青年     & $<30$       & $29.5\%$ & $3.3\%$      & $0.78\%$         & \\
+        中年     & $30\sim 60$ & $46.3\%$ & $15.7\%$     & $18.18\%$        & \\
+        老年     & $>60$       & $24.2\%$ & $81.0\%$     & $81.04\%$        & \\
+        \hline
+    \end{tabular}
+\end{table}
+\par 所得结论为
+\begin{table}[H]
+    \centering
+    \caption{青年人群拟合参数}
+    \input{Table/青年.tex}
+\end{table}
+\begin{table}[H]
+    \centering
+    \caption{中年人群拟合参数}
+    \input{Table/中年.tex}
+\end{table}
+\begin{table}[H]
+    \centering
+    \caption{老年人群拟合参数}
+    \input{Table/老年.tex}
+\end{table}
+\par 可算出病毒在不同年龄人群间的$R_t$：
+\begin{table}[H]
+    \centering
+    \caption{不同年龄人群的$R_t$估计\label{table:年龄rt估计}}
+    \begin{tabular}{cc}
+        \hline
+        年龄分布 & $R_t$ \\
+        \hline
+        青年     & 0.094 \\
+        中年     & 1.219 \\
+        老年     & 8.142 \\
+        \hline
+    \end{tabular}
+\end{table}
+\par 可见病毒在老年人群中传播较快，
+在中年人群中传播较慢，
+在青年人群中传播十分缓慢。
