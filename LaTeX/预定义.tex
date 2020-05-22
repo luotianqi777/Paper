@@ -56,10 +56,10 @@
 \newcommand{\showfigures}[1]{
     \begin{figure}[H]
         \centering
-        \subfigure{
+        \subfigure[#1模型隔离前拟合图像]{
             \includegraphics[width=\smallimagewidth]{#1隔离前.png}
         }
-        \subfigure{
+        \subfigure[#1模型隔离后拟合图像]{
             \includegraphics[width=\smallimagewidth]{#1隔离后.png}
         }
         \caption{#1模型隔离前后拟合图像\label{figure:#1模型隔离前后拟合图像}}

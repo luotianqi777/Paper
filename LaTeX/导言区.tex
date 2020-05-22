@@ -7,7 +7,7 @@
 % 长表格
 \usepackage{longtable}
 % 页面大小
-\usepackage[left=2cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
+\usepackage[left=2.5cm,right=2cm,top=2.5cm,bottom=2cm]{geometry}
 % 解决字体警告
 \usepackage{anyfontsize}
 % 设置英文字体
@@ -33,7 +33,7 @@
 \pagestyle{fancy}
 \fancyhf{}
 \fancyhead[C]{\songti\zihao{5}河北农业大学学士学位论文}
-\fancyfoot[C]{\thepage}
+\fancyfoot[C]{\zihao{5}\thepage}
 % 章节格式
 \usepackage{titlesec}
 % 设置章节格式
@@ -53,10 +53,10 @@
 \makeatother
 % 超链接
 \usepackage[
-    colorlinks,
-    linkcolor=black,
-    anchorcolor=black,
-    citecolor=black
+      colorlinks,
+      linkcolor=black,
+      anchorcolor=black,
+      citecolor=black
 ]{hyperref}
 % 流程图
 \usepackage{tikz}
@@ -68,38 +68,38 @@
 \tikzstyle{arrow} = [thick,->,>=stealth]
 % 英文摘要
 \newenvironment{enabstract}{
-    \par\small
-    \noindent\mbox{}\hfill{\bfseries \zihao{-3} ABSTRACT}\hfill\mbox{}\par
-    \vskip 2.5ex}{\par\vskip 2.5ex}
+      \par\small
+      \noindent\mbox{}\hfill{\bfseries \zihao{-3} ABSTRACT}\hfill\mbox{}\par
+      \vskip 2.5ex}{\par\vskip 2.5ex}
 % 中文摘要
 \newenvironment{cnabstract}{
-    \par\small
-    \noindent\mbox{}\hfill{\bfseries \heiti\zihao{-3} 摘　　要}\hfill\mbox{}\par
-    \vskip 2.5ex}{\par\vskip 2.5ex}
+      \par\small
+      \noindent\mbox{}\hfill{\bfseries \heiti\zihao{-3} 摘　　要}\hfill\mbox{}\par
+      \vskip 2.5ex}{\par\vskip 2.5ex}
 % 代码环境
 \usepackage{listings}
 % 代码格式设置
 \lstset{
-    % 语言
-    language=python,
-    % 自动换行
-    breaklines=true,
-    % 行号
-    numbers=left,
-    % 字符串显示空格
-    showstringspaces=false,
-    % 基础字体设置
-    basicstyle=\small\fontspec{Monaco},
-    % 字符串风格
-    stringstyle=\color{purple},
-    % 注释风格
-    commentstyle=\color{gray},
-    % 关键字风格
-    keywordstyle=\color{blue},
-    % 左侧margin
-    xleftmargin = 25pt,
-    % 添加frame
-    frame = tb,
-    % 设置frame左侧margin
-    framexleftmargin = 20pt,
+      % 语言
+      language=python,
+      % 自动换行
+      breaklines=true,
+      % 行号
+      numbers=left,
+      % 字符串显示空格
+      showstringspaces=false,
+      % 基础字体设置
+      basicstyle=\small\fontspec{Monaco},
+      % 字符串风格
+      stringstyle=\color{purple},
+      % 注释风格
+      commentstyle=\color{gray},
+      % 关键字风格
+      keywordstyle=\color{blue},
+      % 左侧margin
+      xleftmargin = 25pt,
+      % 添加frame
+      frame = tb,
+      % 设置frame左侧margin
+      framexleftmargin = 20pt,
 }

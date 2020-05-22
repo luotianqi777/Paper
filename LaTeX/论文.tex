@@ -8,21 +8,20 @@
 \date{}
 \begin{document}
 \begin{titlepage}
-      \input{封面.tex}
-      % 不显示页码
       \thispagestyle{empty}
-      % \input{声明.tex}
-      % 不显示页码
-      % \thispagestyle{empty}
+      \input{封面.tex}
+      \thispagestyle{empty}
+      \input{声明.tex}
+      % 大写罗马页码
+      \pagenumbering{Roman}
+      \setcounter{page}{1}
       \maketitle
       \input{摘要.tex}
-      % 不显示页码
-      \thispagestyle{empty}
       \clearpage
       \tableofcontents
-      % 不显示页码
-      \thispagestyle{empty}
 \end{titlepage}
+% 数字页码
+\pagenumbering{arabic}
 \songti \zihao{-4}
 \input{引言.tex}
 \input{基础.tex}
@@ -34,6 +33,9 @@
 \normalsize
 \bibliography{paper.bib}
 \addcontentsline{toc}{section}{参考文献}
+\clearpage
+\addcontentsline{toc}{section}{致谢}
+\input{致谢.tex}
 \clearpage
 \zihao{-4}
 \input{附录.tex}
