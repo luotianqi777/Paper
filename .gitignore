@@ -1,3 +1,4 @@
+.gitignore
 # Papers
 paper.code-workspace
 # LaTeX
@@ -15,3 +16,4 @@ Python/__*
 *.pdf
 *.eps
 *.png
+!Output/*.png
